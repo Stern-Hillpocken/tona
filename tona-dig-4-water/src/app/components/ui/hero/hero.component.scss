@@ -1,0 +1,31 @@
+.hero{
+    background-color: gray;
+    h1{
+        text-align: center;
+        &.title{
+            padding-top: 0.5em;
+            font-size: 11em;
+        }
+        &.subtitle{
+            font-size: 4em;
+        }
+    }
+    p{
+        text-align: justify;
+        margin: 2em 7vw;
+    }
+    .play-button-container{
+        width: 50%;
+        margin: auto;
+    }
+    position: relative;
+    padding-bottom: 8em;
+    .triangle{
+        position: absolute;
+        bottom: 0;
+        height: 0;
+        width: 0;
+        border-bottom: 8em solid var(--color-dominant);
+        border-right: 100vw solid transparent;
+    }
+}
