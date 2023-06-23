@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserAuth } from 'src/app/models/user-auth.model';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-login-container',
@@ -8,7 +9,9 @@ import { UserAuth } from 'src/app/models/user-auth.model';
 })
 export class LoginContainerComponent {
 
+  constructor(private authService: AuthService){}
+
   onReceive(user: UserAuth): void {
-    console.log(user)
+    this.authService.login(user);
   }
 }
