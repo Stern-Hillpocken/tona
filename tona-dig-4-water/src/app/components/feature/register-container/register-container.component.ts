@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserRegister } from 'src/app/models/user-register.model';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-register-container',
@@ -8,7 +9,9 @@ import { UserRegister } from 'src/app/models/user-register.model';
 })
 export class RegisterContainerComponent {
 
+  constructor(private authService: AuthService){}
+
   onReceive(user: UserRegister): void{
-    console.log(user)
+    this.authService.register(user);
   }
 }

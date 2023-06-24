@@ -1,6 +1,6 @@
 export class UserAuth {
     constructor(
-        public email: string,
+        public pseudo: string,
         public password: string
     ) { }
 }

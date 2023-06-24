@@ -1,0 +1,5 @@
+<h3>Nacelles prêtes</h3>
+<p *ngIf="podAvailableList.length === 0">Aucune nacelle prêt pour l'instant... Prépare la tienne&nbsp;!</p>
+<div *ngFor="let pod of podAvailableList">
+    {{ pod.name }}
+</div>
