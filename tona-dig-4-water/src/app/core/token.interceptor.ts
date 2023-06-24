@@ -42,13 +42,12 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request)
     .pipe(
       tap(incomingRequest => {
-        // j'intercepte les requêtes que mon serveur me renvoie en statut 200 (Statut : succès)
+        // Statut 200
         if (incomingRequest instanceof HttpResponse) {
-            console.log(incomingRequest)
-          //this.authService.setHttpSuccessSubject$(incomingRequest);
+            //console.log(incomingRequest)
         }
       }),
-      // J'intercepte les requêtes que mon serveur me renvoit en statut 400 (Statut : erreur)
+      // Statut 400
       catchError((err: HttpErrorResponse) => {
         console.log(err.error.error_message)
         return throwError(() => new Error("Une erreur est survenue"));

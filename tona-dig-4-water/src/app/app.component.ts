@@ -8,7 +8,7 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class AppComponent {
 
-  title: string = 'Tona : Dig 4 Water';
+  title: string = 'Tona: Dig 4 Water';
   currentUrl: string = '';
 
   constructor(private router: Router){}

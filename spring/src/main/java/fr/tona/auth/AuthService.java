@@ -26,7 +26,7 @@ public class AuthService {
 
     public Map<String, String> register(RegisterRequest request, HttpServletRequest httpRequest) throws Exception {
 
-        if (!repository.findByEmail(request.getEmail()).isPresent()) {
+        if (!repository.findByPseudo(request.getPseudo()).isPresent()) {
             var user = User.builder()
                     .pseudo(request.getPseudo())
                     .email(request.getEmail())
@@ -53,19 +53,19 @@ public class AuthService {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
+                            request.getPseudo(),
                             request.getPassword()
                     )
             );
 
-            User user = repository.findByEmail(request.getEmail()).orElseThrow();
+            User user = repository.findByPseudo(request.getPseudo()).orElseThrow();
 
             Map<String, Object> extraClaims = new HashMap<>();
             extraClaims.put("role", user.getRole().toString());
 
-            String jwtToken = jwtService.generateToken(new HashMap<>(extraClaims), user);
+            String jwToken = jwtService.generateToken(new HashMap<>(extraClaims), user);
             return AuthResponse.builder()
-                    .token(jwtToken)
+                    .token(jwToken)
                     .message("Bienvenue \uD83D\uDC4B")
                     .build();
 

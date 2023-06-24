@@ -4,13 +4,13 @@ import { TokenInterceptor } from './core/token.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WelcomeComponent } from './components/pages/welcome/welcome.component';
-import { RegisterComponent } from './components/pages/register/register.component';
+import { WelcomeComponent } from './pages/welcome/welcome.component';
+import { RegisterComponent } from './pages/register/register.component';
 import { HeaderComponent } from './components/feature/header/header.component';
 import { FormsModule } from '@angular/forms';
-import { HubComponent } from './components/pages/hub/hub.component';
-import { ErrorComponent } from './components/pages/error/error.component';
-import { LoginComponent } from './components/pages/login/login.component';
+import { HubComponent } from './pages/hub/hub.component';
+import { ErrorComponent } from './pages/error/error.component';
+import { LoginComponent } from './pages/login/login.component';
 import { PresentationComponent } from './components/feature/presentation/presentation.component';
 import { NavBarComponent } from './components/feature/nav-bar/nav-bar.component';
 import { HeroComponent } from './components/ui/hero/hero.component';
@@ -23,6 +23,10 @@ import { GameComponent } from './pages/game/game.component';
 import { LoginContainerComponent } from './components/feature/login-container/login-container.component';
 import { RegisterContainerComponent } from './components/feature/register-container/register-container.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { PopupComponent } from './components/ui/popup/popup.component';
+import { HubSetupComponent } from './components/feature/hub-setup/hub-setup.component';
+import { HubPodCreationComponent } from './components/ui/hub-pod-creation/hub-pod-creation.component';
+import { HubPodAvailableComponent } from './components/ui/hub-pod-available/hub-pod-available.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,11 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
     CommunityComponent,
     GameComponent,
     LoginContainerComponent,
-    RegisterContainerComponent
+    RegisterContainerComponent,
+    PopupComponent,
+    HubSetupComponent,
+    HubPodCreationComponent,
+    HubPodAvailableComponent
   ],
   imports: [
     BrowserModule,
