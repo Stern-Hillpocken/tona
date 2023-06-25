@@ -29,9 +29,10 @@ body{
 main {
     width: 90%;
     margin: auto;
+    overflow: scroll;
 }
 
-h1, h2, h3{
+h1, h2, h3, h4{
     font-family: "font-header";
     text-align: center;
 }

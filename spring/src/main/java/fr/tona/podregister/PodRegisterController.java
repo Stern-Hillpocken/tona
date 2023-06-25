@@ -22,4 +22,14 @@ public class PodRegisterController {
     public Map<String, String> prepareNewOne(@RequestBody PodRegister pod){
         return service.prepareNewOne(pod);
     }
+
+    @DeleteMapping("/destroy-own")
+    public Map<String, String> destroyOwn(){
+        return service.destroyOwn();
+    }
+
+    @DeleteMapping("/launch")
+    public Map<String, String> launch(){
+        return service.launch();
+    }
 }

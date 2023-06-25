@@ -1,16 +1,10 @@
 package fr.tona.expedition;
 
-import fr.tona.character.Character;
-import fr.tona.pod.Pod;
+//import fr.tona.pod.Pod;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.tona.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Set;
 
@@ -19,22 +13,26 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // When you have entities that are loaded lazily before the serialization then the entities get loaded fully
 public class Expedition {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public String name;
-    public Integer difficulty;
+    private Long id;
+    private String name;
+    private Integer difficulty;
 
-    public Long day;
-    public Integer hour;
-    public Integer minute;
+    private Long day;
+    private Integer hour;
+    private Integer minute;
 
-    public Pod pod;
+    //public Pod pod;
 
-    public User captain;
-    public Set<Character> crew;
+    @OneToOne(cascade = {CascadeType.MERGE})
+    @JsonIgnoreProperties("expedition")
+    private User captain;
+    //public Set<Majagaba> crew;
 
-    public String status;
+    private Long water;
+    private String status;
 }

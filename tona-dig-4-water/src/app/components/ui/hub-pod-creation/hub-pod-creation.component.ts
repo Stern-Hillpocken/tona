@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Character } from 'src/app/models/character.model';
+import { User } from 'src/app/models/user.model';
 import { PodRegister } from 'src/app/models/pod-register.model';
+import { UtilsService } from 'src/app/shared/utils.service';
 
 @Component({
   selector: 'app-hub-pod-creation',
@@ -11,7 +14,15 @@ export class HubPodCreationComponent {
   @Output()
   podEmitter: EventEmitter<PodRegister> = new EventEmitter;
 
-  pod: PodRegister = new PodRegister("",1,1,"");
+  pod: PodRegister = new PodRegister("",1,new User("","","", new Character(0,"",[],[],0,"")),1,"","");
+
+  constructor(
+    private utils: UtilsService
+  ){}
+
+  difficultyToString(value: number): string {
+    return this.utils.difficultyToString(value);
+  }
 
   onSubmit(): void {
     this.podEmitter.emit(this.pod);

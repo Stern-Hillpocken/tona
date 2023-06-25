@@ -1,6 +1,6 @@
 import { Character } from "./character.model";
-import { Player } from "./player.model";
 import { Pod } from "./pod.model";
+import { User } from "./user.model";
 
 export class Expedition {
     constructor(
@@ -10,9 +10,10 @@ export class Expedition {
         public day: number,
         public hour: number,
         public minute: number,
-        public pod: Pod,
-        public captain: Player,
-        public crew: Character[],
+        //public pod: Pod,
+        public captain: User,
+        //public crew: Character[],
+        public water: number,
         public status: string
     ){}
 }

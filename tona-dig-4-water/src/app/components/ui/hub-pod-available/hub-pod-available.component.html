@@ -1,5 +1,6 @@
 <h3>Nacelles prêtes</h3>
+<button (click)="onRefresh()" class="button">Refresh</button>
 <p *ngIf="podAvailableList.length === 0">Aucune nacelle prêt pour l'instant... Prépare la tienne&nbsp;!</p>
-<div *ngFor="let pod of podAvailableList">
-    {{ pod.name }}
+<div class="pod-register-card-container">
+    <app-pod-register-card *ngFor="let pod of podAvailableList" [pod]="pod" (actionPodEmitter)="onActionPod($event)"></app-pod-register-card>
 </div>

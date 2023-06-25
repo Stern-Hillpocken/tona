@@ -1,6 +1,8 @@
 package fr.tona.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import fr.tona.expedition.Expedition;
+import fr.tona.podregister.PodRegister;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
@@ -23,7 +25,6 @@ import java.util.List;
 import java.util.Set;
 
 @Builder
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
@@ -41,6 +42,14 @@ public class User implements UserDetails {
     private String profilePicture;
     private String role;
 
+    @OneToOne(mappedBy = "captain")
+    @JsonIgnoreProperties("captain")
+    private Expedition expedition;
+
+    @OneToOne(mappedBy = "captain")
+    @JsonIgnoreProperties("captain")
+    private PodRegister pod;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));
@@ -48,7 +57,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.pseudo;
     }
 
     @Override

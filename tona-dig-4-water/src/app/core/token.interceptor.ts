@@ -9,12 +9,15 @@ import {
 } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { LocalStorageService } from '../shared/local-storage.service';
+import { PopupService } from '../shared/popup.service';
+import { Popup } from '../models/popup.model';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
   constructor(
-    private lsService: LocalStorageService
+    private lsService: LocalStorageService,
+    private popup: PopupService
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -49,7 +52,10 @@ export class TokenInterceptor implements HttpInterceptor {
       }),
       // Statut 400
       catchError((err: HttpErrorResponse) => {
-        console.log(err.error.error_message)
+        if(err.error.error_message != undefined){
+          this.popup.add(new Popup(err.error.error_message, "error"));
+        }
+        console.log(err)
         return throwError(() => new Error("Une erreur est survenue"));
       })
     )

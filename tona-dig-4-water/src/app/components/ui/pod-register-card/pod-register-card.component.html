@@ -1,0 +1,14 @@
+<div class="pod-register-card">
+    <h4>{{ pod.name }}</h4>
+    <p>
+        Difficulté&nbsp;: {{ pod.difficulty }}<br>
+        Capitaine&nbsp;: {{ pod.captain.pseudo }}<br>
+        <!--Équipage&nbsp;: {{ pod.crew }}<br>-->
+        Place&nbsp;: X / {{ pod.characterMax }}<br>
+        Status&nbsp;: {{ pod.status }}
+    </p>
+    <div style="display: flex; justify-content: space-between;">
+        <button (click)="onDestroyPod()" class="button">Démonter</button>
+        <button (click)="onLaunchPod()" class="button">Lancer</button>
+    </div>
+</div>

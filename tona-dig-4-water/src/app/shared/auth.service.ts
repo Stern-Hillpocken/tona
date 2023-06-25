@@ -26,9 +26,9 @@ export class AuthService {
   // Inscription
   register(userRegister: UserRegister): void {
     this.http.post<any>(this.utils.getBaseUrl()+'auth/register', userRegister)
-        .pipe(tap((res: Popup) => {
-        this.popup.add(new Popup(res.message, res.type));
-        if(res.type === "work"){
+        .pipe(tap((response: Popup) => {
+        this.popup.add(response);
+        if(response.type === "work"){
           this.router.navigate(["/login"]);
         }
         }))

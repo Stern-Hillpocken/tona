@@ -19,7 +19,6 @@ import { LoginFormComponent } from './components/ui/login-form/login-form.compon
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HelpComponent } from './pages/help/help.component';
 import { CommunityComponent } from './pages/community/community.component';
-import { GameComponent } from './pages/game/game.component';
 import { LoginContainerComponent } from './components/feature/login-container/login-container.component';
 import { RegisterContainerComponent } from './components/feature/register-container/register-container.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -27,6 +26,10 @@ import { PopupComponent } from './components/ui/popup/popup.component';
 import { HubSetupComponent } from './components/feature/hub-setup/hub-setup.component';
 import { HubPodCreationComponent } from './components/ui/hub-pod-creation/hub-pod-creation.component';
 import { HubPodAvailableComponent } from './components/ui/hub-pod-available/hub-pod-available.component';
+import { PodRegisterCardComponent } from './components/ui/pod-register-card/pod-register-card.component';
+import { OverviewComponent } from './pages/game/overview/overview.component';
+import { OverviewPodComponent } from './components/feature/overview-pod/overview-pod.component';
+import { OverviewPodMapComponent } from './components/ui/overview-pod-map/overview-pod-map.component';
 
 @NgModule({
   declarations: [
@@ -45,13 +48,16 @@ import { HubPodAvailableComponent } from './components/ui/hub-pod-available/hub-
     ProfileComponent,
     HelpComponent,
     CommunityComponent,
-    GameComponent,
     LoginContainerComponent,
     RegisterContainerComponent,
     PopupComponent,
     HubSetupComponent,
     HubPodCreationComponent,
-    HubPodAvailableComponent
+    HubPodAvailableComponent,
+    PodRegisterCardComponent,
+    OverviewComponent,
+    OverviewPodComponent,
+    OverviewPodMapComponent
   ],
   imports: [
     BrowserModule,
