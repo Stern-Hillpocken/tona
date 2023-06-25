@@ -1,5 +1,5 @@
-<app-header *ngIf="currentUrl !== '/'"></app-header>
-<main [ngStyle]="{'height': currentUrl === '/welcome' ? '100vh' : '80vh' }">
+<app-header *ngIf="currentUrl.includes('/game')"></app-header>
+<main [ngStyle]="{'height': currentUrl === '/welcome' ? '100vh' : currentUrl.includes('/game') ? '80vh' : '90vh' }">
     <router-outlet></router-outlet>
 </main>
 <app-nav-bar *ngIf="currentUrl !== '/'"></app-nav-bar>

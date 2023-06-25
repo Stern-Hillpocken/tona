@@ -1,2 +1,2 @@
 <app-hub-pod-creation (podEmitter)="onPodReceive($event)"></app-hub-pod-creation>
-<app-hub-pod-available [podAvailableList]="podAvailableList"></app-hub-pod-available>
+<app-hub-pod-available [podAvailableList]="podAvailableList" (refreshEmitter)="onRefreshReceive()" (actionPodEmitter)="onActionPodReceive($event)"></app-hub-pod-available>

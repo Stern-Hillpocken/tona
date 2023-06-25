@@ -12,4 +12,13 @@ public class ExpeditionController {
 
     private final ExpeditionService service;
 
+    @GetMapping("/my")
+    public Expedition getMy(){
+        return service.getMy();
+    }
+
+    @GetMapping("/end-turn")
+    public Expedition endTurn(){
+        return service.endTurn();
+    }
 }

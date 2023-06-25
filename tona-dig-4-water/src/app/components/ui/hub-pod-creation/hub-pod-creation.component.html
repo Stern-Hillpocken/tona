@@ -3,11 +3,11 @@
 
     <input [(ngModel)]="pod.name" type="text" name="name" id="name" placeholder="Nomme ta nacelle" autofocus required><br>
 
-    <input type="radio" id="difficulty1" name="difficulty" [value]=1 [(ngModel)]="pod.difficulty" checked><label for="difficulty1">Facile</label><br>
-    <input type="radio" id="difficulty2" name="difficulty" [value]=2 [(ngModel)]="pod.difficulty"><label for="difficulty2">Moyen</label><br>
-    <input type="radio" id="difficulty3" name="difficulty" [value]=3 [(ngModel)]="pod.difficulty"><label for="difficulty3">Difficile</label><br>
+    <input type="radio" id="difficulty1" name="difficulty" [value]=1 [(ngModel)]="pod.difficulty" checked><label for="difficulty1">{{ difficultyToString(1) }}</label><br>
+    <input type="radio" id="difficulty2" name="difficulty" [value]=2 [(ngModel)]="pod.difficulty"><label for="difficulty2">{{ difficultyToString(2) }}</label><br>
+    <input type="radio" id="difficulty3" name="difficulty" [value]=3 [(ngModel)]="pod.difficulty"><label for="difficulty3">{{ difficultyToString(3) }}</label><br>
 
-    <input [(ngModel)]="pod.playerMax" type="number" name="playerMax" id="playerMax" min=1 max=4 required><br>
+    <input [(ngModel)]="pod.characterMax" type="number" name="characterMax" id="characterMax" min=1 max=4 required><br>
 
     <input [(ngModel)]="pod.password" type="text" name="password" id="password" placeholder="Mot de passe si besoin"><br>
 

@@ -1,17 +1,15 @@
 package fr.tona.podregister;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.tona.character.Character;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.tona.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,13 +21,18 @@ public class PodRegister {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public String name;
-    public Integer difficulty;
-    public User captain;
-    public Set<Character> crew;
-    public Integer playerMax;
+    private Long id;
+    private String name;
+    private Integer difficulty;
+    @OneToOne(cascade = {CascadeType.MERGE})
+    @JsonIgnoreProperties("pod")
+    private User captain;
+    /*@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "podRegister_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("pod")
+    public Set<Majagaba> crew = new HashSet<>();*/
+    private Integer characterMax;
+    private String status;
     @JsonIgnore
-    public String password;
-    public String status;
+    private String password;
 }
