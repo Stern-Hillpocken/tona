@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Character } from 'src/app/models/character.model';
+import { Majagaba } from 'src/app/models/majagaba.model';
 import { Expedition } from 'src/app/models/expedition.model';
 import { User } from 'src/app/models/user.model';
 import { ExpeditionService } from 'src/app/shared/expedition.service';
@@ -35,6 +35,7 @@ export class HeaderComponent {
   
   endTurn(): void {
     this.expeditionService.endTurn().subscribe((expe: Expedition) => {
+      console.log(expe)
       this.expeditionService._setExpedition$(expe);
     });
   }

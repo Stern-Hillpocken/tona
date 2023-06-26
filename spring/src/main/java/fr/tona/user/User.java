@@ -1,6 +1,7 @@
 package fr.tona.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import fr.tona.chatmessage.ChatMessage;
 import fr.tona.expedition.Expedition;
 import fr.tona.podregister.PodRegister;
 import jakarta.persistence.*;
@@ -12,7 +13,6 @@ import jakarta.persistence.Id;
 import lombok.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +20,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -35,10 +36,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String pseudo;
     private String email;
+
     @JsonIgnore
     private String password;
+
     private String profilePicture;
     private String role;
 
@@ -50,32 +54,43 @@ public class User implements UserDetails {
     @JsonIgnoreProperties("captain")
     private PodRegister pod;
 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("user")
+    private List<ChatMessage> messages = new ArrayList();
+
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return this.pseudo;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }

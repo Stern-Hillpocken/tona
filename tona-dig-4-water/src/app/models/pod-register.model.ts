@@ -1,4 +1,4 @@
-import { Character } from "./character.model";
+import { Majagaba } from "./majagaba.model";
 import { User } from "./user.model";
 
 export class PodRegister {

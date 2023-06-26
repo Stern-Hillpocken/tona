@@ -9,6 +9,7 @@ import { HubComponent } from './pages/hub/hub.component';
 import { CommunityComponent } from './pages/community/community.component';
 import { HelpComponent } from './pages/help/help.component';
 import { OverviewComponent } from './pages/game/overview/overview.component';
+import { MessagesComponent } from './pages/game/messages/messages.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'help', component: HelpComponent},
   { path: 'hub', component: HubComponent, canActivate: [UserGuard] },
   { path: 'game/overview', component: OverviewComponent, canActivate: [UserGuard] },
+  { path: 'game/messages', component: MessagesComponent, canActivate: [UserGuard] },
   { path: '**', component: ErrorComponent, pathMatch: 'full' }
 ];
 

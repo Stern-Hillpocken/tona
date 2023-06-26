@@ -1,0 +1,5 @@
+<div class="messages-container">
+    <p *ngFor="let message of chatMessageList" class="message">
+        {{ message.date }} {{ message.user }}&nbsp;: {{ message.contents }}
+    </p>
+</div>
