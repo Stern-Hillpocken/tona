@@ -35,6 +35,7 @@ export class HeaderComponent {
   
   endTurn(): void {
     this.expeditionService.endTurn().subscribe((expe: Expedition) => {
+      console.log(expe)
       this.expeditionService._setExpedition$(expe);
     });
   }

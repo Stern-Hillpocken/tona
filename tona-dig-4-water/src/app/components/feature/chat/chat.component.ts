@@ -16,7 +16,8 @@ export class ChatComponent {
   ){}
 
   ngOnInit(): void {
-    this.expeditionService.getAllChatMessages().subscribe((messages: ChatMessage[]) => {
+    this.expeditionService.getAllChatMessages().subscribe((messages: any) => {
+      console.log(messages)
       this.chatMessageList = messages;
     });
   }

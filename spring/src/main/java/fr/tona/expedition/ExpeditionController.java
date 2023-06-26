@@ -1,9 +1,11 @@
 package fr.tona.expedition;
 
+import fr.tona.chatmessage.ChatMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/expedition")
@@ -20,5 +22,15 @@ public class ExpeditionController {
     @GetMapping("/end-turn")
     public Expedition endTurn(){
         return service.endTurn();
+    }
+
+    @GetMapping("/all-chat-messages")
+    public Set<ChatMessage> getAllChatMessages(){
+        return service.getAllChatMessages();
+    }
+
+    @PostMapping("/send-message")
+    public void sendMessage(@RequestBody String messageContents){
+        service.sendMessage(messageContents);
     }
 }
