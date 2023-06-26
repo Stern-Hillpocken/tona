@@ -1,0 +1,4 @@
+<div class="chat">
+    <app-chat-messages [chatMessageList]="chatMessageList"></app-chat-messages>
+    <app-chat-form (messageEmitter)="onMessageReceive($event)"></app-chat-form>
+</div>

@@ -1,0 +1,13 @@
+form{
+    display: flex;
+    border-top: 4px solid black;
+    height: 10%;
+    textarea{
+        height: 100%;
+        resize: none;
+    }
+    input[type=submit]{
+        height: 100%;
+        width: 100%;
+    }
+}

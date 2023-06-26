@@ -1,5 +1,8 @@
-export class Character {
+import { User } from "./user.model";
+
+export class Majagaba {
     constructor(
+        public id: number,
         public life: number,
         public job: string,
         public dicePool: number[],

@@ -30,6 +30,10 @@ import { PodRegisterCardComponent } from './components/ui/pod-register-card/pod-
 import { OverviewComponent } from './pages/game/overview/overview.component';
 import { OverviewPodComponent } from './components/feature/overview-pod/overview-pod.component';
 import { OverviewPodMapComponent } from './components/ui/overview-pod-map/overview-pod-map.component';
+import { MessagesComponent } from './pages/game/messages/messages.component';
+import { ChatComponent } from './components/feature/chat/chat.component';
+import { ChatFormComponent } from './components/ui/chat-form/chat-form.component';
+import { ChatMessagesComponent } from './components/ui/chat-messages/chat-messages.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +61,11 @@ import { OverviewPodMapComponent } from './components/ui/overview-pod-map/overvi
     PodRegisterCardComponent,
     OverviewComponent,
     OverviewPodComponent,
-    OverviewPodMapComponent
+    OverviewPodMapComponent,
+    MessagesComponent,
+    ChatComponent,
+    ChatFormComponent,
+    ChatMessagesComponent
   ],
   imports: [
     BrowserModule,

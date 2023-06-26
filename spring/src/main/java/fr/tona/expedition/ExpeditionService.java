@@ -21,6 +21,7 @@ public class ExpeditionService {
         expedition.setMinute(0);
         expedition.setCaptain(captain);
         expedition.setWater(0L);
+        expedition.setDepth(0L);
         expedition.setStatus("ingame");
         repository.save(expedition);
     }

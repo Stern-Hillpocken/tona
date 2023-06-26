@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Character } from 'src/app/models/character.model';
+import { Majagaba } from 'src/app/models/majagaba.model';
 import { User } from 'src/app/models/user.model';
 import { PodRegister } from 'src/app/models/pod-register.model';
 import { UtilsService } from 'src/app/shared/utils.service';
@@ -14,7 +14,7 @@ export class HubPodCreationComponent {
   @Output()
   podEmitter: EventEmitter<PodRegister> = new EventEmitter;
 
-  pod: PodRegister = new PodRegister("",1,new User("","","", new Character(0,"",[],[],0,"")),1,"","");
+  pod: PodRegister = new PodRegister("",1,new User("","","", new Majagaba(0,0,"",[],[],0,"")),1,"","");
 
   constructor(
     private utils: UtilsService

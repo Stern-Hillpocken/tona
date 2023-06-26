@@ -4,7 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Expedition } from '../models/expedition.model';
 import { UtilsService } from './utils.service';
 import { User } from '../models/user.model';
-import { Character } from '../models/character.model';
+import { Majagaba } from '../models/majagaba.model';
+import { ChatMessage } from '../models/chat-message.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class ExpeditionService {
 
     private readonly _sqlTable: string = "expedition";
 
-    private readonly _expedition$: BehaviorSubject<Expedition> = new BehaviorSubject<Expedition>(new Expedition(0,"",0,0,0,0,new User("","","",new Character(0,"",[],[],0,"")),0,""));
+    private readonly _expedition$: BehaviorSubject<Expedition> = new BehaviorSubject<Expedition>(new Expedition(0,"",0,0,0,0,new User("","","",new Majagaba(0,0,"",[],[],0,"")),0,0,[],""));
 
     constructor(
       private http: HttpClient,
@@ -34,5 +35,13 @@ export class ExpeditionService {
 
     endTurn(): Observable<Expedition> {
       return this.http.get<Expedition>(this.utils.getBaseUrl() + this._sqlTable + "/end-turn");
+    }
+
+    sendMessage(message: string): Observable<void> {
+      return this.http.post<void>(this.utils.getBaseUrl() + this._sqlTable + "/send-message", message);
+    }
+
+    getAllChatMessages(): Observable<ChatMessage[]> {
+      return this.http.get<ChatMessage[]>(this.utils.getBaseUrl() + this._sqlTable + "/all-chat-messages");
     }
 }

@@ -1,4 +1,5 @@
-import { Character } from "./character.model";
+import { Majagaba } from "./majagaba.model";
+import { ChatMessage } from "./chat-message.model";
 import { Pod } from "./pod.model";
 import { User } from "./user.model";
 
@@ -14,6 +15,8 @@ export class Expedition {
         public captain: User,
         //public crew: Character[],
         public water: number,
+        public depth: number,
+        public messages: ChatMessage[],
         public status: string
     ){}
 }
