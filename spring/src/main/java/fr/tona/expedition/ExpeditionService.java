@@ -3,7 +3,10 @@ package fr.tona.expedition;
 import fr.tona.chat_message.ChatMessage;
 import fr.tona.pod_register.PodRegister;
 import fr.tona.user.User;
+import fr.tona.user.UserRepository;
+import fr.tona.util.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -15,6 +18,10 @@ import java.util.*;
 public class ExpeditionService {
 
     private final ExpeditionRepository repository;
+
+    private final UserRepository userRepository;
+
+    private final JwtService jwtService;
 
     public void launch(PodRegister podRegister, User captain){
         Expedition expedition = new Expedition();
@@ -54,25 +61,24 @@ public class ExpeditionService {
     }
 
     public List<ChatMessage> getAllChatMessages() {
-        //return chatMessageRepository.findAll();
-        //return repository.findById(1L).get().getMessages();
-//        List<ChatMessage> allMessages = chatMessageRepository.findAll();
-//        for(int i = 0; i < allMessages.size(); i++){
-//            System.out.println(allMessages.get(i).getContents());
-//        }
-//        return allMessages;
-        return repository.findById(1L).get().getMessages();
+        User user = jwtService.grepUserFromJwt();
+        return repository.findById(user.getExpedition().getId()).get().getMessages();
     }
 
     public void sendMessage(String messageContents) {
-        while(messageContents.charAt(0) == ' '){
-            messageContents.substring(1);
+        while(messageContents.length() > 0 && (messageContents.charAt(0) == ' ' || messageContents.charAt(0) == '\n')){
+            if(messageContents.charAt(0) == ' '){
+                messageContents = messageContents.substring(1);
+            }else if(messageContents.charAt(0) == '\n'){
+                messageContents = "";
+            }
         }
-        if(!messageContents.equals("")){
+        if(messageContents.length() > 0){
+            System.out.println(">"+messageContents+"<");
+            User user = jwtService.grepUserFromJwt();
+
             ChatMessage fullMessage = new ChatMessage();
-            User blankUser = new User();
-            blankUser.setId(1L);
-            fullMessage.setUser(blankUser);
+            fullMessage.setUser(user);
 
             String pattern = "yyyy-MM-dd'T'HH:mm:ss";
             DateFormat df = new SimpleDateFormat(pattern);
@@ -82,14 +88,11 @@ public class ExpeditionService {
 
             fullMessage.setContents(messageContents);
 
-            Expedition currentExpedition = repository.findById(1L).orElseThrow(
+            Expedition currentExpedition = repository.findById(user.getExpedition().getId()).orElseThrow(
                     () -> new RuntimeException("Id of expedition not found")
             );
             currentExpedition.getMessages().add(fullMessage);
             repository.save(currentExpedition);
         }
-        // expeditionRepo.findById(Id) = id de l'expédition envoyé par le front et récupéré en @PathVariable
-        // expedition.getMessages().add(fullMessage)
-        // expeditionRepo.save(expedition)
     }
 }

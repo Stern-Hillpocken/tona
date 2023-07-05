@@ -21,7 +21,7 @@ public class ChatMessage {
     private Long id;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = {"messages","expedition"})
+    @JsonIgnoreProperties("expedition")
     private User user;
 
     private String date;

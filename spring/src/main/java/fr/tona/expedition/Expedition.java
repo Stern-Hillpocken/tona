@@ -27,7 +27,7 @@ public class Expedition {
     private Integer minute;
 
     @OneToOne(cascade = {CascadeType.MERGE})
-    @JsonIgnoreProperties("expedition")
+    @JsonIgnoreProperties(value = {"expedition", "pod"})
     private User captain;
 
     private Long water;
@@ -36,7 +36,7 @@ public class Expedition {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "expedition_id", referencedColumnName = "id")
     @JsonIgnoreProperties("expedition")
-    private List<ChatMessage> messages = new ArrayList<>();
+    private List<ChatMessage> messages;
 
     private String status;
 }
