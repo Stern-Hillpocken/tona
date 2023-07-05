@@ -1,4 +1,4 @@
-package fr.tona.podregister;
+package fr.tona.pod_register;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

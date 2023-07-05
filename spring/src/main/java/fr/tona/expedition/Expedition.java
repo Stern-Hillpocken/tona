@@ -1,17 +1,13 @@
 package fr.tona.expedition;
 
 //import fr.tona.pod.Pod;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import fr.tona.chatmessage.ChatMessage;
+import fr.tona.chat_message.ChatMessage;
 import fr.tona.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -31,7 +27,7 @@ public class Expedition {
     private Integer minute;
 
     @OneToOne(cascade = {CascadeType.MERGE})
-    @JsonIgnoreProperties("expedition")
+    @JsonIgnoreProperties(value = {"expedition", "pod"})
     private User captain;
 
     private Long water;
@@ -40,7 +36,7 @@ public class Expedition {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "expedition_id", referencedColumnName = "id")
     @JsonIgnoreProperties("expedition")
-    private Set<ChatMessage> messages = new HashSet<>();
+    private List<ChatMessage> messages;
 
     private String status;
 }

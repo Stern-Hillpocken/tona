@@ -1,4 +1,4 @@
-package fr.tona.podregister;
+package fr.tona.pod_register;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -8,9 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter

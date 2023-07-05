@@ -1,6 +1,6 @@
 package fr.tona.expedition;
 
-import fr.tona.chatmessage.ChatMessage;
+import fr.tona.chat_message.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,7 @@ public class ExpeditionController {
     }
 
     @GetMapping("/all-chat-messages")
-    public Set<ChatMessage> getAllChatMessages(){
+    public List<ChatMessage> getAllChatMessages(){
         return service.getAllChatMessages();
     }
 

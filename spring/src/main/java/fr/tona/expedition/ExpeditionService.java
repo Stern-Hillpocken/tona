@@ -1,14 +1,14 @@
 package fr.tona.expedition;
 
-import fr.tona.chatmessage.ChatMessage;
-import fr.tona.chatmessage.ChatMessageRepository;
-import fr.tona.podregister.PodRegister;
+import fr.tona.chat_message.ChatMessage;
+import fr.tona.pod_register.PodRegister;
 import fr.tona.user.User;
+import fr.tona.user.UserRepository;
+import fr.tona.util.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.management.RuntimeErrorException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -19,6 +19,10 @@ public class ExpeditionService {
 
     private final ExpeditionRepository repository;
 
+    private final UserRepository userRepository;
+
+    private final JwtService jwtService;
+
     public void launch(PodRegister podRegister, User captain){
         Expedition expedition = new Expedition();
         expedition.setName(podRegister.getName());
@@ -28,18 +32,20 @@ public class ExpeditionService {
         expedition.setMinute(0);
         expedition.setCaptain(captain);
         expedition.setWater(0L);
-        expedition.setMessages(new HashSet<>());
+        expedition.setMessages(new ArrayList<>());
         expedition.setDepth(0L);
         expedition.setStatus("ingame");
         repository.save(expedition);
     }
 
     public Expedition getMy() {
-        return repository.getById(1L);// TODO
+        User user = jwtService.grepUserFromJwt();
+        return repository.getById(user.getExpedition().getId());
     }
 
     public Expedition endTurn() {
-        Expedition expeditionFound = repository.getById(1L);// TODO
+        User user = jwtService.grepUserFromJwt();
+        Expedition expeditionFound = repository.getById(user.getExpedition().getId());
         // Time
         Integer addingMinute = 15;
         expeditionFound.setMinute(expeditionFound.getMinute()+addingMinute);
@@ -56,38 +62,38 @@ public class ExpeditionService {
         return expeditionFound;
     }
 
-    public Set<ChatMessage> getAllChatMessages() {
-        //return chatMessageRepository.findAll();
-        //return repository.findById(1L).get().getMessages();
-//        List<ChatMessage> allMessages = chatMessageRepository.findAll();
-//        for(int i = 0; i < allMessages.size(); i++){
-//            System.out.println(allMessages.get(i).getContents());
-//        }
-//        return allMessages;
-        return repository.findById(1L).get().getMessages();
+    public List<ChatMessage> getAllChatMessages() {
+        User user = jwtService.grepUserFromJwt();
+        return repository.findById(user.getExpedition().getId()).get().getMessages();
     }
 
     public void sendMessage(String messageContents) {
-        ChatMessage fullMessage = new ChatMessage();
-        User blankUser = new User();
-        blankUser.setId(1L);
-        fullMessage.setUser(blankUser);
+        while(messageContents.length() > 0 && (messageContents.charAt(0) == ' ' || messageContents.charAt(0) == '\n')){
+            if(messageContents.charAt(0) == ' '){
+                messageContents = messageContents.substring(1);
+            }else if(messageContents.charAt(0) == '\n'){
+                messageContents = "";
+            }
+        }
+        if(messageContents.length() > 0){
+            User user = jwtService.grepUserFromJwt();
 
-        String pattern = "yyyy-MM-dd'T'HH:mm:ss";
-        DateFormat df = new SimpleDateFormat(pattern);
-        Date today = Calendar.getInstance().getTime();
-        String now = df.format(today);
-        fullMessage.setDate(now);
+            ChatMessage fullMessage = new ChatMessage();
+            fullMessage.setUser(user);
 
-        fullMessage.setContents(messageContents);
+            String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+            DateFormat df = new SimpleDateFormat(pattern);
+            Date today = Calendar.getInstance().getTime();
+            String now = df.format(today);
+            fullMessage.setDate(now);
 
-        Expedition currentExpedition = repository.findById(1L).orElseThrow(
-                () -> new RuntimeException("Id of expedition not found")
-        );
-        currentExpedition.getMessages().add(fullMessage);
-        repository.save(currentExpedition);
-        // expeditionRepo.findById(Id) = id de l'expédition envoyé par le front et récupéré en @PathVariable
-        // expedition.getMessages().add(fullMessage)
-        // expeditionRepo.save(expedition)
+            fullMessage.setContents(messageContents);
+
+            Expedition currentExpedition = repository.findById(user.getExpedition().getId()).orElseThrow(
+                    () -> new RuntimeException("Id of expedition not found")
+            );
+            currentExpedition.getMessages().add(fullMessage);
+            repository.save(currentExpedition);
+        }
     }
 }

@@ -1,5 +1,13 @@
-<div class="messages-container">
-    <p *ngFor="let message of chatMessageList" class="message">
-        {{ message.date }} {{ message.user }}&nbsp;: {{ message.contents }}
-    </p>
+<div #autoScroll [scrollTop]="autoScroll.scrollHeight" class="messages-container">
+    <div *ngFor="let message of chatMessageList" class="message">
+        <img [src]="message.user.profilePicture" alt="Image du profil">
+        <div>
+            <address>
+                <span class="pseudo">{{ message.user.pseudo }} </span>
+                <span class="date">{{ formatedDate(message.date) }}</span>
+            </address>
+            <p>{{ message.contents }}</p>
+        </div>
+    </div>
+    <div id="anchor"></div>
 </div>

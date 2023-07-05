@@ -14,5 +14,12 @@ export class ChatFormComponent {
 
   onSubmit(): void {
     this.messageEmitter.emit(this.message);
+    this.message = "";
+  }
+
+  keyEnterPressed(event: KeyboardEvent): void {
+    if(event.key === 'Enter'){
+      this.onSubmit();
+    }
   }
 }

@@ -1,6 +1,5 @@
-package fr.tona.chatmessage;
+package fr.tona.chat_message;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.tona.expedition.Expedition;
 import fr.tona.user.User;
@@ -22,7 +21,7 @@ public class ChatMessage {
     private Long id;
 
     @ManyToOne
-    @JsonIgnoreProperties("messages")
+    @JsonIgnoreProperties("expedition")
     private User user;
 
     private String date;

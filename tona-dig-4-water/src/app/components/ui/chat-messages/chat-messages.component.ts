@@ -10,4 +10,8 @@ export class ChatMessagesComponent {
 
   @Input()
   chatMessageList!: ChatMessage[];
+
+  formatedDate(date: string): string {
+    return date.substring(11);
+  }
 }

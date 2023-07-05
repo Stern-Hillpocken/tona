@@ -1,11 +1,15 @@
 package fr.tona.util;
 
+import fr.tona.user.User;
+import fr.tona.user.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +19,13 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     @Value("${application.security.jwt.secretKey}")
     private String SECRET_KEY;
+
+    private final UserRepository userRepository;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -66,6 +73,14 @@ public class JwtService {
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
+    }
+
+    public User grepUserFromJwt(){
+        String username  = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByPseudo(username).orElseThrow(
+                () -> new RuntimeException("The pseudo is not in the data base")
+        );
+        return user;
     }
 }
 
