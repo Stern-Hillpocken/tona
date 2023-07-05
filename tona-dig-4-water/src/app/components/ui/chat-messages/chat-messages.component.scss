@@ -4,5 +4,16 @@
 }
 
 .message{
-    border: 1px solid red;
+    border: 1px solid rgba(0,0,0,0.2);
+    display: flex;
+    margin: 0.5em 0;
+}
+address{
+    font-style: normal;
+}
+.pseudo{
+    font-weight: bold;
+}
+.date{
+    opacity: 0.4;
 }

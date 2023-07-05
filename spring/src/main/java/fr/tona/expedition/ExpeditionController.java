@@ -1,10 +1,9 @@
 package fr.tona.expedition;
 
-import fr.tona.chatmessage.ChatMessage;
+import fr.tona.chat_message.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController

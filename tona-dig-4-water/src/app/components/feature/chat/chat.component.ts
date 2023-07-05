@@ -16,13 +16,16 @@ export class ChatComponent {
   ){}
 
   ngOnInit(): void {
+    this.refreshMessagesDisplay();
+  }
+
+  refreshMessagesDisplay(): void {
     this.expeditionService.getAllChatMessages().subscribe((messages: any) => {
-      console.log(messages)
       this.chatMessageList = messages;
     });
   }
 
   onMessageReceive(message: string): void {
-    this.expeditionService.sendMessage(message).subscribe();
+    this.expeditionService.sendMessage(message).subscribe(then => this.refreshMessagesDisplay());
   }
 }

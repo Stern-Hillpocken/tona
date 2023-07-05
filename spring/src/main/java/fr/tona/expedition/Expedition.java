@@ -1,16 +1,13 @@
 package fr.tona.expedition;
 
 //import fr.tona.pod.Pod;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import fr.tona.chatmessage.ChatMessage;
+import fr.tona.chat_message.ChatMessage;
 import fr.tona.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity

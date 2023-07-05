@@ -1,4 +1,4 @@
-package fr.tona.podregister;
+package fr.tona.pod_register;
 
 import fr.tona.expedition.ExpeditionService;
 import fr.tona.user.User;

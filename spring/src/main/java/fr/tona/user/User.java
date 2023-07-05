@@ -1,9 +1,8 @@
 package fr.tona.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import fr.tona.chatmessage.ChatMessage;
 import fr.tona.expedition.Expedition;
-import fr.tona.podregister.PodRegister;
+import fr.tona.pod_register.PodRegister;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
@@ -20,10 +19,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Builder
 @Getter
@@ -54,10 +51,10 @@ public class User implements UserDetails {
     @JsonIgnoreProperties("captain")
     private PodRegister pod;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    /*@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnoreProperties("user")
-    private List<ChatMessage> messages = new ArrayList();
+    private List<ChatMessage> messages = new ArrayList();*/
 
     @Override
     @JsonIgnore

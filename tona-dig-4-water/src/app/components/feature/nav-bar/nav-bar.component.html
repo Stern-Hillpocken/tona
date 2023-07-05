@@ -1,6 +1,12 @@
-<div class="nav-bar-container">
+<div *ngIf="!urlIncludesGame" class="nav-bar-container">
     <a [routerLink]="['/hub']">Game Hub</a>
     <a [routerLink]="['/login']">Register Login Profile</a>
     <a [routerLink]="['/community']">Community</a>
     <a [routerLink]="['/help']">Help</a>
+</div>
+
+<div *ngIf="urlIncludesGame" class="nav-bar-container">
+    <a [routerLink]="['/game/overview']">Overview</a>
+    <a [routerLink]="['/game/messages']">Messages</a>
+    <a [routerLink]="['/profile']">Back</a>
 </div>

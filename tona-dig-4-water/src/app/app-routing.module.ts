@@ -10,11 +10,13 @@ import { CommunityComponent } from './pages/community/community.component';
 import { HelpComponent } from './pages/help/help.component';
 import { OverviewComponent } from './pages/game/overview/overview.component';
 import { MessagesComponent } from './pages/game/messages/messages.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'profile', component: ProfileComponent},
   { path: 'community', component: CommunityComponent},
   { path: 'help', component: HelpComponent},
   { path: 'hub', component: HubComponent, canActivate: [UserGuard] },
