@@ -4,6 +4,7 @@ import fr.tona.chat_message.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -24,7 +25,7 @@ public class ExpeditionController {
     }
 
     @GetMapping("/all-chat-messages")
-    public Set<ChatMessage> getAllChatMessages(){
+    public List<ChatMessage> getAllChatMessages(){
         return service.getAllChatMessages();
     }
 

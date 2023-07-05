@@ -7,8 +7,7 @@ import fr.tona.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -37,7 +36,7 @@ public class Expedition {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "expedition_id", referencedColumnName = "id")
     @JsonIgnoreProperties("expedition")
-    private Set<ChatMessage> messages = new HashSet<>();
+    private List<ChatMessage> messages = new ArrayList<>();
 
     private String status;
 }

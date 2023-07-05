@@ -25,7 +25,7 @@ public class ExpeditionService {
         expedition.setMinute(0);
         expedition.setCaptain(captain);
         expedition.setWater(0L);
-        expedition.setMessages(new HashSet<>());
+        expedition.setMessages(new ArrayList<>());
         expedition.setDepth(0L);
         expedition.setStatus("ingame");
         repository.save(expedition);
@@ -53,7 +53,7 @@ public class ExpeditionService {
         return expeditionFound;
     }
 
-    public Set<ChatMessage> getAllChatMessages() {
+    public List<ChatMessage> getAllChatMessages() {
         //return chatMessageRepository.findAll();
         //return repository.findById(1L).get().getMessages();
 //        List<ChatMessage> allMessages = chatMessageRepository.findAll();
@@ -65,24 +65,29 @@ public class ExpeditionService {
     }
 
     public void sendMessage(String messageContents) {
-        ChatMessage fullMessage = new ChatMessage();
-        User blankUser = new User();
-        blankUser.setId(1L);
-        fullMessage.setUser(blankUser);
+        while(messageContents.charAt(0) == ' '){
+            messageContents.substring(1);
+        }
+        if(!messageContents.equals("")){
+            ChatMessage fullMessage = new ChatMessage();
+            User blankUser = new User();
+            blankUser.setId(1L);
+            fullMessage.setUser(blankUser);
 
-        String pattern = "yyyy-MM-dd'T'HH:mm:ss";
-        DateFormat df = new SimpleDateFormat(pattern);
-        Date today = Calendar.getInstance().getTime();
-        String now = df.format(today);
-        fullMessage.setDate(now);
+            String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+            DateFormat df = new SimpleDateFormat(pattern);
+            Date today = Calendar.getInstance().getTime();
+            String now = df.format(today);
+            fullMessage.setDate(now);
 
-        fullMessage.setContents(messageContents);
+            fullMessage.setContents(messageContents);
 
-        Expedition currentExpedition = repository.findById(1L).orElseThrow(
-                () -> new RuntimeException("Id of expedition not found")
-        );
-        currentExpedition.getMessages().add(fullMessage);
-        repository.save(currentExpedition);
+            Expedition currentExpedition = repository.findById(1L).orElseThrow(
+                    () -> new RuntimeException("Id of expedition not found")
+            );
+            currentExpedition.getMessages().add(fullMessage);
+            repository.save(currentExpedition);
+        }
         // expeditionRepo.findById(Id) = id de l'expédition envoyé par le front et récupéré en @PathVariable
         // expedition.getMessages().add(fullMessage)
         // expeditionRepo.save(expedition)

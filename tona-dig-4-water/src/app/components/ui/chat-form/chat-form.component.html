@@ -1,4 +1,4 @@
-<form #chatForm="ngForm" (submit)="chatForm.valid && onSubmit()" (keyup)="keyEnterPressed($event)">
+<form #chatForm="ngForm" (submit)="chatForm.valid && onSubmit()" (keyup)="chatForm.valid && keyEnterPressed($event)">
     <textarea [(ngModel)]="message" name="message" id="message" required autofocus></textarea>
     <input type="submit" value="Envoyer">
 </form>
