@@ -39,11 +39,13 @@ public class ExpeditionService {
     }
 
     public Expedition getMy() {
-        return repository.getById(1L);// TODO
+        User user = jwtService.grepUserFromJwt();
+        return repository.getById(user.getExpedition().getId());
     }
 
     public Expedition endTurn() {
-        Expedition expeditionFound = repository.getById(1L);// TODO
+        User user = jwtService.grepUserFromJwt();
+        Expedition expeditionFound = repository.getById(user.getExpedition().getId());
         // Time
         Integer addingMinute = 15;
         expeditionFound.setMinute(expeditionFound.getMinute()+addingMinute);
@@ -74,7 +76,6 @@ public class ExpeditionService {
             }
         }
         if(messageContents.length() > 0){
-            System.out.println(">"+messageContents+"<");
             User user = jwtService.grepUserFromJwt();
 
             ChatMessage fullMessage = new ChatMessage();
