@@ -7,6 +7,12 @@
     display: flex;
     margin: 0.5em 0;
 }
+.important{
+    background-color: var(--color-accent);
+    .pseudo{
+        color: white;
+    }
+}
 img{
     height: 42px;
     width: 42px;

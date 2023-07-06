@@ -1,12 +1,16 @@
 <div #autoScroll [scrollTop]="autoScroll.scrollHeight" class="messages-container">
-    <div *ngFor="let message of chatMessageList" class="message">
+    <div
+        *ngFor="let message of chatMessageList"
+        class="message"
+        [ngClass]="message.contents[0] === '!' ? 'important' : ''"
+    >
         <img [src]="message.user.profilePicture" alt="Image du profil">
         <div>
             <address>
                 <span class="pseudo">{{ message.user.pseudo }} </span>
                 <span class="date">{{ formatedDate(message.date) }}</span>
             </address>
-            <p>{{ message.contents }}</p>
+            <p>{{ message.contents[0] === '!' ? message.contents.substring(1) : message.contents }}</p>
         </div>
     </div>
     <div id="anchor"></div>

@@ -5,6 +5,6 @@ export class User {
         public pseudo: string,
         public email: string,
         public profilePicture: string,
-        public character: Majagaba
+        public majagaba: Majagaba
     ){}
 }

@@ -1,0 +1,18 @@
+.dice-zone{
+    display: flex;
+    div{
+        border: 1px solid black;
+    }
+    .dice-stocked-zone{
+        min-width: 10%;
+    }
+    .dice-pool-zone{
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    img{
+        height: 32px;
+        width: 32px;
+    }
+}

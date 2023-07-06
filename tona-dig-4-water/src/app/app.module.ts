@@ -34,6 +34,7 @@ import { MessagesComponent } from './pages/game/messages/messages.component';
 import { ChatComponent } from './components/feature/chat/chat.component';
 import { ChatFormComponent } from './components/ui/chat-form/chat-form.component';
 import { ChatMessagesComponent } from './components/ui/chat-messages/chat-messages.component';
+import { OverviewPodDiceComponent } from './components/ui/overview-pod-dice/overview-pod-dice.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { ChatMessagesComponent } from './components/ui/chat-messages/chat-messag
     MessagesComponent,
     ChatComponent,
     ChatFormComponent,
-    ChatMessagesComponent
+    ChatMessagesComponent,
+    OverviewPodDiceComponent
   ],
   imports: [
     BrowserModule,

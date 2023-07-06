@@ -2,6 +2,7 @@ package fr.tona.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.tona.expedition.Expedition;
+import fr.tona.majagaba.Majagaba;
 import fr.tona.pod_register.PodRegister;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,10 +52,9 @@ public class User implements UserDetails {
     @JsonIgnoreProperties("captain")
     private PodRegister pod;
 
-    /*@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("user")
-    private List<ChatMessage> messages = new ArrayList();*/
+    @OneToOne(cascade = {CascadeType.MERGE})
+    @JsonIgnoreProperties(value = {"user", "expedition"})
+    private Majagaba majagaba;
 
     @Override
     @JsonIgnore
