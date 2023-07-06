@@ -1,0 +1,11 @@
+<div class="dice-zone">
+    <div class="dice-stocked-zone" (dragenter)="onDragEnter($event)">
+        // // //
+    </div>
+    <div class="dice-pool-zone">
+        <img *ngFor="let die of expedition.crew[0].dicePool" draggable="true" (dragstart)="onDragStart($event)" (dragend)="onDragEnd($event)" [src]="'assets/images/dice/'+die+'.png'" [alt]="die">
+    </div>
+    <div class="reroll">
+        <button (click)="onReroll()">Reroll<br>{{ expedition.crew[0].rerollLeft }}</button>
+    </div>
+</div>

@@ -12,7 +12,7 @@ import { ExpeditionService } from 'src/app/shared/expedition.service';
 })
 export class OverviewPodComponent {
 
-  expedition: Expedition = new Expedition(0,"",0,0,0,0,new User("","","",new Majagaba(0,0,"",[],[],0,"")),0,0,[],"");
+  expedition: Expedition = new Expedition(0,"",0,0,0,0,new Pod(0,[]),new User("","","",new Majagaba(0,0,"",[],[],0,"")),[new Majagaba(0,0,"",[],[],0,"")],0,0,[],"");
 
   constructor(
     private expeditionService: ExpeditionService
@@ -23,4 +23,11 @@ export class OverviewPodComponent {
       this.expedition = expe;
     });
   }
+
+  onRerollReceive(event: boolean): void {
+    this.expeditionService.reroll().subscribe((expe: Expedition) => {
+      this.expeditionService._setExpedition$(expe);
+    });
+  }
+
 }

@@ -23,6 +23,9 @@ export class HeaderComponent {
     this.expeditionService._getExpedition$().subscribe((expe: Expedition) => {
       this.expedition = expe;
     });
+    this.expeditionService.getMy().subscribe((expe: Expedition) => {
+      this.expedition = expe;
+    })
   }
 
   difficultyToString(value: number): string {

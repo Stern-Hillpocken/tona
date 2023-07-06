@@ -1,13 +1,15 @@
 package fr.tona.pod;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import fr.tona.expedition.Expedition;
+import fr.tona.room.Room;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,6 +21,16 @@ public class Pod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
+
+    @OneToOne(mappedBy = "pod")
+    @JsonIgnoreProperties("pod")
+    private Expedition expedition;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "pod_id", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"pod"})
+    private Set<Room> rooms;
+
     public Integer health;
-    //Rooms
+
 }

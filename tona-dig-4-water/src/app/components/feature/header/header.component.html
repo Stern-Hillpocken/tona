@@ -1,12 +1,12 @@
 <div class="header-container">
-    <div *ngIf="expedition.id !== 0" class="expedition-infos">
+    <div class="expedition-infos">
         <h3>{{ expedition.name }}</h3>
         <p>
-            [{{ difficultyToString(expedition.difficulty) }}] Eau&nbsp;: <span class=""highlight>{{ expedition.water }}</span><br>
+            [{{ difficultyToString(expedition.difficulty) }}] Eau&nbsp;: <span class=""highlight>{{ expedition.water }} - Profondeur&nbsp;: {{ expedition.depth }}</span><br>
             {{ expedition.day }}j {{ getDateZero(expedition.hour) }}:{{ getDateZero(expedition.minute) }}
         </p>
     </div>
     <div>
-        <button (click)="endTurn()">{{ expedition.id === 0 ? "Débuter" : "Fin de tour" }}</button>
+        <button (click)="endTurn()">Fin de tour</button>
     </div>
 </div>

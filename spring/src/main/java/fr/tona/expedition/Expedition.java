@@ -3,6 +3,8 @@ package fr.tona.expedition;
 //import fr.tona.pod.Pod;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.tona.chat_message.ChatMessage;
+import fr.tona.majagaba.Majagaba;
+import fr.tona.pod.Pod;
 import fr.tona.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +21,7 @@ public class Expedition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private Integer difficulty;
 
@@ -26,9 +29,18 @@ public class Expedition {
     private Integer hour;
     private Integer minute;
 
-    @OneToOne(cascade = {CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})// Need persist when created during Expe creation
+    @JsonIgnoreProperties(value = {"expedition"})
+    private Pod pod;
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = {"expedition", "pod"})
     private User captain;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "expedition_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("expedition")
+    private Set<Majagaba> crew;
 
     private Long water;
     private Long depth;

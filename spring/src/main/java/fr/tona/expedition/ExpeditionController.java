@@ -19,6 +19,11 @@ public class ExpeditionController {
         return service.getMy();
     }
 
+    @GetMapping("/reroll")
+    public Expedition reroll(){
+        return service.reroll();
+    }
+
     @GetMapping("/end-turn")
     public Expedition endTurn(){
         return service.endTurn();
