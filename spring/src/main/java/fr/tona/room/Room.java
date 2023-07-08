@@ -26,6 +26,7 @@ public class Room {
 
     public String name;
     public Integer health;
+    public Integer maxHealth = 6;
     public String status;
 
 }

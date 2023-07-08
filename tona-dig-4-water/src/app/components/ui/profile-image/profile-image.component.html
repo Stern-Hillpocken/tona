@@ -1,0 +1,9 @@
+<h3>Image de profile</h3>
+<div>
+    <img [src]="user.profilePicture" al="Image" class="profile-picture">
+</div>
+<div>
+    <button *ngFor="let imgNumber of [1,2,3,4,5]" (click)="onClickProfilePicture(imgNumber)">
+        <img [src]='"assets/images/default-profile/"+imgNumber+".jpg"' class="profile-picture choice">
+    </button>
+</div>

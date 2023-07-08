@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { TokenService } from 'src/app/shared/token.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,8 +11,11 @@ export class NavBarComponent {
 
   urlIncludesGame: boolean = false;
 
+  isConnected: boolean = false;
+
   constructor(
-    private router: Router
+    private router: Router,
+    private token: TokenService
   ){}
 
   ngOnInit(): void {
@@ -20,5 +24,7 @@ export class NavBarComponent {
         this.urlIncludesGame = navInfo.url.includes("/game");
       }
     });
+    //this.token.
   }
+
 }

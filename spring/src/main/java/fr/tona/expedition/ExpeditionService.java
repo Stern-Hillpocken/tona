@@ -47,9 +47,6 @@ public class ExpeditionService {
         }
         expedition.setName(podRegister.getName());
         expedition.setDifficulty(podRegister.getDifficulty());
-        expedition.setDay(0L);
-        expedition.setHour(0);
-        expedition.setMinute(0);
 
         Pod pod = new Pod();
         pod.setHealth(10);
@@ -60,10 +57,6 @@ public class ExpeditionService {
         expedition.setPod(pod);
 
         expedition.setCaptain(captain);
-        expedition.setWater(0L);
-        expedition.setMessages(new ArrayList<>());
-        expedition.setDepth(0L);
-        expedition.setStatus("ingame");
 
         repository.save(expedition);
     }

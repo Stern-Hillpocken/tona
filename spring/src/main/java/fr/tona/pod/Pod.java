@@ -32,5 +32,6 @@ public class Pod {
     private Set<Room> rooms;
 
     public Integer health;
+    public Integer maxHealth = 10;
 
 }

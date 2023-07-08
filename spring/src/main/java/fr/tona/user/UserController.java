@@ -17,9 +17,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
 
+    private final UserService service;
+
     private final UserRepository repository;
 
-    @GetMapping("/all")
+    /*@GetMapping("/all")
     public List<User> getAll(HttpServletRequest request) throws AccessDeniedException {
         String role  = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if(role.equals("[ROLE_ADMIN]")) {
@@ -28,20 +30,15 @@ public class UserController {
             request.setAttribute("access_denied", "You do not have suffisant rights to access to this resource");
             throw new AccessDeniedException("User does not have the correct rights to access to this resource");
         }
+    }*/
+
+    @GetMapping("/me")
+    public User getMe(){
+        return service.getMe();
     }
 
-    @GetMapping("/id/{id}")
-    public User getById(@PathVariable Long id){
-        return repository.findById(id).orElseThrow(
-                () -> new RuntimeException("User ID: "+id+" has not be founded")
-        );
-    }
-
-    @GetMapping("/profilePicture/{id}")
-    public Map<String,String> getProfilePicture(@PathVariable Long id){
-        String profilePicture = repository.findById(id).get().getProfilePicture();
-        Map<String, String> jsonReturned = new HashMap<>();
-        jsonReturned.put("property",profilePicture);
-        return jsonReturned;
+    @PostMapping("/profile-picture")
+    public void changeProfilePicture(@RequestBody String url){
+        service.changeProfilePicture(url);
     }
 }
