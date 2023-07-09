@@ -1,5 +1,6 @@
 package fr.tona.majagaba;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.tona.expedition.Expedition;
 import fr.tona.pod_register.PodRegister;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -24,18 +26,19 @@ public class Majagaba {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "majagaba")
-    @JsonIgnoreProperties(value = {"majagaba", "expedition"})
+    @OneToOne(cascade = {CascadeType.MERGE}, mappedBy = "majagaba")
+    @JsonIgnore
     private User user;
 
-    private Integer life;
+    private Integer life = 5;
+    private Integer maxLife = 5;
     private String job;
-    private List<Integer> dicePool;
-    private List<Integer> diceStocked;
-    private Integer rerollLeft;
+    private List<Integer> dicePool = new ArrayList<>();
+    private List<Integer> diceStocked = new ArrayList<>();
+    private Integer rerollLeft = 2;
     private String room;
 
     @ManyToOne
-    @JsonIgnoreProperties("crew")
+    @JsonIgnore
     private Expedition expedition;
 }

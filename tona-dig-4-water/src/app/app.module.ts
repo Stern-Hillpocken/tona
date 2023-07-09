@@ -35,6 +35,8 @@ import { ChatComponent } from './components/feature/chat/chat.component';
 import { ChatFormComponent } from './components/ui/chat-form/chat-form.component';
 import { ChatMessagesComponent } from './components/ui/chat-messages/chat-messages.component';
 import { OverviewPodDiceComponent } from './components/ui/overview-pod-dice/overview-pod-dice.component';
+import { ProfileContainerComponent } from './components/feature/profile-container/profile-container.component';
+import { ProfileImageComponent } from './components/ui/profile-image/profile-image.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import { OverviewPodDiceComponent } from './components/ui/overview-pod-dice/over
     ChatComponent,
     ChatFormComponent,
     ChatMessagesComponent,
-    OverviewPodDiceComponent
+    OverviewPodDiceComponent,
+    ProfileContainerComponent,
+    ProfileImageComponent
   ],
   imports: [
     BrowserModule,

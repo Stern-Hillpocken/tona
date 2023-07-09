@@ -31,7 +31,7 @@ public class AuthService {
                     .pseudo(request.getPseudo())
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
-                    .profilePicture("assets/images/default-profile/1.png")
+                    .profilePicture("assets/images/default-profile/1.jpg")
                     .role("ROLE_USER")
                     .build();
 

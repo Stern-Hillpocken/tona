@@ -21,7 +21,7 @@ export class OverviewPodDiceComponent {
   ){}
 
   onReroll(): void {
-    if(this.expedition.crew[0].rerollLeft > 0){
+    if(this.expedition.crew[0].majagaba.rerollLeft > 0){
       this.rerollEmitter.emit(true);
     }else{
       this.popup.add(new Popup("Plus assez de relance.", "error")); // TODO emojipedia
