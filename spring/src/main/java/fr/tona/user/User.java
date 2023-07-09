@@ -45,15 +45,18 @@ public class User implements UserDetails {
     private String role;
 
     @OneToOne(mappedBy = "captain")
-    @JsonIgnoreProperties("captain")
+    //@JsonIgnoreProperties("captain")
+    @JsonIgnore
     private Expedition expedition;
 
     @OneToOne(mappedBy = "captain")
-    @JsonIgnoreProperties("captain")
+    //@JsonIgnoreProperties("captain")
+    @JsonIgnore
     private PodRegister pod;
 
-    @OneToOne(cascade = {CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = {"user", "expedition"})
+    //@JsonIgnore
     private Majagaba majagaba;
 
     @Override

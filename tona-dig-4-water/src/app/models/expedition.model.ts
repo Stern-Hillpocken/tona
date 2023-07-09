@@ -1,4 +1,3 @@
-import { Majagaba } from "./majagaba.model";
 import { ChatMessage } from "./chat-message.model";
 import { Pod } from "./pod.model";
 import { User } from "./user.model";
@@ -13,7 +12,7 @@ export class Expedition {
         public minute: number,
         public pod: Pod,
         public captain: User,
-        public crew: Majagaba[],
+        public crew: User[],
         public water: number,
         public depth: number,
         public messages: ChatMessage[],

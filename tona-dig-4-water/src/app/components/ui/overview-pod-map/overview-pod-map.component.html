@@ -1,5 +1,7 @@
 <p>Capitaine&nbsp;: {{ expedition.captain.pseudo }}</p>
 <p>Rooms&nbsp;:</p>
 <div class="map-container">
-    <div *ngFor="let room of expedition.pod.rooms">{{ room.name }} - {{ room.health }} PV</div>
+    <div *ngFor="let room of expedition.pod.rooms">
+        {{ room.name }} - {{ room.health }} / {{ room.maxHealth }} PV
+    </div>
 </div>

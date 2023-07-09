@@ -25,13 +25,12 @@ public class ExpeditionService {
     private final JwtService jwtService;
 
     public void launch(PodRegister podRegister, User captain){
+
         Expedition expedition = new Expedition();
-        expedition.setCrew(new HashSet<Majagaba>());
         // TODO L'expédition crée et bind les Majagaban
         for(int nb = 0; nb < podRegister.getCharacterMax(); nb ++){
+            User user = jwtService.grepUserFromJwt();
             Majagaba majagaba = new Majagaba();
-            majagaba.setUser(captain);
-            majagaba.setLife(5);
             majagaba.setJob("all");
             majagaba.setDicePool(new ArrayList<Integer>(){{
                 add(1 + (int)(Math.random() * (6 - 1)));
@@ -39,30 +38,31 @@ public class ExpeditionService {
                 add(1 + (int)(Math.random() * (6 - 1)));
                 add(1 + (int)(Math.random() * (6 - 1)));
             }});
-            majagaba.setDiceStocked(new ArrayList<>());
-            majagaba.setRerollLeft(2);
             majagaba.setRoom("ICI");
 
-            expedition.getCrew().add(majagaba);
+            user.setMajagaba(majagaba);
+
+            expedition.getCrew().add(user);
         }
+
         expedition.setName(podRegister.getName());
         expedition.setDifficulty(podRegister.getDifficulty());
 
         Pod pod = new Pod();
-        pod.setHealth(10);
-        pod.setRooms(new HashSet<>());
         Room bathroom = new Room();
         bathroom.setName("BathRoom");
         pod.getRooms().add(bathroom);
-        expedition.setPod(pod);
 
+        expedition.setPod(pod);
         expedition.setCaptain(captain);
+        expedition.getCrew().add(captain);
 
         repository.save(expedition);
     }
 
     public Expedition getMy() {
         User user = jwtService.grepUserFromJwt();
+        repository.getById(user.getExpedition().getId());
         return repository.getById(user.getExpedition().getId());
     }
 

@@ -1,5 +1,6 @@
 package fr.tona.room;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.tona.expedition.Expedition;
 import fr.tona.pod.Pod;
@@ -21,12 +22,12 @@ public class Room {
     public Long id;
 
     @ManyToOne
-    @JsonIgnoreProperties("room")
+    @JsonIgnore
     private Pod pod;
 
     public String name;
-    public Integer health;
+    public Integer health = 6;
     public Integer maxHealth = 6;
-    public String status;
+    public String status = "clear";
 
 }
