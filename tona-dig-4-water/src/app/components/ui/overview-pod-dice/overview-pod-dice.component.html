@@ -1,8 +1,8 @@
-<div class="dice-zone">
+<div class="dice-zone" *ngIf="expedition.crew[0]">
     <div class="dice-stocked-zone" (dragenter)="onDragEnter($event)">
-        // // //
+        <img *ngFor="let die of expedition.crew[0].majagaba.diceStocked" draggable="true" (dragstart)="onDragStart($event)" (dragend)="onDragEnd($event)" [src]="'assets/images/dice/'+die+'.png'" [alt]="die">
     </div>
-    <div class="dice-pool-zone">
+    <div class="dice-pool-zone" (dragenter)="onDragEnter($event)">
         <img *ngFor="let die of expedition.crew[0].majagaba.dicePool" draggable="true" (dragstart)="onDragStart($event)" (dragend)="onDragEnd($event)" [src]="'assets/images/dice/'+die+'.png'" [alt]="die">
     </div>
     <div class="reroll">

@@ -66,15 +66,6 @@ public class ExpeditionService {
         return repository.getById(user.getExpedition().getId());
     }
 
-    public Expedition reroll() {
-        User user = jwtService.grepUserFromJwt();
-        Expedition expedition = repository.getById(user.getExpedition().getId());
-        expedition.setDepth(expedition.getDepth()+1L);// TODO
-        //expedition.getCrew();
-        repository.save(expedition);
-        return expedition;
-    }
-
     public Expedition endTurn() {
         User user = jwtService.grepUserFromJwt();
         Expedition expeditionFound = repository.getById(user.getExpedition().getId());

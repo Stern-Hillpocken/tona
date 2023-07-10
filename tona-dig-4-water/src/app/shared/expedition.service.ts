@@ -45,8 +45,5 @@ export class ExpeditionService {
     getAllChatMessages(): Observable<ChatMessage[]> {
       return this.http.get<ChatMessage[]>(this.utils.getBaseUrl() + this._sqlTable + "/all-chat-messages");
     }
-
-    reroll(): Observable<Expedition> {
-      return this.http.get<Expedition>(this.utils.getBaseUrl() + this._sqlTable + "/reroll");
-    }
+    
 }
