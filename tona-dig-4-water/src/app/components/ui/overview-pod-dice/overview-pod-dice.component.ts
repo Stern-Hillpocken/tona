@@ -16,6 +16,13 @@ export class OverviewPodDiceComponent {
   @Output()
   rerollEmitter: EventEmitter<boolean> = new EventEmitter();
 
+  @Output()
+  dragDieEmitter: EventEmitter<{value:number, className:string}> = new EventEmitter();
+
+  dieValueDragged: number = 0;
+  startDragPosition: string = "";
+  lastDragEnterPosition: string = "";
+
   constructor(
     private popup: PopupService
   ){}
@@ -29,19 +36,23 @@ export class OverviewPodDiceComponent {
   }
 
   onDragStart(img: DragEvent): void{
-    console.log("drag-start: "+(img.target as HTMLImageElement).alt);
-    console.log(img.target);
+    this.dieValueDragged = parseInt((img.target as HTMLImageElement).alt);
+    this.startDragPosition = ((img.target as HTMLImageElement).parentNode as HTMLDivElement).className;
     (img.target as HTMLImageElement).style.opacity = "0.2";
   }
 
   onDragEnter(zone: DragEvent): void {
-    console.log("drag-enter");
-    console.log(zone);
+    this.lastDragEnterPosition = (zone.target as HTMLDivElement).className;
   }
 
   onDragEnd(img: DragEvent): void {
-    console.log("drag-end");
+    if(this.lastDragEnterPosition && this.lastDragEnterPosition !== this.startDragPosition){
+      this.dragDieEmitter.emit({value:this.dieValueDragged, className:this.lastDragEnterPosition});
+    }
     (img.target as HTMLImageElement).style.opacity = "1";
+    this.dieValueDragged = 0;
+    this.startDragPosition = "";
+    this.lastDragEnterPosition = "";
   }
 
 }
