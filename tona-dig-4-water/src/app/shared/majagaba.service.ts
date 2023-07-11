@@ -23,4 +23,8 @@ export class MajagabaService {
         return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/stock-die', value);
     }
 
+    destockDie(value: number): Observable<void> {
+        return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/destock-die', value);
+    }
+
 }

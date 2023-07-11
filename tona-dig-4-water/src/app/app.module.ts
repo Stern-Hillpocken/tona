@@ -37,6 +37,9 @@ import { ChatMessagesComponent } from './components/ui/chat-messages/chat-messag
 import { OverviewPodDiceComponent } from './components/ui/overview-pod-dice/overview-pod-dice.component';
 import { ProfileContainerComponent } from './components/feature/profile-container/profile-container.component';
 import { ProfileImageComponent } from './components/ui/profile-image/profile-image.component';
+import { InformationsComponent } from './pages/game/informations/informations.component';
+import { InformationsContainerComponent } from './components/feature/informations-container/informations-container.component';
+import { InformationsExpeditionComponent } from './components/ui/informations-expedition/informations-expedition.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +74,10 @@ import { ProfileImageComponent } from './components/ui/profile-image/profile-ima
     ChatMessagesComponent,
     OverviewPodDiceComponent,
     ProfileContainerComponent,
-    ProfileImageComponent
+    ProfileImageComponent,
+    InformationsComponent,
+    InformationsContainerComponent,
+    InformationsExpeditionComponent
   ],
   imports: [
     BrowserModule,
