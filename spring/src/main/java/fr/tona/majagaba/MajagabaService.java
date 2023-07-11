@@ -19,8 +19,9 @@ public class MajagabaService {
         User user = jwtService.grepUserFromJwt();
         Majagaba majagaba = user.getMajagaba();
         if(majagaba.getRerollLeft() > 0){
+            int numberOfDice = majagaba.getDicePool().size();
             majagaba.setDicePool(new ArrayList<>());
-            for(int i = 0; i < majagaba.getDicePool().size(); i++){
+            for(int i = 0; i < numberOfDice; i++){
                 majagaba.getDicePool().add(1 + (int)(Math.random() * (6 - 1)));
             }
             majagaba.setRerollLeft(majagaba.getRerollLeft()-1);
@@ -40,4 +41,30 @@ public class MajagabaService {
         }
         repository.save(majagaba);
     }
+
+    public void destockDie(Integer value){
+        User user = jwtService.grepUserFromJwt();
+        Majagaba majagaba = user.getMajagaba();
+        for(int i = 0; i < majagaba.getDiceStocked().size(); i++){
+            if(majagaba.getDiceStocked().get(i).equals(value)){
+                majagaba.getDicePool().add(value);
+                majagaba.getDiceStocked().remove(value);
+                break;
+            }
+        }
+        repository.save(majagaba);
+    }
+
+    public void endTurn(Majagaba majagaba){
+        // Reroll left
+        majagaba.setRerollLeft(2);
+        // Reroll dice
+        majagaba.setDiceStocked(new ArrayList<>());
+        majagaba.setDicePool(new ArrayList<>());
+        for(int i = 0; i < 4; i++){
+            majagaba.getDicePool().add(1 + (int)(Math.random() * (6 - 1)));
+        }
+        repository.save(majagaba);
+    }
+
 }

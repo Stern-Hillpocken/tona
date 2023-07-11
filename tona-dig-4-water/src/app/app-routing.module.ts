@@ -12,6 +12,7 @@ import { OverviewComponent } from './pages/game/overview/overview.component';
 import { MessagesComponent } from './pages/game/messages/messages.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { UserInGameGuard } from './core/user-in-game.guard';
+import { InformationsComponent } from './pages/game/informations/informations.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'hub', component: HubComponent, canActivate: [UserGuard] },
   { path: 'game/overview', component: OverviewComponent, canActivate: [UserInGameGuard] },
   { path: 'game/messages', component: MessagesComponent, canActivate: [UserInGameGuard] },
+  { path: 'game/informations', component: InformationsComponent, canActivate: [UserInGameGuard] },
   { path: '**', component: ErrorComponent, pathMatch: 'full' }
 ];
 

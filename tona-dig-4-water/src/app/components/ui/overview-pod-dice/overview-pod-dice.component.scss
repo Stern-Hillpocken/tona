@@ -3,13 +3,10 @@
     div{
         border: 1px solid black;
     }
-    .dice-stocked-zone{
+    .dice-stocked-zone, .dice-pool-zone{
         min-width: 15%;
-    }
-    .dice-pool-zone{
-        width: 100%;
         display: flex;
-        justify-content: space-evenly;
+        gap: 1em;
     }
     img{
         height: 32px;

@@ -21,6 +21,7 @@ export class OverviewPodComponent {
   ){}
 
   ngOnInit(): void {
+    this.reloadExpedition();
     this.expeditionService._getExpedition$().subscribe((expe: Expedition) => {
       this.expedition = expe;
     });
@@ -35,6 +36,10 @@ export class OverviewPodComponent {
   onDragDieReceive(event: {value:number, className:string}): void {
     if(event.className === "dice-stocked-zone"){
       this.majagabanService.stockDie(event.value).subscribe(() => {
+        this.reloadExpedition();
+      });
+    }else if(event.className === "dice-pool-zone"){
+      this.majagabanService.destockDie(event.value).subscribe(() => {
         this.reloadExpedition();
       });
     }

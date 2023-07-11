@@ -2,6 +2,7 @@ package fr.tona.expedition;
 
 import fr.tona.chat_message.ChatMessage;
 import fr.tona.majagaba.Majagaba;
+import fr.tona.majagaba.MajagabaService;
 import fr.tona.pod.Pod;
 import fr.tona.pod.PodRepository;
 import fr.tona.pod_register.PodRegister;
@@ -23,6 +24,8 @@ public class ExpeditionService {
     private final ExpeditionRepository repository;
 
     private final JwtService jwtService;
+
+    private final MajagabaService majagabaService;
 
     public void launch(PodRegister podRegister, User captain){
 
@@ -68,21 +71,27 @@ public class ExpeditionService {
 
     public Expedition endTurn() {
         User user = jwtService.grepUserFromJwt();
-        Expedition expeditionFound = repository.getById(user.getExpedition().getId());
+        Expedition expedition = repository.getById(user.getExpedition().getId());
         // Time
         Integer addingMinute = 15;
-        expeditionFound.setMinute(expeditionFound.getMinute()+addingMinute);
-        if(expeditionFound.getMinute() >= 60){
-            expeditionFound.setHour(expeditionFound.getHour()+(int)(expeditionFound.getMinute() / 60));
-            expeditionFound.setMinute(expeditionFound.getMinute()%60);
+        expedition.setMinute(expedition.getMinute()+addingMinute);
+        if(expedition.getMinute() >= 60){
+            expedition.setHour(expedition.getHour()+(int)(expedition.getMinute() / 60));
+            expedition.setMinute(expedition.getMinute()%60);
         }
-        if(expeditionFound.getHour() >= 24){
-            expeditionFound.setDay(expeditionFound.getDay()+(int)(expeditionFound.getHour() / 24));
-            expeditionFound.setHour(expeditionFound.getHour()%24);
+        if(expedition.getHour() >= 24){
+            expedition.setDay(expedition.getDay()+(int)(expedition.getHour() / 24));
+            expedition.setHour(expedition.getHour()%24);
         }
 
-        repository.save(expeditionFound);
-        return expeditionFound;
+        // Majagaba
+        List<User> userList = new ArrayList<User>(expedition.getCrew());
+        for(int c = 0; c < expedition.getCrew().size(); c++){
+            majagabaService.endTurn(userList.get(c).getMajagaba());
+        }
+
+        repository.save(expedition);
+        return expedition;
     }
 
     public List<ChatMessage> getAllChatMessages() {

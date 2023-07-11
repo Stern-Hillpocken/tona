@@ -6,6 +6,6 @@
         <img *ngFor="let die of expedition.crew[0].majagaba.dicePool" draggable="true" (dragstart)="onDragStart($event)" (dragend)="onDragEnd($event)" [src]="'assets/images/dice/'+die+'.png'" [alt]="die">
     </div>
     <div class="reroll">
-        <button (click)="onReroll()">Reroll<br>{{ expedition.crew[0].majagaba.rerollLeft }}</button>
+        <button (click)="onReroll()">Relance<br>x{{ expedition.crew[0].majagaba.rerollLeft }}</button>
     </div>
 </div>

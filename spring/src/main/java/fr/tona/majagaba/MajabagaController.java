@@ -20,4 +20,9 @@ public class MajabagaController {
         service.stockDie(value);
     }
 
+    @PutMapping("/destock-die")
+    public void destockDie(@RequestBody Integer value){
+        service.destockDie(value);
+    }
+
 }
