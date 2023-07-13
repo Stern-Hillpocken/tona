@@ -2,9 +2,12 @@
     <div class="expedition-infos">
         <h3>{{ expedition.name }}</h3>
         <p>
-            [{{ difficultyToString(expedition.difficulty) }}] Eau&nbsp;: <span class=""highlight>{{ expedition.water }} - Profondeur&nbsp;: {{ expedition.depth }}</span><br>
-            {{ expedition.day }}j {{ getDateZero(expedition.hour) }}:{{ getDateZero(expedition.minute) }}
+            Temps&nbsp;: {{ getDateZero(expedition.hour) }}&nbsp;:&nbsp;{{ getDateZero(expedition.minute) }}
         </p>
+    </div>
+    <div class="majagaba-infos">
+        <img [src]="user.profilePicture" [alt]="user.pseudo" class="profile-picture">
+        {{ user.pseudo }}
     </div>
     <div>
         <button (click)="endTurn()">Fin de tour</button>

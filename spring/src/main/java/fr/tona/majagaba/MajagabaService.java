@@ -1,11 +1,13 @@
 package fr.tona.majagaba;
 
 import fr.tona.user.User;
+import fr.tona.util.DieAction;
 import fr.tona.util.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -65,6 +67,37 @@ public class MajagabaService {
             majagaba.getDicePool().add(1 + (int)(Math.random() * (6 - 1)));
         }
         repository.save(majagaba);
+    }
+
+    public void move(DieAction action){
+        if(action.getEndZone().equals("armory") || action.getEndZone().equals("drill") || action.getEndZone().equals("extractor") || action.getEndZone().equals("hoist") || action.getEndZone().equals("hold") || action.getEndZone().equals("???")){
+            User user = jwtService.grepUserFromJwt();
+            Majagaba majagaba = user.getMajagaba();
+            if(!majagaba.getRoom().equals(action.getEndZone())){
+
+                if(action.getStartZone().equals("dice-pool-zone")){
+                    for(int i = 0; i < majagaba.getDicePool().size(); i++){
+                        System.out.println(action.getDieValue()+"->"+majagaba.getDicePool().get(i));
+                        if(majagaba.getDicePool().get(i).equals(action.getDieValue())){
+                            majagaba.getDicePool().remove(i);
+                            majagaba.setRoom(action.getEndZone());
+                            repository.save(majagaba);
+                            break;
+                        }
+                    }
+                }else if(action.getStartZone().equals("dice-stocked-zone")){
+                    for(int i = 0; i < majagaba.getDiceStocked().size(); i++){
+                        if(majagaba.getDiceStocked().get(i).equals(action.getDieValue())){
+                            majagaba.getDiceStocked().remove(i);
+                            majagaba.setRoom(action.getEndZone());
+                            repository.save(majagaba);
+                            break;
+                        }
+                    }
+                }
+
+            }
+        }
     }
 
 }
