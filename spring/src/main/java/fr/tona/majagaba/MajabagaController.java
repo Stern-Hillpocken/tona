@@ -1,5 +1,6 @@
 package fr.tona.majagaba;
 
+import fr.tona.util.DieAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,11 @@ public class MajabagaController {
     @PutMapping("/destock-die")
     public void destockDie(@RequestBody Integer value){
         service.destockDie(value);
+    }
+
+    @PutMapping("/move")
+    public void move(@RequestBody DieAction action){
+        service.move(action);
     }
 
 }

@@ -4,7 +4,7 @@
         class="message"
         [ngClass]="message.contents[0] === '!' ? 'important' : ''"
     >
-        <img [src]="message.user.profilePicture" alt="Image du profil">
+        <img [src]="message.user.profilePicture" alt="Image du profil" class="profile-picture">
         <div>
             <address>
                 <span class="pseudo">{{ message.user.pseudo }} </span>

@@ -1,4 +1,28 @@
 .map-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.room{
     border: 1px solid black;
-    padding: 0.5em;
+    .dice-hovered{
+        background-color: aqua;
+    }
+    div.room-header{
+        text-align: center;
+        h3{
+            color: gray;
+            &.current-room{
+                color: var(--color-complement);
+            }
+        }
+    }
+}
+.hoist, .drill{
+    width: 100%;
+}
+.hold, .extractor, .armory{
+    width: 50%;
+}
+.crew-spotted{
+    height: 42px;
 }

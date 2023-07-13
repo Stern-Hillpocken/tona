@@ -1,15 +1,24 @@
-<p>Capitaine&nbsp;: {{ expedition.captain.pseudo }}</p>
 <div class="map-container">
-    <div *ngFor="let room of expedition.pod.rooms" class="room">
-        <h3>{{ room.name }}</h3>
-        <div class="health">
-            <p>
-                Structure PV&nbsp;:
-            </p>
-            <div>
+    <div
+        *ngFor="let room of expedition.pod.rooms"
+        (dragenter)="onDragEnter(room.name)"
+        [ngClass]="'room '+room.name"
+    >
+        <div class="room-header">
+            <h3 [ngClass]="user.majagaba.room === room.name ? 'current-room' : ''">{{ translateName(room.name) }}</h3>
+            <div class="health">
                 <div *ngFor="let x of [].constructor(room.health)" [outerHTML]="'X'"></div>
                 <div *ngFor="let x of [].constructor(room.maxHealth-room.health)" outerHTML="'-'"></div>
             </div>
+        </div>
+
+        <div class="crew-spotted">
+            <div
+                *ngFor="let userOfExpedition of expedition.crew"
+                [outerHTML]='userOfExpedition.majagaba.room === room.name ?
+                "<img src="+userOfExpedition.profilePicture+" alt="+userOfExpedition.pseudo+" class=\"profile-picture "+userOfExpedition.majagaba.job+"\">"
+                : ""'
+            ></div>
         </div>
     </div>
 </div>

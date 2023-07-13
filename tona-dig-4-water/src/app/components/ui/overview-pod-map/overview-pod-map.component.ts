@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expedition } from 'src/app/models/expedition.model';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-overview-pod-map',
@@ -11,4 +12,30 @@ export class OverviewPodMapComponent {
   @Input()
   expedition!: Expedition;
 
+  @Input()
+  user!: User;
+
+  @Output()
+  dragEnterEmitter: EventEmitter<string> = new EventEmitter();
+
+  translateName(dbName: string): string {
+    switch(dbName){
+      case "armory": return "Armurerie";
+      case "drill": return "Foreuse";
+      case "extractor": return "Extracteur";
+      case "hoist": return "Treuillage";
+      case "hold": return "Câle";
+      case "???": return "???";
+      default: return "error";
+    }
+  }
+
+  onDragEnter(zone: string): void {
+    this.dragEnterEmitter.emit(zone);
+
+    for(let room = 0; room < document.getElementsByClassName("room").length; room++){
+      (document.getElementsByClassName("room")[room] as HTMLDivElement).style.backgroundColor = "inherit";
+    }
+    (document.getElementsByClassName(zone)[0] as HTMLDivElement).style.backgroundColor = "yellow";
+  }
 }

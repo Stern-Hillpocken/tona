@@ -41,7 +41,7 @@ public class ExpeditionService {
                 add(1 + (int)(Math.random() * (6 - 1)));
                 add(1 + (int)(Math.random() * (6 - 1)));
             }});
-            majagaba.setRoom("ICI");
+            majagaba.setRoom("hold");
 
             user.setMajagaba(majagaba);
 
@@ -52,9 +52,27 @@ public class ExpeditionService {
         expedition.setDifficulty(podRegister.getDifficulty());
 
         Pod pod = new Pod();
-        Room bathroom = new Room();
-        bathroom.setName("BathRoom");
-        pod.getRooms().add(bathroom);
+        // Hoist
+        Room hoist = new Room();
+        hoist.setName("hoist");
+        pod.getRooms().add(hoist);
+        // Hold
+        Room hold = new Room();
+        hold.setName("hold");
+        pod.getRooms().add(hold);
+        // Extractor
+        Room extractor = new Room();
+        extractor.setName("extractor");
+        pod.getRooms().add(extractor);
+        // Armory
+        Room armory = new Room();
+        armory.setName("armory");
+        pod.getRooms().add(armory);
+        //
+        // Drill
+        Room drill = new Room();
+        drill.setName("drill");
+        pod.getRooms().add(drill);
 
         expedition.setPod(pod);
         expedition.setCaptain(captain);

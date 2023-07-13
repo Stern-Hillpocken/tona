@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expedition } from 'src/app/models/expedition.model';
 import { Popup } from 'src/app/models/popup.model';
+import { User } from 'src/app/models/user.model';
 import { PopupService } from 'src/app/shared/popup.service';
 
 @Component({
@@ -11,13 +12,22 @@ import { PopupService } from 'src/app/shared/popup.service';
 export class OverviewPodDiceComponent {
 
   @Input()
-  expedition!: Expedition
+  expedition!: Expedition;
+
+  @Input()
+  user!: User;
 
   @Output()
-  rerollEmitter: EventEmitter<boolean> = new EventEmitter();
+  rerollEmitter: EventEmitter<void> = new EventEmitter();
 
   @Output()
-  dragDieEmitter: EventEmitter<{value:number, className:string}> = new EventEmitter();
+  dragStartEmitter: EventEmitter<{value: number, startZone: string}> = new EventEmitter();
+
+  @Output()
+  dragEnterEmitter: EventEmitter<string> = new EventEmitter();
+
+  @Output()
+  dragEndEmitter: EventEmitter<void> = new EventEmitter();
 
   dieValueDragged: number = 0;
   startDragPosition: string = "";
@@ -29,30 +39,27 @@ export class OverviewPodDiceComponent {
 
   onReroll(): void {
     if(this.expedition.crew[0].majagaba.rerollLeft > 0){
-      this.rerollEmitter.emit(true);
+      this.rerollEmitter.emit();
     }else{
       this.popup.add(new Popup("Plus assez de relance.", "error")); // TODO emojipedia
     }
   }
 
   onDragStart(img: DragEvent): void{
-    this.dieValueDragged = parseInt((img.target as HTMLImageElement).alt);
-    this.startDragPosition = ((img.target as HTMLImageElement).parentNode as HTMLDivElement).className;
     (img.target as HTMLImageElement).style.opacity = "0.2";
+    this.dragStartEmitter.emit({
+      value: parseInt((img.target as HTMLImageElement).alt),
+      startZone: ((img.target as HTMLImageElement).parentNode as HTMLDivElement).className
+    });
   }
 
   onDragEnter(zone: DragEvent): void {
-    this.lastDragEnterPosition = (zone.target as HTMLDivElement).className;
+    this.dragEnterEmitter.emit((zone.target as HTMLDivElement).className);
   }
 
   onDragEnd(img: DragEvent): void {
-    if(this.lastDragEnterPosition && this.lastDragEnterPosition !== this.startDragPosition){
-      this.dragDieEmitter.emit({value:this.dieValueDragged, className:this.lastDragEnterPosition});
-    }
     (img.target as HTMLImageElement).style.opacity = "1";
-    this.dieValueDragged = 0;
-    this.startDragPosition = "";
-    this.lastDragEnterPosition = "";
+    this.dragEndEmitter.emit();
   }
 
 }

@@ -1,1 +1,8 @@
-<p>informations-expedition works!</p>
+<div class="info-expe">
+    <h3>{{ expedition.name }}</h3>
+    <p>Difficulté&nbsp;: {{ difficultyToString(expedition.difficulty) }}</p>
+    <p>Eau&nbsp;: {{ expedition.water }}</p>
+    <p>Capitaine&nbsp;: {{ expedition.captain.pseudo }}</p>
+    <p>Profondeur&nbsp;: {{ expedition.depth }}</p>
+    <p>Date&nbsp;: {{ expedition.day }}&nbsp;j -- {{ getDateZero(expedition.hour) }}&nbsp;:&nbsp;{{ getDateZero(expedition.minute) }}</p>
+</div>
