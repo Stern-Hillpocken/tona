@@ -1,2 +1,6 @@
-<app-overview-pod-map [expedition]="expedition" [user]="user" (dragEnterEmitter)="onDragEnterReceive($event)"></app-overview-pod-map>
-<app-overview-pod-dice [expedition]="expedition" [user]="user" (dragStartEmitter)="onDragStartReceive($event)" (dragEnterEmitter)="onDragEnterReceive($event)" (dragEndEmitter)="onDragEndReceive()" (rerollEmitter)="onRerollReceive()"></app-overview-pod-dice>
+<div class="overview-pod">
+    <app-overview-pod-map [expedition]="expedition" [user]="user" (dragEnterEmitter)="onDragEnterReceive($event)"></app-overview-pod-map>
+    <app-overview-pod-room-actions [expedition]="expedition" [user]="user"></app-overview-pod-room-actions>
+    <app-overview-pod-bag [user]="user"></app-overview-pod-bag>
+    <app-overview-pod-dice [expedition]="expedition" [user]="user" (dragStartEmitter)="onDragStartReceive($event)" (dragEnterEmitter)="onDragEnterReceive($event)" (dragEndEmitter)="onDragEndReceive()" (rerollEmitter)="onRerollReceive()"></app-overview-pod-dice>
+</div>

@@ -14,9 +14,9 @@ import { UserService } from 'src/app/shared/user.service';
 })
 export class OverviewPodComponent {
 
-  expedition: Expedition = new Expedition(0,"",0,0,0,0,new Pod(0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"")),[],0,0,[],"");
+  expedition: Expedition = new Expedition(0,"",0,0,0,0,new Pod(0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,[],"");
 
-  user: User = new User("","","",new Majagaba(0,0,0,"",[],[],0,""));
+  user: User = new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0));
 
   startDragedZoneName: string = "";
   lastDragedZoneName: string = "";
@@ -77,6 +77,9 @@ export class OverviewPodComponent {
         });
       }
     }
+    this.startDragedZoneName = "";
+    this.lastDragedZoneName = "";
+    this.valueDraged = 0;
   }
 
   onRerollReceive(): void {

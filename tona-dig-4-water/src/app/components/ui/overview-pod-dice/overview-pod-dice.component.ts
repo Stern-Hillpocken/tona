@@ -29,10 +29,6 @@ export class OverviewPodDiceComponent {
   @Output()
   dragEndEmitter: EventEmitter<void> = new EventEmitter();
 
-  dieValueDragged: number = 0;
-  startDragPosition: string = "";
-  lastDragEnterPosition: string = "";
-
   constructor(
     private popup: PopupService
   ){}
@@ -41,7 +37,7 @@ export class OverviewPodDiceComponent {
     if(this.expedition.crew[0].majagaba.rerollLeft > 0){
       this.rerollEmitter.emit();
     }else{
-      this.popup.add(new Popup("Plus assez de relance.", "error")); // TODO emojipedia
+      this.popup.add(new Popup("🎲 Plus assez de relance.", "error"));
     }
   }
 

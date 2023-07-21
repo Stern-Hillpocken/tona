@@ -40,6 +40,8 @@ import { ProfileImageComponent } from './components/ui/profile-image/profile-ima
 import { InformationsComponent } from './pages/game/informations/informations.component';
 import { InformationsContainerComponent } from './components/feature/informations-container/informations-container.component';
 import { InformationsExpeditionComponent } from './components/ui/informations-expedition/informations-expedition.component';
+import { OverviewPodBagComponent } from './components/ui/overview-pod-bag/overview-pod-bag.component';
+import { OverviewPodRoomActionsComponent } from './components/ui/overview-pod-room-actions/overview-pod-room-actions.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,9 @@ import { InformationsExpeditionComponent } from './components/ui/informations-ex
     ProfileImageComponent,
     InformationsComponent,
     InformationsContainerComponent,
-    InformationsExpeditionComponent
+    InformationsExpeditionComponent,
+    OverviewPodBagComponent,
+    OverviewPodRoomActionsComponent
   ],
   imports: [
     BrowserModule,
