@@ -25,7 +25,7 @@ export class OverviewPodMapComponent {
       case "extractor": return "Extracteur";
       case "hoist": return "Treuillage";
       case "hold": return "Câle";
-      case "???": return "???";
+      case "porthole": return "Hublot";
       default: return "error";
     }
   }

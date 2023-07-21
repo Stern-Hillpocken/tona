@@ -70,7 +70,7 @@ public class MajagabaService {
     }
 
     public void move(DieAction action){
-        if(action.getEndZone().equals("armory") || action.getEndZone().equals("drill") || action.getEndZone().equals("extractor") || action.getEndZone().equals("hoist") || action.getEndZone().equals("hold") || action.getEndZone().equals("???")){
+        if(action.getEndZone().equals("armory") || action.getEndZone().equals("drill") || action.getEndZone().equals("extractor") || action.getEndZone().equals("hoist") || action.getEndZone().equals("hold") || action.getEndZone().equals("porthole")){
             User user = jwtService.grepUserFromJwt();
             Majagaba majagaba = user.getMajagaba();
             if(!majagaba.getRoom().equals(action.getEndZone())){

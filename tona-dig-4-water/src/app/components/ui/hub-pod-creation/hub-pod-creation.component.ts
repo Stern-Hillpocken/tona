@@ -24,6 +24,10 @@ export class HubPodCreationComponent {
     return this.utils.difficultyToString(value);
   }
 
+  setDifficultyTo(value: number): void {
+    this.pod.difficulty = value;
+  }
+
   onSubmit(): void {
     this.podEmitter.emit(this.pod);
   }
