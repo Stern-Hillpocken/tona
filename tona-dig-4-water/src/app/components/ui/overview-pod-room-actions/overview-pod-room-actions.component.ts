@@ -15,4 +15,16 @@ export class OverviewPodRoomActionsComponent {
   @Input()
   user!: User;
 
+  currentRoom(): number{
+    switch (this.user.majagaba.room) {
+      case "hoist": return 0;
+      case "hold": return 1;
+      case "extractor": return 2;
+      case "armory": return 3;
+      case "porthole": return 4;
+      case "drill": return 5;
+      default: return -1;
+    }
+  }
+
 }

@@ -1,9 +1,8 @@
-package fr.tona.chat_message;
+package fr.tona.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import fr.tona.expedition.Expedition;
-import fr.tona.user.User;
+import fr.tona.room.Room;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatMessage {
+public class Workshop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,13 +22,9 @@ public class ChatMessage {
     private Long id;
 
     @ManyToOne
-    @JsonIgnoreProperties("expedition")
-    private User user;
+    @JsonIgnoreProperties("workshops")
+    private Room room;
 
-    private String date;
-    private String contents;
+    private String name;
 
-    @ManyToOne
-    @JsonIgnore
-    private Expedition expedition;
 }

@@ -1,1 +1,3 @@
-<p>overview-pod-room-actions works!</p>
+<div class="overview-pod-room-actions">
+    <div *ngFor="let workshop of expedition.pod.rooms[currentRoom()].workshops" class="workshop">{{ workshop.name }}</div>
+</div>
