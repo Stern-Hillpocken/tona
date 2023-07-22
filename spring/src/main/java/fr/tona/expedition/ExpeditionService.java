@@ -10,6 +10,7 @@ import fr.tona.room.Room;
 import fr.tona.user.User;
 import fr.tona.user.UserRepository;
 import fr.tona.util.JwtService;
+import fr.tona.util.Workshop;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -53,31 +54,75 @@ public class ExpeditionService {
         expedition.setDifficulty(podRegister.getDifficulty());
 
         Pod pod = new Pod();
+
         // Hoist
         Room hoist = new Room();
         hoist.setName("hoist");
+        Workshop hoistPW = new Workshop();
+        hoistPW.setName("go back up");
+        hoist.getWorkshops().add(hoistPW);
+        Workshop hoistSW = new Workshop();
+        hoistSW.setName("go back up 2");
+        hoist.getWorkshops().add(hoistSW);
         pod.getRooms().add(hoist);
+
         // Hold
         Room hold = new Room();
         hold.setName("hold");
+        Workshop holdPW = new Workshop();
+        holdPW.setName("hold up");
+        hold.getWorkshops().add(holdPW);
+        Workshop holdSW = new Workshop();
+        holdSW.setName("hold up 2");
+        hold.getWorkshops().add(holdSW);
         pod.getRooms().add(hold);
+
         // Extractor
         Room extractor = new Room();
         extractor.setName("extractor");
+        Workshop extractorPW = new Workshop();
+        extractorPW.setName("extractor up");
+        extractor.getWorkshops().add(extractorPW);
+        Workshop extractorSW = new Workshop();
+        extractorSW.setName("extractor up 2");
+        extractor.getWorkshops().add(extractorSW);
         pod.getRooms().add(extractor);
+
         // Armory
         Room armory = new Room();
         armory.setName("armory");
+        Workshop armoryPW = new Workshop();
+        armoryPW.setName("armory up");
+        armory.getWorkshops().add(armoryPW);
+        Workshop armorySW = new Workshop();
+        armorySW.setName("armory up 2");
+        armory.getWorkshops().add(armorySW);
         pod.getRooms().add(armory);
+
         // Porthole
         Room porthole = new Room();
         porthole.setName("porthole");
+        Workshop portholePW = new Workshop();
+        portholePW.setName("porthole up");
+        porthole.getWorkshops().add(portholePW);
+        Workshop portholeSW = new Workshop();
+        portholeSW.setName("porthole up 2");
+        porthole.getWorkshops().add(portholeSW);
         pod.getRooms().add(porthole);
+
         // Drill
         Room drill = new Room();
         drill.setName("drill");
+        Workshop drillPW = new Workshop();
+        drillPW.setName("drill up");
+        drill.getWorkshops().add(drillPW);
+        Workshop drillSW = new Workshop();
+        drillSW.setName("drill up 2");
+        drill.getWorkshops().add(drillSW);
         pod.getRooms().add(drill);
-        //
+
+
+        // Difficulty
         if(expedition.getDifficulty() == 2){
             pod.setHealth(8);
             pod.setMaxHealth(8);

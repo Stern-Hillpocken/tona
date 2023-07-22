@@ -18,9 +18,12 @@ public class PodRegister {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
+
     private String name;
     private Integer difficulty;
+
     @OneToOne(cascade = {CascadeType.MERGE})
     @JsonIgnoreProperties("pod")
     private User captain;
@@ -28,8 +31,10 @@ public class PodRegister {
     @JoinColumn(name = "podRegister_id", referencedColumnName = "id")
     @JsonIgnoreProperties("pod")
     public Set<Majagaba> crew = new HashSet<>();*/
+
     private Integer characterMax;
     private String status;
+
     @JsonIgnore
     private String password;
 }

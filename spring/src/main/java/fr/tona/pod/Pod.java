@@ -24,6 +24,7 @@ public class Pod {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     public Long id;
 
     @OneToOne(mappedBy = "pod")

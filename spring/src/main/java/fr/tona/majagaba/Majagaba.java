@@ -24,6 +24,7 @@ public class Majagaba {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @OneToOne(cascade = {CascadeType.MERGE}, mappedBy = "majagaba")
