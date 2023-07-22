@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user.model';
 import { ExpeditionService } from 'src/app/shared/expedition.service';
 import { MajagabaService } from 'src/app/shared/majagaba.service';
 import { UserService } from 'src/app/shared/user.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-overview-pod',
@@ -13,6 +14,8 @@ import { UserService } from 'src/app/shared/user.service';
   styleUrls: ['./overview-pod.component.scss']
 })
 export class OverviewPodComponent {
+
+  requestIsSended$: Subject<boolean> = new Subject();
 
   expedition: Expedition = new Expedition(0,"",0,0,0,0,new Pod(0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,[],"");
 
@@ -70,16 +73,22 @@ export class OverviewPodComponent {
           this.reloadExpedition();
           this.reloadMe();
         });
-      }else if(this.lastDragedZoneName === "armory" || this.lastDragedZoneName === "drill" || this.lastDragedZoneName === "extractor" || this.lastDragedZoneName === "hoist" || this.lastDragedZoneName === "hold" || this.lastDragedZoneName === "???"){
+      }else if(this.lastDragedZoneName === "armory" || this.lastDragedZoneName === "drill" || this.lastDragedZoneName === "extractor" || this.lastDragedZoneName === "hoist" || this.lastDragedZoneName === "hold" || this.lastDragedZoneName === "porthole"){
         this.majagabanService.move(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
           this.reloadExpedition();
           this.reloadMe();
         });
+      }else if(this.lastDragedZoneName === "remove-one-pip" || this.lastDragedZoneName === "add-one-pip"){
+        this.majagabanService.allocate(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        })
       }
     }
     this.startDragedZoneName = "";
     this.lastDragedZoneName = "";
     this.valueDraged = 0;
+    this.requestIsSended$.next(true);
   }
 
   onRerollReceive(): void {

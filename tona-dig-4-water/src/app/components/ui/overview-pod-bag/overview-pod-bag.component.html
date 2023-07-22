@@ -10,9 +10,15 @@
         </div>
         <div *ngIf="objectClicked === 'steam-regulator'">
             <p>Régulateur de vapeur</p>
-            <div class="remove-one-pip"></div>
+            <div
+                (dragenter)="onDragEnter('remove-one-pip')"
+                class="remove-one-pip"
+            ></div>
             ou
-            <div class="add-one-pip"></div>
+            <div
+                (dragenter)="onDragEnter('add-one-pip')"
+                class="add-one-pip"
+            ></div>
         </div>
         <div *ngIf="objectClicked === 'steam-switcher'">
             switcher

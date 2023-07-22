@@ -31,4 +31,8 @@ export class MajagabaService {
         return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/move', {dieValue: dieValue, startZone: startZone, endZone: endZone});
     }
 
+    allocate(dieValue: number, startZone: string, endZone: string): Observable<void> {
+        return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/allocate', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
+
 }
