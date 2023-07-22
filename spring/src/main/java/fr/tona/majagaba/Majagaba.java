@@ -37,6 +37,11 @@ public class Majagaba {
     private List<Integer> diceStocked = new ArrayList<>();
     private Integer rerollLeft = 2;
     private String room;
+    // craftable objects
+    private Integer steamBlast = 0;
+    private Integer steamRegulator = 2;
+    private Integer steamSwitcher = 1;
+
 
     @ManyToOne
     @JsonIgnore

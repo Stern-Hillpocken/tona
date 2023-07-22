@@ -2,12 +2,17 @@
     <div class="expedition-infos">
         <h3>{{ expedition.name }}</h3>
         <p>
-            Temps&nbsp;: {{ getDateZero(expedition.hour) }}&nbsp;:&nbsp;{{ getDateZero(expedition.minute) }}
+            {{ getDateZero(expedition.hour) }}&nbsp;:&nbsp;{{ getDateZero(expedition.minute) }}
         </p>
     </div>
     <div class="majagaba-infos">
         <img [src]="user.profilePicture" [alt]="user.pseudo" class="profile-picture">
-        {{ user.pseudo }}
+        <div>
+            <p>
+                {{ user.pseudo }}<br>
+                {{ user.majagaba.life }} / {{ user.majagaba.maxLife }}
+            </p>
+        </div>
     </div>
     <div>
         <button (click)="endTurn()">Fin de tour</button>

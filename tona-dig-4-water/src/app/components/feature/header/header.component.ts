@@ -15,7 +15,7 @@ export class HeaderComponent {
 
   expedition!: Expedition;
 
-  user: User = new User("","","",new Majagaba(0,0,0,"",[],[],0,""));
+  user: User = new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0));
 
   constructor(
     private expeditionService: ExpeditionService,

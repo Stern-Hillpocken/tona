@@ -14,7 +14,7 @@ export class HubPodCreationComponent {
   @Output()
   podEmitter: EventEmitter<PodRegister> = new EventEmitter;
 
-  pod: PodRegister = new PodRegister("",1,new User("","","", new Majagaba(0,0,0,"",[],[],0,"")),1,"","");
+  pod: PodRegister = new PodRegister("",1,new User("","","", new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),1,"","");
 
   constructor(
     private utils: UtilsService
@@ -22,6 +22,10 @@ export class HubPodCreationComponent {
 
   difficultyToString(value: number): string {
     return this.utils.difficultyToString(value);
+  }
+
+  setDifficultyTo(value: number): void {
+    this.pod.difficulty = value;
   }
 
   onSubmit(): void {

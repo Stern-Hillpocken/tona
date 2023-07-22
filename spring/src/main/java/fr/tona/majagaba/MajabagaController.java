@@ -31,4 +31,9 @@ public class MajabagaController {
         service.move(action);
     }
 
+    @PutMapping("/allocate")
+    public void allocate(@RequestBody DieAction action){
+        service.allocate(action);
+    }
+
 }

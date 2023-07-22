@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -70,14 +71,13 @@ public class MajagabaService {
     }
 
     public void move(DieAction action){
-        if(action.getEndZone().equals("armory") || action.getEndZone().equals("drill") || action.getEndZone().equals("extractor") || action.getEndZone().equals("hoist") || action.getEndZone().equals("hold") || action.getEndZone().equals("???")){
+        if(action.getEndZone().equals("armory") || action.getEndZone().equals("drill") || action.getEndZone().equals("extractor") || action.getEndZone().equals("hoist") || action.getEndZone().equals("hold") || action.getEndZone().equals("porthole")){
             User user = jwtService.grepUserFromJwt();
             Majagaba majagaba = user.getMajagaba();
-            if(!majagaba.getRoom().equals(action.getEndZone())){
+            if(!majagaba.getRoom().equals(action.getEndZone()) && this.isZoneAdjacent(action.getEndZone(), majagaba.getRoom())){
 
                 if(action.getStartZone().equals("dice-pool-zone")){
                     for(int i = 0; i < majagaba.getDicePool().size(); i++){
-                        System.out.println(action.getDieValue()+"->"+majagaba.getDicePool().get(i));
                         if(majagaba.getDicePool().get(i).equals(action.getDieValue())){
                             majagaba.getDicePool().remove(i);
                             majagaba.setRoom(action.getEndZone());
@@ -100,4 +100,66 @@ public class MajagabaService {
         }
     }
 
+    private Boolean isZoneAdjacent(String selectedRoom, String currentRoom){
+        if(currentRoom.equals("hoist") && (selectedRoom.equals("hold") || selectedRoom.equals("extractor"))){
+            return true;
+        }else if(currentRoom.equals("hold") && (selectedRoom.equals("hoist") || selectedRoom.equals("extractor") || selectedRoom.equals("armory"))){
+            return true;
+        }else if(currentRoom.equals("extractor") && (selectedRoom.equals("porthole") || selectedRoom.equals("hold") || selectedRoom.equals("hoist"))){
+            return true;
+        }else if(currentRoom.equals("armory") && (selectedRoom.equals("hold") || selectedRoom.equals("porthole") || selectedRoom.equals("drill"))){
+            return true;
+        }else if(currentRoom.equals("porthole") && (selectedRoom.equals("drill") || selectedRoom.equals("armory") || selectedRoom.equals("extractor"))){
+            return true;
+        }else if(currentRoom.equals("drill") && (selectedRoom.equals("armory") || selectedRoom.equals("porthole"))){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public void allocate(DieAction action) {
+        if(!isEndZoneExist(action.getEndZone())) return;
+        User user = jwtService.grepUserFromJwt();
+        Majagaba majagaba = user.getMajagaba();
+        if(!isDieExist(majagaba, action)) return;
+
+        if(action.getEndZone().contains("one-pip") && majagaba.getSteamRegulator() > 0){
+            if((action.getEndZone().equals("remove-one-pip") && action.getDieValue().equals(1)) || (action.getEndZone().equals("add-one-pip") && action.getDieValue().equals(6))) return;
+            List<Integer> diceList = action.getEndZone().equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
+            Integer index = indexOfDie(action.getDieValue(), diceList);
+            if(action.getEndZone().equals("remove-one-pip")){
+                diceList.set(index, diceList.get(index)-1);
+            }else{
+                diceList.set(index, diceList.get(index)+1);
+            }
+            majagaba.setSteamRegulator(majagaba.getSteamRegulator()-1);
+            repository.save(majagaba);
+        }
+    }
+
+    private Boolean isEndZoneExist(String name){
+        return switch (name) {
+            case "remove-one-pip", "add-one-pip" -> true;
+            default -> false;
+        };
+    }
+
+    private Boolean isDieExist(Majagaba majagaba, DieAction action){
+        String startZone = action.getStartZone();
+        if(startZone.equals("dice-stocked-zone") || startZone.equals("dice-pool-zone")){
+            List<Integer> diceList = startZone.equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
+            for(int i = 0; i < diceList.size(); i++){
+                if(diceList.get(i).equals(action.getDieValue())) return true;
+            }
+        }
+        return false;
+    }
+
+    private Integer indexOfDie(Integer valueSearched, List<Integer> diceList){
+        for(int i = 0; i < diceList.size(); i++){
+            if(diceList.get(i).equals(valueSearched)) return i;
+        }
+        return -1;
+    }
 }

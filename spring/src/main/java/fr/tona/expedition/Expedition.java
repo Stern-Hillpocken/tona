@@ -28,7 +28,7 @@ public class Expedition {
 
     private Long day = 0L;
     private Integer hour = 0;
-    private Integer minute = 0;
+    private Integer minute = 15;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})// Need persist when created during Expe creation
     @JsonIgnoreProperties(value = {"expedition"})

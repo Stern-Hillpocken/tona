@@ -49,6 +49,7 @@ public class ExpeditionService {
         }
 
         expedition.setName(podRegister.getName());
+
         expedition.setDifficulty(podRegister.getDifficulty());
 
         Pod pod = new Pod();
@@ -68,11 +69,19 @@ public class ExpeditionService {
         Room armory = new Room();
         armory.setName("armory");
         pod.getRooms().add(armory);
-        //
+        // Porthole
+        Room porthole = new Room();
+        porthole.setName("porthole");
+        pod.getRooms().add(porthole);
         // Drill
         Room drill = new Room();
         drill.setName("drill");
         pod.getRooms().add(drill);
+        //
+        if(expedition.getDifficulty() == 2){
+            pod.setHealth(8);
+            pod.setMaxHealth(8);
+        }
 
         expedition.setPod(pod);
         expedition.setCaptain(captain);

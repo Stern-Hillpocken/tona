@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expedition } from 'src/app/models/expedition.model';
 import { User } from 'src/app/models/user.model';
+import { UtilsService } from 'src/app/shared/utils.service';
 
 @Component({
   selector: 'app-overview-pod-map',
@@ -18,6 +19,10 @@ export class OverviewPodMapComponent {
   @Output()
   dragEnterEmitter: EventEmitter<string> = new EventEmitter();
 
+  constructor(
+    private utils: UtilsService
+  ){}
+
   translateName(dbName: string): string {
     switch(dbName){
       case "armory": return "Armurerie";
@@ -25,7 +30,7 @@ export class OverviewPodMapComponent {
       case "extractor": return "Extracteur";
       case "hoist": return "Treuillage";
       case "hold": return "Câle";
-      case "???": return "???";
+      case "porthole": return "Hublot";
       default: return "error";
     }
   }
@@ -36,6 +41,8 @@ export class OverviewPodMapComponent {
     for(let room = 0; room < document.getElementsByClassName("room").length; room++){
       (document.getElementsByClassName("room")[room] as HTMLDivElement).style.backgroundColor = "inherit";
     }
-    (document.getElementsByClassName(zone)[0] as HTMLDivElement).style.backgroundColor = "yellow";
+    if(this.utils.isZoneAdjacent(zone, this.user.majagaba.room)){
+      (document.getElementsByClassName(zone)[0] as HTMLDivElement).style.backgroundColor = "yellow";
+    }
   }
 }

@@ -7,6 +7,9 @@ export class Majagaba {
         public dicePool: number[],
         public diceStocked: number[],
         public rerollLeft: number,
-        public room: string
+        public room: string,
+        public steamBlast: number,
+        public steamRegulator: number,
+        public steamSwitcher: number
     ){}
 }
