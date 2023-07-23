@@ -17,7 +17,7 @@ export class OverviewPodComponent {
 
   requestIsSended$: Subject<boolean> = new Subject();
 
-  expedition: Expedition = new Expedition("",0,0,0,0,new Pod(0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],"");
+  expedition: Expedition = new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],"");
 
   user: User = new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0));
 
@@ -78,12 +78,13 @@ export class OverviewPodComponent {
           this.reloadExpedition();
           this.reloadMe();
         });
-      }else if(this.lastDragedZoneName === "remove-one-pip" || this.lastDragedZoneName === "add-one-pip"){
+      }else if(this.lastDragedZoneName === "remove-one-pip" || this.lastDragedZoneName === "add-one-pip" || this.lastDragedZoneName.startsWith("hold-")){
         this.majagabanService.allocate(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
           this.reloadExpedition();
           this.reloadMe();
         })
       }
+
     }
     this.startDragedZoneName = "";
     this.lastDragedZoneName = "";

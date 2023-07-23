@@ -2,7 +2,7 @@
     <div *ngFor="let workshop of expedition.pod.rooms[currentRoom()].workshops" class="workshop">
         {{ workshop.name }}
         <div *ngFor="let die of workshop.storedDice; let zoneNumber = index" (dragenter)="onDragEnter($event, zoneNumber)" class="single-dice-storage-zone" [ngClass]="workshop.name">
-            <img *ngIf="die" [src]="'assets/images/dice/'+die">
+            <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
         </div>
     </div>
 </div>

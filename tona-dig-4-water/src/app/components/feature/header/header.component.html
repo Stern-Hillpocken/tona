@@ -1,6 +1,6 @@
 <div class="header-container">
     <div class="expedition-infos">
-        <h3>{{ expedition.name }}</h3>
+        <h3>{{ expedition.name }} {{ expedition.pod.health }} / {{ expedition.pod.maxHealth }}</h3>
         <p>
             {{ getDateZero(expedition.hour) }}&nbsp;:&nbsp;{{ getDateZero(expedition.minute) }}<br>
             {{ expedition.scrap }} matériaux
