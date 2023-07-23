@@ -1,4 +1,4 @@
-package fr.tona.util;
+package fr.tona.workshop;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

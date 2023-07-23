@@ -35,4 +35,8 @@ export class OverviewPodRoomActionsComponent {
     this.dragEnterEmitter.emit(realClassName+" "+zoneNumber);
   }
 
+  onDragEnterReceive(zone: string): void {
+    //
+  }
+
 }

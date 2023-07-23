@@ -6,3 +6,28 @@
         </div>
     </div>
 </div>
+
+
+<div class="overview-pod-room-actions">
+    <app-hoist
+        *ngIf="user.majagaba.room === 'hoist'"
+    ></app-hoist>
+    <app-hold
+        *ngIf="user.majagaba.room === 'hold'"
+        [expedition]="expedition"
+        [user]="user"
+        (dragEnterEmitter)="onDragEnterReceive($event)"
+    ></app-hold>
+    <app-extractor
+        *ngIf="user.majagaba.room === 'extractor'"
+    ></app-extractor>
+    <app-armory
+        *ngIf="user.majagaba.room === 'armory'"
+    ></app-armory>
+    <app-porthole
+        *ngIf="user.majagaba.room === 'porthole'"
+    ></app-porthole>
+    <app-drill
+        *ngIf="user.majagaba.room === 'drill'"
+    ></app-drill>
+</div>
