@@ -4,7 +4,6 @@ import { User } from "./user.model";
 
 export class Expedition {
     constructor(
-        public id: number,
         public name: string,
         public difficulty: number,
         public day: number,
@@ -14,6 +13,7 @@ export class Expedition {
         public captain: User,
         public crew: User[],
         public water: number,
+        public scrap: number,
         public depth: number,
         public messages: ChatMessage[],
         public status: string

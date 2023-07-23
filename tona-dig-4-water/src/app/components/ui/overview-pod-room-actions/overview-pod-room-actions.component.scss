@@ -1,4 +1,14 @@
 .overview-pod-room-actions{
     width: 90vw;
     border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.single-dice-storage-zone{
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    border: 1px dotted black;
 }

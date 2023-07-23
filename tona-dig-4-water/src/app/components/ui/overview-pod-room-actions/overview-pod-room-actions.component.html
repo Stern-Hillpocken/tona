@@ -1,3 +1,8 @@
-<div class="overview-pod-room-actions">
-    <div *ngFor="let workshop of expedition.pod.rooms[currentRoom()].workshops" class="workshop">{{ workshop.name }}</div>
+<div class="overview-pod-room-actions" *ngIf="expedition.pod.rooms.length === 6">
+    <div *ngFor="let workshop of expedition.pod.rooms[currentRoom()].workshops" class="workshop">
+        {{ workshop.name }}
+        <div *ngFor="let die of workshop.storedDice; let zoneNumber = index" (dragenter)="onDragEnter($event, zoneNumber)" class="single-dice-storage-zone" [ngClass]="workshop.name">
+            <img *ngIf="die" [src]="'assets/images/dice/'+die">
+        </div>
+    </div>
 </div>

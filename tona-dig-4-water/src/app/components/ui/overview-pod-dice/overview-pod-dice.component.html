@@ -1,9 +1,24 @@
 <div class="dice-zone" *ngIf="expedition.crew[0]">
     <div class="dice-stocked-zone" (dragenter)="onDragEnter($event)">
-        <img *ngFor="let die of user.majagaba.diceStocked" draggable="true" (dragstart)="onDragStart($event)" (dragend)="onDragEnd($event)" [src]="'assets/images/dice/'+die+'.png'" [alt]="die">
+        <img
+            *ngFor="let die of user.majagaba.diceStocked; let i = index"
+            draggable="true"
+            (dragstart)="onDragStart($event)"
+            (dragend)="onDragEnd($event)"
+            [ngClass]="i === 0 ? 'locked-die' : ''"
+            [src]="'assets/images/dice/'+die+'.png'"
+            [alt]="die"
+        >
     </div>
     <div class="dice-pool-zone" (dragenter)="onDragEnter($event)">
-        <img *ngFor="let die of user.majagaba.dicePool" draggable="true" (dragstart)="onDragStart($event)" (dragend)="onDragEnd($event)" [src]="'assets/images/dice/'+die+'.png'" [alt]="die">
+        <img
+            *ngFor="let die of user.majagaba.dicePool"
+            draggable="true"
+            (dragstart)="onDragStart($event)"
+            (dragend)="onDragEnd($event)"
+            [src]="'assets/images/dice/'+die+'.png'"
+            [alt]="die"
+        >
     </div>
     <div class="reroll">
         <button (click)="onReroll()">Relance<br>x{{ user.majagaba.rerollLeft }}</button>

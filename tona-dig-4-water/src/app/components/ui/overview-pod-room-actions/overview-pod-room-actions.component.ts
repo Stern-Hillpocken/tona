@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expedition } from 'src/app/models/expedition.model';
 import { User } from 'src/app/models/user.model';
 
@@ -15,6 +15,9 @@ export class OverviewPodRoomActionsComponent {
   @Input()
   user!: User;
 
+  @Output()
+  dragEnterEmitter: EventEmitter<string> = new EventEmitter();
+
   currentRoom(): number{
     switch (this.user.majagaba.room) {
       case "hoist": return 0;
@@ -25,6 +28,11 @@ export class OverviewPodRoomActionsComponent {
       case "drill": return 5;
       default: return -1;
     }
+  }
+
+  onDragEnter(zoneName: DragEvent, zoneNumber: number): void {
+    let realClassName = (zoneName.target as HTMLDivElement).className.substring("single-dice-storage-zone ".length);
+    this.dragEnterEmitter.emit(realClassName+" "+zoneNumber);
   }
 
 }
