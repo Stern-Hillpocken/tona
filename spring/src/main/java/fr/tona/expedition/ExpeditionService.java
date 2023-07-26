@@ -69,6 +69,14 @@ public class ExpeditionService {
         // Hold
         Room hold = new Room();
         hold.setName("hold");
+        Workshop holdSB = new Workshop();
+        holdSB.setName("hold-craft-steam-blast");
+        holdSB.setStoredDice(new Integer[]{0,0,0});
+        hold.getWorkshops().add(holdSB);
+        Workshop holdSS = new Workshop();
+        holdSS.setName("hold-craft-steam-switcher");
+        holdSS.setStoredDice(new Integer[]{0,0,0});
+        hold.getWorkshops().add(holdSS);
         Workshop holdSR = new Workshop();
         holdSR.setName("hold-craft-steam-regulator");
         holdSR.setStoredDice(new Integer[]{0,0,0});

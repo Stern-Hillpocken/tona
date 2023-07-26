@@ -1,1 +1,47 @@
-<p>hold works!</p>
+<div class="workshop">
+    <button (click)="slide('left')"><app-svg named="left-arrow"></app-svg></button>
+
+    <div *ngIf="slideDisplayed === 0" class="steam-blast">
+        <h3 (click)="alert('steam-blast')">Soufflerie <app-svg named="same"></app-svg></h3>
+        <div
+            *ngFor="let die of expedition.pod.rooms[1].workshops[0].storedDice; let zoneNumber = index"
+            (dragenter)="onDragEnter($event, zoneNumber)"
+            class="single-dice-storage-zone"
+            [ngClass]="expedition.pod.rooms[1].workshops[0].name"
+        >
+            <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
+        </div>
+        <br>
+        <button (click)="take('steam-blast')">Récupérer</button>
+    </div>
+
+    <div *ngIf="slideDisplayed === 1" class="steam-switcher">
+        <h3 (click)="alert('steam-switcher')">Aiguilleur <app-svg named="sequence"></app-svg></h3>
+        <div
+            *ngFor="let die of expedition.pod.rooms[1].workshops[1].storedDice; let zoneNumber = index"
+            (dragenter)="onDragEnter($event, zoneNumber)"
+            class="single-dice-storage-zone"
+            [ngClass]="expedition.pod.rooms[1].workshops[1].name"
+        >
+            <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
+        </div>
+        <br>
+        <button (click)="take('steam-switcher')">Récupérer</button>
+    </div>
+
+    <div *ngIf="slideDisplayed === 2" class="steam-regulator">
+        <h3 (click)="alert('steam-regulator')">Régulateur <app-svg named="sequence"></app-svg></h3>
+        <div
+            *ngFor="let die of expedition.pod.rooms[1].workshops[2].storedDice; let zoneNumber = index"
+            (dragenter)="onDragEnter($event, zoneNumber)"
+            class="single-dice-storage-zone"
+            [ngClass]="expedition.pod.rooms[1].workshops[2].name"
+        >
+            <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
+        </div>
+        <br>
+        <button (click)="take('steam-regulator')">Récupérer</button>
+    </div>
+
+    <button (click)="slide('right')"><app-svg named="right-arrow"></app-svg></button>
+</div>

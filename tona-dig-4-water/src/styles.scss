@@ -49,6 +49,8 @@ a{
 }
 a, button{
     cursor: pointer;
+    min-width: 24px;
+    min-height: 24px;
 }
 input{
     font-size: 1em;
@@ -101,4 +103,17 @@ img.profile-picture{
     width: 42px;
     border: 2px solid var(--color-accent);
     border-radius: 50%;
+}
+
+// die
+.single-dice-storage-zone{
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    border: 1px dotted black;
+}
+
+.die{
+    height: 40px;
+    width: 40px;
 }

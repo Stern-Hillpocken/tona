@@ -30,13 +30,8 @@ export class OverviewPodRoomActionsComponent {
     }
   }
 
-  onDragEnter(zoneName: DragEvent, zoneNumber: number): void {
-    let realClassName = (zoneName.target as HTMLDivElement).className.substring("single-dice-storage-zone ".length);
-    this.dragEnterEmitter.emit(realClassName+" "+zoneNumber);
-  }
-
   onDragEnterReceive(zone: string): void {
-    //
+    this.dragEnterEmitter.emit(zone);
   }
 
 }

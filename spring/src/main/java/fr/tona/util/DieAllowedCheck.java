@@ -1,9 +1,11 @@
 package fr.tona.util;
 
 import fr.tona.majagaba.Majagaba;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class DieAllowedCheck {
 
     public Boolean isSequence(Integer[] storedDice, Integer die){

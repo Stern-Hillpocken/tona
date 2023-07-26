@@ -1,6 +1,7 @@
 package fr.tona.majagaba;
 
 import fr.tona.expedition.Expedition;
+import fr.tona.room.Room;
 import fr.tona.user.User;
 import fr.tona.util.DieAction;
 import fr.tona.util.DieAllowedCheck;
@@ -151,7 +152,9 @@ public class MajagabaService {
             repository.save(majagaba);
         }else if(action.getEndZone().startsWith("hold-") && majagaba.getRoom().equals("hold")){
             if(action.getEndZone().startsWith("hold-craft-steam-regulator")){
-                Workshop workshop= user.getExpedition().getPod().getRooms().get(1).getWorkshops().get(0);
+                Workshop workshop = user.getExpedition().getPod().getRooms().get(indexOfRoomName(
+                        user.getExpedition().getPod().getRooms(),"hold")
+                ).getWorkshops().get(2);
                 Integer zoneIndex = Integer.parseInt(action.getEndZone().substring(action.getEndZone().length()-1));
 
                 if(!workshop.getStoredDice()[zoneIndex].equals(0)) return;
@@ -177,6 +180,13 @@ public class MajagabaService {
             }
         }
         return false;
+    }
+
+    private Integer indexOfRoomName(List<Room> roomList, String name){
+        for(int i = 0; i < roomList.size(); i++){
+            if(roomList.get(i).getName().equals(name)) return i;
+        }
+        return -1;
     }
 
     /*private Boolean isEndZoneExist(String name){

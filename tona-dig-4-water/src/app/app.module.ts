@@ -48,6 +48,8 @@ import { ArmoryComponent } from './components/ui/workshops/armory/armory.compone
 import { DrillComponent } from './components/ui/workshops/drill/drill.component';
 import { ExtractorComponent } from './components/ui/workshops/extractor/extractor.component';
 import { PortholeComponent } from './components/ui/workshops/porthole/porthole.component';
+import { SvgComponent } from './components/ui/svg/svg.component';
+import { AlertComponent } from './components/ui/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +95,9 @@ import { PortholeComponent } from './components/ui/workshops/porthole/porthole.c
     ArmoryComponent,
     DrillComponent,
     ExtractorComponent,
-    PortholeComponent
+    PortholeComponent,
+    SvgComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
