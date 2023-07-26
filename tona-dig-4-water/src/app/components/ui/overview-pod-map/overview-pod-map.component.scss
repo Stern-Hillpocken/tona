@@ -19,6 +19,9 @@
 }
 .hoist, .drill{
     width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
 }
 .hold, .extractor, .armory, .porthole{
     width: 50%;

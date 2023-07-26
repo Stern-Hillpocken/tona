@@ -9,9 +9,13 @@
         min-width: 15%;
         display: flex;
         gap: 1em;
+        overflow-x: scroll;
     }
     img{
         height: 40px;
         width: 40px;
+    }
+    .locked-die{
+        border: 2px dashed var(--color-complement);
     }
 }

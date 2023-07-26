@@ -45,6 +45,7 @@ public class Expedition {
     private Set<User> crew = new HashSet<>();
 
     private Long water = 0L;
+    private Integer scrap = 25;
     private Long depth = 0L;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

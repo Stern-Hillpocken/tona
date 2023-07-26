@@ -1,4 +1,4 @@
-package fr.tona.util;
+package fr.tona.workshop;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,5 +29,6 @@ public class Workshop {
     private Room room;
 
     private String name;
+    private Integer[] storedDice;
 
 }

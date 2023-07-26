@@ -2,9 +2,8 @@ package fr.tona.room;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import fr.tona.expedition.Expedition;
 import fr.tona.pod.Pod;
-import fr.tona.util.Workshop;
+import fr.tona.workshop.Workshop;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

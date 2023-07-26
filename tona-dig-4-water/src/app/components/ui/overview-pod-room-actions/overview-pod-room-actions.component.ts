@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expedition } from 'src/app/models/expedition.model';
 import { User } from 'src/app/models/user.model';
 
@@ -15,6 +15,12 @@ export class OverviewPodRoomActionsComponent {
   @Input()
   user!: User;
 
+  @Output()
+  dragEnterEmitter: EventEmitter<string> = new EventEmitter();
+
+  @Output()
+  takeObjectEmitter: EventEmitter<string> = new EventEmitter();
+
   currentRoom(): number{
     switch (this.user.majagaba.room) {
       case "hoist": return 0;
@@ -25,6 +31,14 @@ export class OverviewPodRoomActionsComponent {
       case "drill": return 5;
       default: return -1;
     }
+  }
+
+  onDragEnterReceive(zone: string): void {
+    this.dragEnterEmitter.emit(zone);
+  }
+
+  onTakeObjectReceive(objectName: string): void {
+    this.takeObjectEmitter.emit(objectName);
   }
 
 }

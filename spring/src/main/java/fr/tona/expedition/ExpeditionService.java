@@ -4,13 +4,11 @@ import fr.tona.chat_message.ChatMessage;
 import fr.tona.majagaba.Majagaba;
 import fr.tona.majagaba.MajagabaService;
 import fr.tona.pod.Pod;
-import fr.tona.pod.PodRepository;
 import fr.tona.pod_register.PodRegister;
 import fr.tona.room.Room;
 import fr.tona.user.User;
-import fr.tona.user.UserRepository;
 import fr.tona.util.JwtService;
-import fr.tona.util.Workshop;
+import fr.tona.workshop.Workshop;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,10 +35,10 @@ public class ExpeditionService {
             Majagaba majagaba = new Majagaba();
             majagaba.setJob("all");
             majagaba.setDicePool(new ArrayList<Integer>(){{
-                add(1 + (int)(Math.random() * (6 - 1)));
-                add(1 + (int)(Math.random() * (6 - 1)));
-                add(1 + (int)(Math.random() * (6 - 1)));
-                add(1 + (int)(Math.random() * (6 - 1)));
+                add(1 + (int)(Math.random() * 6));
+                add(1 + (int)(Math.random() * 6));
+                add(1 + (int)(Math.random() * 6));
+                add(1 + (int)(Math.random() * 6));
             }});
             majagaba.setRoom("hold");
 
@@ -59,21 +57,33 @@ public class ExpeditionService {
         Room hoist = new Room();
         hoist.setName("hoist");
         Workshop hoistPW = new Workshop();
-        hoistPW.setName("go back up");
+        hoistPW.setName("hoist-up");// Need to be one word (or with "-") because it's going to be CSS class name
+        hoistPW.setStoredDice(new Integer[]{0,0,0,0,0,0});
         hoist.getWorkshops().add(hoistPW);
         Workshop hoistSW = new Workshop();
-        hoistSW.setName("go back up 2");
+        hoistSW.setName("hoist-TODO");
+        hoistSW.setStoredDice(new Integer[]{0,0,0});
         hoist.getWorkshops().add(hoistSW);
         pod.getRooms().add(hoist);
 
         // Hold
         Room hold = new Room();
         hold.setName("hold");
-        Workshop holdPW = new Workshop();
-        holdPW.setName("hold up");
-        hold.getWorkshops().add(holdPW);
+        Workshop holdSB = new Workshop();
+        holdSB.setName("hold-craft-steam-blast");
+        holdSB.setStoredDice(new Integer[]{0,0,0});
+        hold.getWorkshops().add(holdSB);
+        Workshop holdSS = new Workshop();
+        holdSS.setName("hold-craft-steam-switcher");
+        holdSS.setStoredDice(new Integer[]{0,0,0});
+        hold.getWorkshops().add(holdSS);
+        Workshop holdSR = new Workshop();
+        holdSR.setName("hold-craft-steam-regulator");
+        holdSR.setStoredDice(new Integer[]{0,0,0});
+        hold.getWorkshops().add(holdSR);
         Workshop holdSW = new Workshop();
-        holdSW.setName("hold up 2");
+        holdSW.setName("hold-repair");
+        holdSW.setStoredDice(new Integer[]{0,0,0});
         hold.getWorkshops().add(holdSW);
         pod.getRooms().add(hold);
 
@@ -81,10 +91,12 @@ public class ExpeditionService {
         Room extractor = new Room();
         extractor.setName("extractor");
         Workshop extractorPW = new Workshop();
-        extractorPW.setName("extractor up");
+        extractorPW.setName("extractor-mine");
+        extractorPW.setStoredDice(new Integer[]{0,0,0});
         extractor.getWorkshops().add(extractorPW);
         Workshop extractorSW = new Workshop();
-        extractorSW.setName("extractor up 2");
+        extractorSW.setName("extractor-scan");
+        extractorSW.setStoredDice(new Integer[]{0,0,0});
         extractor.getWorkshops().add(extractorSW);
         pod.getRooms().add(extractor);
 
@@ -92,10 +104,12 @@ public class ExpeditionService {
         Room armory = new Room();
         armory.setName("armory");
         Workshop armoryPW = new Workshop();
-        armoryPW.setName("armory up");
+        armoryPW.setName("armory-cannon");
+        armoryPW.setStoredDice(new Integer[]{0,0,0});
         armory.getWorkshops().add(armoryPW);
         Workshop armorySW = new Workshop();
-        armorySW.setName("armory up 2");
+        armorySW.setName("armory-reload");
+        armorySW.setStoredDice(new Integer[]{0,0,0});
         armory.getWorkshops().add(armorySW);
         pod.getRooms().add(armory);
 
@@ -103,10 +117,12 @@ public class ExpeditionService {
         Room porthole = new Room();
         porthole.setName("porthole");
         Workshop portholePW = new Workshop();
-        portholePW.setName("porthole up");
+        portholePW.setName("porthole-look");
+        portholePW.setStoredDice(new Integer[]{0,0,0});
         porthole.getWorkshops().add(portholePW);
         Workshop portholeSW = new Workshop();
-        portholeSW.setName("porthole up 2");
+        portholeSW.setName("porthole-heal");
+        portholeSW.setStoredDice(new Integer[]{0,0,0});
         porthole.getWorkshops().add(portholeSW);
         pod.getRooms().add(porthole);
 
@@ -114,10 +130,12 @@ public class ExpeditionService {
         Room drill = new Room();
         drill.setName("drill");
         Workshop drillPW = new Workshop();
-        drillPW.setName("drill up");
+        drillPW.setName("drill-down");
+        drillPW.setStoredDice(new Integer[]{0,0,0,0,0,0});
         drill.getWorkshops().add(drillPW);
         Workshop drillSW = new Workshop();
-        drillSW.setName("drill up 2");
+        drillSW.setName("drill-TODO");
+        drillSW.setStoredDice(new Integer[]{0,0,0});
         drill.getWorkshops().add(drillSW);
         pod.getRooms().add(drill);
 

@@ -42,6 +42,14 @@ import { InformationsContainerComponent } from './components/feature/information
 import { InformationsExpeditionComponent } from './components/ui/informations-expedition/informations-expedition.component';
 import { OverviewPodBagComponent } from './components/ui/overview-pod-bag/overview-pod-bag.component';
 import { OverviewPodRoomActionsComponent } from './components/ui/overview-pod-room-actions/overview-pod-room-actions.component';
+import { HoistComponent } from './components/ui/workshops/hoist/hoist.component';
+import { HoldComponent } from './components/ui/workshops/hold/hold.component';
+import { ArmoryComponent } from './components/ui/workshops/armory/armory.component';
+import { DrillComponent } from './components/ui/workshops/drill/drill.component';
+import { ExtractorComponent } from './components/ui/workshops/extractor/extractor.component';
+import { PortholeComponent } from './components/ui/workshops/porthole/porthole.component';
+import { SvgComponent } from './components/ui/svg/svg.component';
+import { AlertComponent } from './components/ui/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +89,15 @@ import { OverviewPodRoomActionsComponent } from './components/ui/overview-pod-ro
     InformationsContainerComponent,
     InformationsExpeditionComponent,
     OverviewPodBagComponent,
-    OverviewPodRoomActionsComponent
+    OverviewPodRoomActionsComponent,
+    HoistComponent,
+    HoldComponent,
+    ArmoryComponent,
+    DrillComponent,
+    ExtractorComponent,
+    PortholeComponent,
+    SvgComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
