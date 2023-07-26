@@ -18,6 +18,9 @@ export class OverviewPodRoomActionsComponent {
   @Output()
   dragEnterEmitter: EventEmitter<string> = new EventEmitter();
 
+  @Output()
+  takeObjectEmitter: EventEmitter<string> = new EventEmitter();
+
   currentRoom(): number{
     switch (this.user.majagaba.room) {
       case "hoist": return 0;
@@ -32,6 +35,10 @@ export class OverviewPodRoomActionsComponent {
 
   onDragEnterReceive(zone: string): void {
     this.dragEnterEmitter.emit(zone);
+  }
+
+  onTakeObjectReceive(objectName: string): void {
+    this.takeObjectEmitter.emit(objectName);
   }
 
 }

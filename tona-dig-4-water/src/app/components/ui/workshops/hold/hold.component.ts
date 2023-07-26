@@ -53,7 +53,7 @@ export class HoldComponent {
     this.alertService.udpate(title, text);
   }
 
-  take(objectName: string): void {
+  takeObject(objectName: string): void {
     this.takeObjectEmitter.emit(objectName);
   }
 

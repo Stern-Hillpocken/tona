@@ -7,6 +7,7 @@
         [expedition]="expedition"
         [user]="user"
         (dragEnterEmitter)="onDragEnterReceive($event)"
+        (takeObjectEmitter)="onTakeObjectReceive($event)"
     ></app-hold>
     <app-extractor
         *ngIf="user.majagaba.room === 'extractor'"

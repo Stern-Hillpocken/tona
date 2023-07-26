@@ -99,4 +99,11 @@ export class OverviewPodComponent {
     });
   }
 
+  onTakeObjectReceive(objectName: string): void {
+    this.majagabanService.takeObject(objectName).subscribe(() => {
+      this.reloadExpedition();
+      this.reloadMe();
+    });
+  }
+
 }

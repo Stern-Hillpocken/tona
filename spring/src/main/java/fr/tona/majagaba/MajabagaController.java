@@ -36,4 +36,9 @@ public class MajabagaController {
         service.allocate(action);
     }
 
+    @PutMapping("/take-object")
+    public void takeObject(@RequestBody String objectName){
+        service.takeObject(objectName);
+    }
+
 }

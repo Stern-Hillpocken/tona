@@ -171,6 +171,31 @@ public class MajagabaService {
         }
     }
 
+    public void takeObject(String objectName){
+        if(!(objectName.equals("steam-blast") || objectName.equals("steam-switcher") || objectName.equals("steam-regulator"))) return;
+        User user = jwtService.grepUserFromJwt();
+        Expedition expedition = user.getExpedition();
+        Majagaba majagaba = user.getMajagaba();
+        if(!majagaba.getRoom().equals("hold")) return;
+
+        if(objectName.equals("steam-regulator")){
+            Workshop workshop = expedition.getPod().getRooms().get(indexOfRoomName(expedition.getPod().getRooms(), "hold")).getWorkshops().get(2);
+            Integer[] diceList = workshop.getStoredDice();
+            int zeroCount = 0;
+            for(int i = 0; i < diceList.length; i++){
+                if(diceList[i] == 0) zeroCount ++;
+            }
+            if(zeroCount == 0){
+                majagaba.setSteamRegulator(majagaba.getSteamRegulator()+1);
+                repository.save(majagaba);
+                for(int i = 0; i < diceList.length; i++){
+                    diceList[i] = 0;
+                }
+                workshopRepository.save(workshop);
+            }
+        }
+    }
+
     private Boolean isDieExist(Majagaba majagaba, DieAction action){
         String startZone = action.getStartZone();
         if(startZone.equals("dice-stocked-zone") || startZone.equals("dice-pool-zone")){

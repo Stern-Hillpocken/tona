@@ -12,7 +12,7 @@
             <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
         </div>
         <br>
-        <button (click)="take('steam-blast')">Récupérer</button>
+        <button (click)="takeObject('steam-blast')">Récupérer</button>
     </div>
 
     <div *ngIf="slideDisplayed === 1" class="steam-switcher">
@@ -26,7 +26,7 @@
             <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
         </div>
         <br>
-        <button (click)="take('steam-switcher')">Récupérer</button>
+        <button (click)="takeObject('steam-switcher')">Récupérer</button>
     </div>
 
     <div *ngIf="slideDisplayed === 2" class="steam-regulator">
@@ -40,7 +40,7 @@
             <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
         </div>
         <br>
-        <button (click)="take('steam-regulator')">Récupérer</button>
+        <button (click)="takeObject('steam-regulator')">Récupérer</button>
     </div>
 
     <button (click)="slide('right')"><app-svg named="right-arrow"></app-svg></button>
