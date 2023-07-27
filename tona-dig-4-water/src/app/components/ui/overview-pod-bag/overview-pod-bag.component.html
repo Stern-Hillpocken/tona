@@ -5,9 +5,17 @@
         <button (click)="onObjectClick('steam-switcher')" *ngIf="user.majagaba.steamSwitcher > 0">Aiguilleur x{{ user.majagaba.steamSwitcher }}</button>
     </div>
     <div *ngIf="objectClicked" class="target">
+
         <div *ngIf="objectClicked === 'steam-blast'">
-            blast
+            <h3>Nouveau souffle</h3>
+            <p>Répartir quatre dés en plus pour le prochain tour.</p>
+            <button (click)="onObjectUse('steam-blast')">Activer</button>
         </div>
+
+        <div *ngIf="objectClicked === 'steam-switcher'">
+            switcher - tête 1 - tête 2 - etc..
+        </div>
+
         <div *ngIf="objectClicked === 'steam-regulator'">
             <p>Régulateur de vapeur</p>
             <div
@@ -20,9 +28,7 @@
                 class="add-one-pip"
             ></div>
         </div>
-        <div *ngIf="objectClicked === 'steam-switcher'">
-            switcher
-        </div>
+
         <button (click)="cancelObjectClicked()">Annuler</button>
     </div>
 </div>

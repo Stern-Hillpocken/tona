@@ -106,4 +106,14 @@ export class OverviewPodComponent {
     });
   }
 
+  onObjectUseReceive(objectName: string): void {
+    if(objectName === "steam-blast"){
+      this.expeditionService.useSteamBlast().subscribe(() => {
+        this.reloadExpedition();
+        this.reloadMe();
+        this.requestIsSended$.next(true);
+      });
+    }
+  }
+
 }

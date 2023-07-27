@@ -42,11 +42,13 @@ public class Expedition {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "expedition_id", referencedColumnName = "id")
     @JsonIgnoreProperties("expedition")
-    private Set<User> crew = new HashSet<>();
+    private List<User> crew = new ArrayList<>();
 
     private Long water = 0L;
     private Integer scrap = 25;
     private Long depth = 0L;
+
+    private Integer blastedDice = 0;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "expedition_id", referencedColumnName = "id")

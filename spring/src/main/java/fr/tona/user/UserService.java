@@ -4,8 +4,6 @@ import fr.tona.util.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -13,6 +11,7 @@ public class UserService {
     private final UserRepository repository;
 
     private final JwtService jwtService;
+
 
     public User getMe() {
         return jwtService.grepUserFromJwt();

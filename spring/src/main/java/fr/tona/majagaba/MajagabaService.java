@@ -1,6 +1,7 @@
 package fr.tona.majagaba;
 
 import fr.tona.expedition.Expedition;
+import fr.tona.expedition.ExpeditionService;
 import fr.tona.room.Room;
 import fr.tona.user.User;
 import fr.tona.util.DieAction;
@@ -12,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,6 +26,7 @@ public class MajagabaService {
     private final WorkshopRepository workshopRepository;
 
     private final DieAllowedCheck dieAllowedCheck;
+
 
     public void reroll() {
         User user = jwtService.grepUserFromJwt();
@@ -83,6 +84,19 @@ public class MajagabaService {
             majagaba.getDicePool().add(1 + (int)(Math.random() * 6));
         }
         repository.save(majagaba);
+    }
+
+    public void addBlastedDice(Integer times){
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Integer crewIndex = 0;
+        while(times > 0){
+            Majagaba majagaba = expedition.getCrew().get(crewIndex).getMajagaba();
+            majagaba.getDicePool().add(1 + (int)(Math.random() * (6 - 1)));
+            repository.save(majagaba);
+            crewIndex ++;
+            if(crewIndex >= expedition.getCrew().size()) crewIndex = 0;
+            times --;
+        }
     }
 
     public void move(DieAction action){
@@ -150,20 +164,22 @@ public class MajagabaService {
             }
             majagaba.setSteamRegulator(majagaba.getSteamRegulator()-1);
             repository.save(majagaba);
+
         }else if(action.getEndZone().startsWith("hold-") && majagaba.getRoom().equals("hold")){
-            if(action.getEndZone().startsWith("hold-craft-steam-regulator")){
-                Workshop workshop = user.getExpedition().getPod().getRooms().get(indexOfRoomName(
-                        user.getExpedition().getPod().getRooms(),"hold")
-                ).getWorkshops().get(2);
+            if(action.getEndZone().startsWith("hold-craft-")){
+                Workshop workshop = getAskedWorkshop(user, action.getEndZone());
                 Integer zoneIndex = Integer.parseInt(action.getEndZone().substring(action.getEndZone().length()-1));
 
                 if(!workshop.getStoredDice()[zoneIndex].equals(0)) return;
-                if(!dieAllowedCheck.isSequence(workshop.getStoredDice(), action.getDieValue())) return;
+
+                if(action.getEndZone().startsWith("hold-craft-steam-blast") && !dieAllowedCheck.isSame(workshop.getStoredDice(), action.getDieValue())) return;
+                if(action.getEndZone().startsWith("hold-craft-steam-switcher") && !dieAllowedCheck.isDifferent(workshop.getStoredDice(), action.getDieValue())) return;
+                if(action.getEndZone().startsWith("hold-craft-steam-regulator") && !dieAllowedCheck.isSequence(workshop.getStoredDice(), action.getDieValue())) return;
 
                 workshop.getStoredDice()[zoneIndex] = action.getDieValue();
                 workshopRepository.save(workshop);
 
-                List<Integer> diceList = action.getEndZone().equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
+                List<Integer> diceList = action.getStartZone().equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
                 Integer index = diceList.indexOf(action.getDieValue());
                 diceList.remove((int)index);// (int) and not the value
                 repository.save(majagaba);
@@ -178,22 +194,44 @@ public class MajagabaService {
         Majagaba majagaba = user.getMajagaba();
         if(!majagaba.getRoom().equals("hold")) return;
 
-        if(objectName.equals("steam-regulator")){
-            Workshop workshop = expedition.getPod().getRooms().get(indexOfRoomName(expedition.getPod().getRooms(), "hold")).getWorkshops().get(2);
-            Integer[] diceList = workshop.getStoredDice();
-            int zeroCount = 0;
+        Workshop workshop = getAskedWorkshop(user, "hold-craft-"+objectName);
+        Integer[] diceList = workshop.getStoredDice();
+        int zeroValueCount = 0;
+        for(int i = 0; i < diceList.length; i++){
+            if(diceList[i] == 0) zeroValueCount ++;
+        }
+        if(zeroValueCount == 0){
+            if(objectName.equals("steam-blast")) majagaba.setSteamBlast(majagaba.getSteamBlast()+1);
+            if(objectName.equals("steam-switcher")) majagaba.setSteamSwitcher(majagaba.getSteamSwitcher()+1);
+            if(objectName.equals("steam-regulator")) majagaba.setSteamRegulator(majagaba.getSteamRegulator()+1);
+            repository.save(majagaba);
             for(int i = 0; i < diceList.length; i++){
-                if(diceList[i] == 0) zeroCount ++;
+                diceList[i] = 0;
             }
-            if(zeroCount == 0){
-                majagaba.setSteamRegulator(majagaba.getSteamRegulator()+1);
-                repository.save(majagaba);
-                for(int i = 0; i < diceList.length; i++){
-                    diceList[i] = 0;
+            workshopRepository.save(workshop);
+        }
+    }
+
+    public void useSteamBlast(){
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        majagaba.setSteamBlast(majagaba.getSteamBlast()-1);
+        repository.save(majagaba);
+    }
+
+    private Workshop getAskedWorkshop(User user, String askedName){
+        String roomName = askedName.split("-")[0];
+        String workshopName = askedName.split(" ")[0];
+        Integer indexOfRoom = -1;
+        Integer indexOfWorkshop = -1;
+        for(int i = 0; i < user.getExpedition().getPod().getRooms().size(); i++){
+            if(user.getExpedition().getPod().getRooms().get(i).getName().equals(roomName)){
+                indexOfRoom = i;
+                for(int j = 0; j < user.getExpedition().getPod().getRooms().get(i).getWorkshops().size(); j++){
+                    if(user.getExpedition().getPod().getRooms().get(i).getWorkshops().get(j).getName().equals(workshopName)) indexOfWorkshop = j;
                 }
-                workshopRepository.save(workshop);
             }
         }
+        return user.getExpedition().getPod().getRooms().get(indexOfRoom).getWorkshops().get(indexOfWorkshop);
     }
 
     private Boolean isDieExist(Majagaba majagaba, DieAction action){
@@ -205,13 +243,6 @@ public class MajagabaService {
             }
         }
         return false;
-    }
-
-    private Integer indexOfRoomName(List<Room> roomList, String name){
-        for(int i = 0; i < roomList.size(); i++){
-            if(roomList.get(i).getName().equals(name)) return i;
-        }
-        return -1;
     }
 
     /*private Boolean isEndZoneExist(String name){

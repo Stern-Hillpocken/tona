@@ -33,4 +33,9 @@ public class ExpeditionController {
     public void sendMessage(@RequestBody String messageContents){
         service.sendMessage(messageContents);
     }
+
+    @GetMapping("/use-object/steam-blast")
+    public void useSteamBlast(){
+        service.useSteamBlast();
+    }
 }

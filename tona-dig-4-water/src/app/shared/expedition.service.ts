@@ -45,5 +45,9 @@ export class ExpeditionService {
     getAllChatMessages(): Observable<ChatMessage[]> {
       return this.http.get<ChatMessage[]>(this.utils.getBaseUrl() + this._sqlTable + "/all-chat-messages");
     }
+
+    useSteamBlast(): Observable<void> {
+      return this.http.get<void>(this.utils.getBaseUrl() + this._sqlTable + '/use-object/steam-blast');
+    }
     
 }

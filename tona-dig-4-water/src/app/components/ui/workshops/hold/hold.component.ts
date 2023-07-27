@@ -57,4 +57,13 @@ export class HoldComponent {
     this.takeObjectEmitter.emit(objectName);
   }
 
+  isWorkshopUnfinished(index: number): boolean {
+    let zeroCount = 0;
+    for(let i = 0; i < this.expedition.pod.rooms[1].workshops[index].storedDice.length; i++){
+      if(this.expedition.pod.rooms[1].workshops[index].storedDice[i] === 0) zeroCount ++;
+    }
+    if(zeroCount === 0) return false;
+    return true;
+  }
+
 }
