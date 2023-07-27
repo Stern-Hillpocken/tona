@@ -31,7 +31,7 @@ public class DieAllowedCheck {
     }
 
 
-    private Boolean isSame(Integer[] storedDice, Integer die){
+    public Boolean isSame(Integer[] storedDice, Integer die){
         Integer countZero = 0;
         Integer valueAllowed = 0;
         for(int i = 0; i < storedDice.length; i++){
@@ -39,7 +39,7 @@ public class DieAllowedCheck {
             else valueAllowed = storedDice[i];
         }
         if(countZero == storedDice.length) return true;
-        if(die == valueAllowed) return true;
+        if(die.equals(valueAllowed)) return true;
         return false;
     }
 
@@ -51,7 +51,7 @@ public class DieAllowedCheck {
         return total;
     }
 
-    private Boolean isAbleToReachSum(Integer[] storedDice, Integer die, Integer totalToReach){
+    public Boolean isAbleToReachSum(Integer[] storedDice, Integer die, Integer totalToReach){
         Integer countZero = 0;
         Integer currentSum = 0;
         for(int i = 0; i < storedDice.length; i++){
@@ -62,14 +62,14 @@ public class DieAllowedCheck {
         return false;
     }
 
-    private Boolean isDifferent(Integer[] storedDice, Integer die){
+    public Boolean isDifferent(Integer[] storedDice, Integer die){
         for(int i = 0; i < storedDice.length; i++){
-            if(storedDice[i] == die) return false;
+            if(storedDice[i].equals(die)) return false;
         }
         return true;
     }
 
-    private Boolean isEven(Integer die){
+    public Boolean isEven(Integer die){
         if(die == 2 || die == 4 || die == 6) return true;
         return false;
     }
