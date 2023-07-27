@@ -18,6 +18,9 @@ export class OverviewPodBagComponent {
   @Output()
   dragEnterEmitter: EventEmitter<string> = new EventEmitter();
 
+  @Output()
+  objectUseEmitter: EventEmitter<string> = new EventEmitter();
+
   objectClicked: "steam-blast" | "steam-regulator" | "steam-switcher" | "" = "";
 
   ngOnInit(): void {
@@ -36,5 +39,9 @@ export class OverviewPodBagComponent {
 
   onDragEnter(zone: string): void {
     this.dragEnterEmitter.emit(zone);
+  }
+
+  onObjectUse(objectName: string): void {
+    this.objectUseEmitter.emit(objectName);
   }
 }

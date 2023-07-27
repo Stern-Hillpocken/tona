@@ -1,6 +1,7 @@
 package fr.tona.majagaba;
 
 import fr.tona.expedition.Expedition;
+import fr.tona.expedition.ExpeditionService;
 import fr.tona.room.Room;
 import fr.tona.user.User;
 import fr.tona.util.DieAction;
@@ -83,6 +84,19 @@ public class MajagabaService {
             majagaba.getDicePool().add(1 + (int)(Math.random() * 6));
         }
         repository.save(majagaba);
+    }
+
+    public void addBlastedDice(Integer times){
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Integer crewIndex = 0;
+        while(times > 0){
+            Majagaba majagaba = expedition.getCrew().get(crewIndex).getMajagaba();
+            majagaba.getDicePool().add(1 + (int)(Math.random() * (6 - 1)));
+            repository.save(majagaba);
+            crewIndex ++;
+            if(crewIndex >= expedition.getCrew().size()) crewIndex = 0;
+            times --;
+        }
     }
 
     public void move(DieAction action){
@@ -196,6 +210,12 @@ public class MajagabaService {
             }
             workshopRepository.save(workshop);
         }
+    }
+
+    public void useSteamBlast(){
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        majagaba.setSteamBlast(majagaba.getSteamBlast()-1);
+        repository.save(majagaba);
     }
 
     private Workshop getAskedWorkshop(User user, String askedName){

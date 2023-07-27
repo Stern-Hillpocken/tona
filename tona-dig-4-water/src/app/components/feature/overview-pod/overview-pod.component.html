@@ -16,6 +16,7 @@
     <app-overview-pod-bag
         [user]="user"
         (dragEnterEmitter)="onDragEnterReceive($event)"
+        (objectUseEmitter)="onObjectUseReceive($event)"
         [requestIsSended]="requestIsSended$"
     ></app-overview-pod-bag>
 

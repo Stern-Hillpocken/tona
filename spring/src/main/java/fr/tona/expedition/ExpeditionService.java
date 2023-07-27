@@ -179,6 +179,9 @@ public class ExpeditionService {
         for(int c = 0; c < expedition.getCrew().size(); c++){
             majagabaService.endTurn(userList.get(c).getMajagaba());
         }
+        // Steam Blast
+        majagabaService.addBlastedDice(expedition.getBlastedDice());
+        expedition.setBlastedDice(0);
 
         repository.save(expedition);
         return expedition;
@@ -217,5 +220,16 @@ public class ExpeditionService {
             currentExpedition.getMessages().add(fullMessage);
             repository.save(currentExpedition);
         }
+    }
+
+    public void useSteamBlast(){
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(majagaba.getSteamBlast() <= 0) return;
+
+        expedition.setBlastedDice(expedition.getBlastedDice()+4);
+        repository.save(expedition);
+
+        majagabaService.useSteamBlast();
     }
 }
