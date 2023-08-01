@@ -1,1 +1,41 @@
-<p>armory works!</p>
+<div class="workshop">
+    <button (click)="slide('left')"><app-svg named="left-arrow"></app-svg></button>
+
+    <div *ngIf="slideDisplayed === 0" class="cannon">
+
+        <h3 (click)="alert('cannon')">Canon <app-svg named="between"></app-svg></h3>
+
+        <table>
+            <tr><td>1-2</td><td>1-2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+            <tr>
+                <td *ngFor="let enemy of expedition.enemiesZoneBasic">
+                    <div *ngIf="enemy !== 0">
+                        {{ enemy }}x basic
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td *ngFor="let enemy of expedition.enemiesZoneSpeedy">
+                    <div *ngIf="enemy !== 0">
+                        {{ enemy }}x speedy
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td *ngFor="let enemy of expedition.enemiesZoneThrower">
+                    <div *ngIf="enemy !== 0">
+                        {{ enemy }}x thrower
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div *ngIf="slideDisplayed === 1" class="reload">
+        <h3 (click)="alert('reload')">Recharge <app-svg named="sequence"></app-svg></h3>
+        
+    </div>
+
+    <button (click)="slide('right')"><app-svg named="right-arrow"></app-svg></button>
+</div>

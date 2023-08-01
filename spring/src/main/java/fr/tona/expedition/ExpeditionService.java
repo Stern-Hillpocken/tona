@@ -217,6 +217,36 @@ public class ExpeditionService {
         expedition.setScrap(expedition.getScrap()+scrapGather);
         expedition.setWater(expedition.getWater()+waterGather);
         expedition.setAugerPosition(0);
+        // Enemies //
+        // Melee
+        int strike = expedition.getEnemiesZoneBasic()[0] + expedition.getEnemiesZoneSpeedy()[0] + expedition.getEnemiesZoneSpeedy()[1];
+        expedition.getPod().setHealth(expedition.getPod().getHealth()-strike);
+        expedition.getEnemiesZoneBasic()[0] = 0;
+        expedition.getEnemiesZoneSpeedy()[0] = 0;
+        expedition.getEnemiesZoneSpeedy()[1] = 0;
+        // Distance
+        int shot = expedition.getEnemiesZoneThrower()[0] + expedition.getEnemiesZoneThrower()[1] + expedition.getEnemiesZoneThrower()[2];
+        expedition.getPod().setHealth(expedition.getPod().getHealth()-shot);
+        // Move
+        for(int zone = 0; zone < 5; zone ++){
+            expedition.getEnemiesZoneBasic()[zone] = expedition.getEnemiesZoneBasic()[zone+1];
+            expedition.getEnemiesZoneBasic()[zone+1] = 0;
+            if(zone < 4){
+                expedition.getEnemiesZoneSpeedy()[zone] = expedition.getEnemiesZoneSpeedy()[zone+2];
+                expedition.getEnemiesZoneSpeedy()[zone+2] = 0;
+            }
+            if(zone >= 2){
+                expedition.getEnemiesZoneThrower()[zone] += expedition.getEnemiesZoneThrower()[zone+1];
+                expedition.getEnemiesZoneThrower()[zone+1] = 0;
+            }
+        }
+        // Spawn
+        for(int zone = 3; zone < 6; zone ++){
+            int d6 = dieInteraction.roll("1d6");
+            if (d6 == 1 || d6 == 2) expedition.getEnemiesZoneBasic()[zone] ++;
+            else if (d6 == 3) expedition.getEnemiesZoneSpeedy()[zone] ++;
+            else if (d6 == 4) expedition.getEnemiesZoneThrower()[zone] ++;
+        }
         //
 
         repository.save(expedition);

@@ -18,6 +18,10 @@ export class Expedition {
         public veinSurvey: number[][],
         public augerPosition: number,
         public probeScanningTimes: number,
+        public ammo: number,
+        public enemiesZoneBasic: number[],
+        public enemiesZoneSpeedy: number[],
+        public enemiesZoneThrower: number[],
         public messages: ChatMessage[],
         public status: string
     ){}
