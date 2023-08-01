@@ -49,7 +49,8 @@ public class Expedition {
     private Integer augerPosition = 0;
     private Integer[] veinReal = new Integer[]{0,0,0};
     private Integer[][] veinSurvey = new Integer[][]{new Integer[]{0,0},new Integer[]{0,0},new Integer[]{0,0}};
-    private Long depth = 0L;
+    private Integer[] veinScrapAndWater = new Integer[]{0,0};
+    private Long depth = 10L;
 
     private Integer blastedDice = 0;
 

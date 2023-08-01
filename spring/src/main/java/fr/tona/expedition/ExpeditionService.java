@@ -8,6 +8,7 @@ import fr.tona.pod_register.PodRegister;
 import fr.tona.room.Room;
 import fr.tona.user.User;
 import fr.tona.util.DieAction;
+import fr.tona.util.DieInteraction;
 import fr.tona.util.JwtService;
 import fr.tona.workshop.Workshop;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,9 @@ public class ExpeditionService {
     private final JwtService jwtService;
 
     private final MajagabaService majagabaService;
+
+    private final DieInteraction dieInteraction;
+
 
     public void launch(PodRegister podRegister, User captain){
 
@@ -189,6 +193,21 @@ public class ExpeditionService {
         // Steam Blast
         majagabaService.addBlastedDice(expedition.getBlastedDice());
         expedition.setBlastedDice(0);
+        // Extractor
+        Integer depthStep = (int) (expedition.getDepth()/10);
+        Integer scrapGather = 0;
+        Integer waterGather = 0;
+        if(expedition.getAugerPosition().equals(expedition.getVeinReal()[1])){// core
+            scrapGather = dieInteraction.roll(depthStep+"d6");
+            waterGather = dieInteraction.roll(depthStep+"d4");
+        }else if(expedition.getAugerPosition() > expedition.getVeinReal()[0] && expedition.getAugerPosition() < expedition.getVeinReal()[2]){
+            scrapGather = dieInteraction.roll(depthStep+"d4");
+            waterGather = dieInteraction.roll(depthStep+"d2");
+        }
+        expedition.setScrap(expedition.getScrap()+scrapGather);
+        expedition.setWater(expedition.getWater()+waterGather);
+        expedition.setAugerPosition(0);
+        //
 
         repository.save(expedition);
         return expedition;

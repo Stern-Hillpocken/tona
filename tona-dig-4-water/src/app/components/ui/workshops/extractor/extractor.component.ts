@@ -41,7 +41,7 @@ export class ExtractorComponent {
     let text: string = "";
     if(workshopName === "auger"){
       title = "Foreuse";
-      text = "Somme des valeurs déposées pour faire avancer la foreuse. Dois être entre X et X valeurs pour prosuire."
+      text = "Somme des valeurs déposées pour faire avancer la foreuse. Dois être entre X et X valeurs pour prosuire. Gain de minerais (dans les limites des stocks dispo) : Xd4 pour la zone exterieure, et Xd6 pour le coeur de la veine. Pour l'eau c'est Xd2 et Xd4. X = palier de profondeur."
     }
     this.alertService.udpate(title, text);
   }
