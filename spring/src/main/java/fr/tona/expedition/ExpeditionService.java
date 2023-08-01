@@ -145,10 +145,13 @@ public class ExpeditionService {
         pod.getRooms().add(drill);
 
         // Vein
-        Integer lowValue = 4 + 1 + (int)(Math.random() * 6);
-        Integer targetValue = lowValue + 1 + (int)(Math.random() * 6);
-        Integer highValue = targetValue + 1 + (int)(Math.random() * 6);
+        int lowValue = 4 + 1 + (int)(Math.random() * 6);
+        int targetValue = lowValue + 1 + (int)(Math.random() * 6);
+        int highValue = targetValue + 1 + (int)(Math.random() * 6);
         expedition.setVeinReal(new Integer[]{lowValue, targetValue, highValue});
+        int scrapValue = dieInteraction.roll((int)(expedition.getDepth()/10)+"d20");
+        int waterValue = dieInteraction.roll((int)(expedition.getDepth()/10)+"d10");
+        expedition.setVeinScrapAndWater(new Integer[]{scrapValue, waterValue});
 
 
         // Difficulty
@@ -200,10 +203,14 @@ public class ExpeditionService {
         if(expedition.getAugerPosition().equals(expedition.getVeinReal()[1])){// core
             scrapGather = dieInteraction.roll(depthStep+"d6");
             waterGather = dieInteraction.roll(depthStep+"d4");
-        }else if(expedition.getAugerPosition() > expedition.getVeinReal()[0] && expedition.getAugerPosition() < expedition.getVeinReal()[2]){
+        }else if(expedition.getAugerPosition() >= expedition.getVeinReal()[0] && expedition.getAugerPosition() <= expedition.getVeinReal()[2]){
             scrapGather = dieInteraction.roll(depthStep+"d4");
             waterGather = dieInteraction.roll(depthStep+"d2");
         }
+        scrapGather = Math.min(scrapGather, expedition.getVeinScrapAndWater()[0]);
+        waterGather = Math.min(waterGather, expedition.getVeinScrapAndWater()[1]);
+        expedition.getVeinScrapAndWater()[0] -= scrapGather;
+        expedition.getVeinScrapAndWater()[1] -= waterGather;
         expedition.setScrap(expedition.getScrap()+scrapGather);
         expedition.setWater(expedition.getWater()+waterGather);
         expedition.setAugerPosition(0);
@@ -263,6 +270,7 @@ public class ExpeditionService {
         if(action.getDieValue() < 1 || action.getDieValue() > 6) return;
         Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
         Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(!majagaba.getRoom().equals("extractor")) return;
         if(!majagabaService.isDieExist(majagaba, action)) return;
 
         majagabaService.useDie(majagaba, action);
