@@ -5,12 +5,13 @@
     <app-hold
         *ngIf="user.majagaba.room === 'hold'"
         [expedition]="expedition"
-        [user]="user"
         (dragEnterEmitter)="onDragEnterReceive($event)"
         (takeObjectEmitter)="onTakeObjectReceive($event)"
     ></app-hold>
     <app-extractor
         *ngIf="user.majagaba.room === 'extractor'"
+        [expedition]="expedition"
+        (dragEnterEmitter)="onDragEnterReceive($event)"
     ></app-extractor>
     <app-armory
         *ngIf="user.majagaba.room === 'armory'"

@@ -7,6 +7,7 @@ import fr.tona.pod.Pod;
 import fr.tona.pod_register.PodRegister;
 import fr.tona.room.Room;
 import fr.tona.user.User;
+import fr.tona.util.DieAction;
 import fr.tona.util.JwtService;
 import fr.tona.workshop.Workshop;
 import lombok.RequiredArgsConstructor;
@@ -139,6 +140,12 @@ public class ExpeditionService {
         drill.getWorkshops().add(drillSW);
         pod.getRooms().add(drill);
 
+        // Vein
+        Integer lowValue = 4 + 1 + (int)(Math.random() * 6);
+        Integer targetValue = lowValue + 1 + (int)(Math.random() * 6);
+        Integer highValue = targetValue + 1 + (int)(Math.random() * 6);
+        expedition.setVeinReal(new Integer[]{lowValue, targetValue, highValue});
+
 
         // Difficulty
         if(expedition.getDifficulty() == 2){
@@ -231,5 +238,17 @@ public class ExpeditionService {
         repository.save(expedition);
 
         majagabaService.useSteamBlast();
+    }
+
+    public void augerIncrease(DieAction action){
+        if(action.getDieValue() < 1 || action.getDieValue() > 6) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        majagabaService.useDie(majagaba, action);
+
+        expedition.setAugerPosition(expedition.getAugerPosition()+action.getDieValue());
+        repository.save(expedition);
     }
 }

@@ -234,7 +234,7 @@ public class MajagabaService {
         return user.getExpedition().getPod().getRooms().get(indexOfRoom).getWorkshops().get(indexOfWorkshop);
     }
 
-    private Boolean isDieExist(Majagaba majagaba, DieAction action){
+    public Boolean isDieExist(Majagaba majagaba, DieAction action){
         String startZone = action.getStartZone();
         if(startZone.equals("dice-stocked-zone") || startZone.equals("dice-pool-zone")){
             List<Integer> diceList = startZone.equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
@@ -243,6 +243,17 @@ public class MajagabaService {
             }
         }
         return false;
+    }
+
+    public void useDie(Majagaba majagaba, DieAction action){
+        String startZone = action.getStartZone();
+        List<Integer> diceList = startZone.equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
+        for(int i = 0; i < diceList.size(); i++){
+            if(diceList.get(i).equals(action.getDieValue())){
+                diceList.remove((int) i);
+            }
+        }
+        repository.save(majagaba);
     }
 
     /*private Boolean isEndZoneExist(String name){

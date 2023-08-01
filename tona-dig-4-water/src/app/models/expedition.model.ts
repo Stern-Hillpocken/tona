@@ -15,6 +15,7 @@ export class Expedition {
         public water: number,
         public scrap: number,
         public depth: number,
+        public augerPosition: number,
         public messages: ChatMessage[],
         public status: string
     ){}

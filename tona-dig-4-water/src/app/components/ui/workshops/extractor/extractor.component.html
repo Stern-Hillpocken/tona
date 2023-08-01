@@ -1,1 +1,22 @@
-<p>extractor works!</p>
+<div class="workshop">
+    <button (click)="slide('left')"><app-svg named="left-arrow"></app-svg></button>
+
+    <div *ngIf="slideDisplayed === 0" class="auger">
+        <h3 (click)="alert('auger')">Foreuse <app-svg named="between"></app-svg></h3>
+        <p>{{ expedition.augerPosition }}&nbsp;m</p>
+        <div
+            (dragenter)="onDragEnter($event)"
+            class="single-dice-storage-zone extractor-auger"
+        ></div>
+    </div>
+
+    <div *ngIf="slideDisplayed === 1" class="probe">
+        <h3 (click)="alert('probe')">Sonde</h3>
+        <div
+            (dragenter)="onDragEnter($event)"
+            class="single-dice-storage-zone extractor-probe"
+        ></div>
+    </div>
+
+    <button (click)="slide('right')"><app-svg named="right-arrow"></app-svg></button>
+</div>
