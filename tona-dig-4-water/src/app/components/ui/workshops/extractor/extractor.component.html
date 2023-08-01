@@ -1,1 +1,47 @@
-<p>extractor works!</p>
+<div class="workshop">
+    <button (click)="slide('left')"><app-svg named="left-arrow"></app-svg></button>
+
+    <div *ngIf="slideDisplayed === 0" class="auger">
+
+        <h3 (click)="alert('auger')">Foreuse <app-svg named="between"></app-svg></h3>
+
+        <table *ngIf="expedition.veinSurvey[0][0] !== 0">
+            <tr>
+                <td *ngFor="let cell of [].constructor(expedition.veinSurvey[2][1]+1-expedition.veinSurvey[0][0]); let i = index">
+                    <p [ngClass]="
+                    expedition.veinSurvey[0][0]+i === expedition.veinSurvey[1][0] && expedition.veinSurvey[0][0]+i === expedition.veinSurvey[1][1] ?
+                    'hardcore' :
+                    expedition.veinSurvey[0][0]+i >= expedition.veinSurvey[1][0] && expedition.veinSurvey[0][0]+i <= expedition.veinSurvey[1][1] ?
+                    'core' :
+                    expedition.veinSurvey[0][0]+i < expedition.veinSurvey[0][1] || expedition.veinSurvey[0][0]+i > expedition.veinSurvey[2][0] ?
+                    'uncertainly' :
+                    'certainly'">
+                        {{ expedition.veinSurvey[0][0]+i }}
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+        <p>{{ expedition.augerPosition }}&nbsp;m</p>
+
+        <div
+            (dragenter)="onDragEnter($event, -1)"
+            class="single-dice-storage-zone extractor-auger"
+        ></div>
+
+    </div>
+
+    <div *ngIf="slideDisplayed === 1" class="probe">
+        <h3 (click)="alert('probe')">Sonde <app-svg named="sequence"></app-svg></h3>
+        <p>Scanné <span class="highlight">{{ expedition.probeScanningTimes }}</span>&nbsp;fois</p>
+        <div
+            *ngFor="let die of expedition.pod.rooms[2].workshops[1].storedDice; let zoneNumber = index"
+            (dragenter)="onDragEnter($event, zoneNumber)"
+            class="single-dice-storage-zone extractor-probe"
+        >
+            <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
+        </div>
+    </div>
+
+    <button (click)="slide('right')"><app-svg named="right-arrow"></app-svg></button>
+</div>

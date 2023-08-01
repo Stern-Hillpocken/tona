@@ -156,7 +156,7 @@ public class MajagabaService {
         if(action.getEndZone().contains("one-pip") && majagaba.getSteamRegulator() > 0){
             if((action.getEndZone().equals("remove-one-pip") && action.getDieValue().equals(1)) || (action.getEndZone().equals("add-one-pip") && action.getDieValue().equals(6))) return;
             List<Integer> diceList = action.getEndZone().equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
-            Integer index = diceList.indexOf(action.getDieValue());
+            int index = diceList.indexOf(action.getDieValue());
             if(action.getEndZone().equals("remove-one-pip")){
                 diceList.set(index, diceList.get(index)-1);
             }else{
@@ -168,8 +168,7 @@ public class MajagabaService {
         }else if(action.getEndZone().startsWith("hold-") && majagaba.getRoom().equals("hold")){
             if(action.getEndZone().startsWith("hold-craft-")){
                 Workshop workshop = getAskedWorkshop(user, action.getEndZone());
-                Integer zoneIndex = Integer.parseInt(action.getEndZone().substring(action.getEndZone().length()-1));
-
+                int zoneIndex = Integer.parseInt(action.getEndZone().substring(action.getEndZone().length()-1));
                 if(!workshop.getStoredDice()[zoneIndex].equals(0)) return;
 
                 if(action.getEndZone().startsWith("hold-craft-steam-blast") && !dieAllowedCheck.isSame(workshop.getStoredDice(), action.getDieValue())) return;
@@ -179,11 +178,22 @@ public class MajagabaService {
                 workshop.getStoredDice()[zoneIndex] = action.getDieValue();
                 workshopRepository.save(workshop);
 
-                List<Integer> diceList = action.getStartZone().equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
+                /*List<Integer> diceList = action.getStartZone().equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
                 Integer index = diceList.indexOf(action.getDieValue());
                 diceList.remove((int)index);// (int) and not the value
-                repository.save(majagaba);
+                repository.save(majagaba);*/
+                useDie(majagaba, action);
             }
+        }else if(action.getEndZone().startsWith("extractor-probe") && majagaba.getRoom().equals("extractor")){
+            Workshop workshop = getAskedWorkshop(user, action.getEndZone());
+            int zoneIndex = Integer.parseInt(action.getEndZone().substring(action.getEndZone().length()-1));
+            if(!workshop.getStoredDice()[zoneIndex].equals(0)) return;
+
+            if(!dieAllowedCheck.isSequence(workshop.getStoredDice(), action.getDieValue())) return;
+
+            workshop.getStoredDice()[zoneIndex] = action.getDieValue();
+            workshopRepository.save(workshop);
+            useDie(majagaba, action);
         }
     }
 
@@ -234,7 +244,7 @@ public class MajagabaService {
         return user.getExpedition().getPod().getRooms().get(indexOfRoom).getWorkshops().get(indexOfWorkshop);
     }
 
-    private Boolean isDieExist(Majagaba majagaba, DieAction action){
+    public Boolean isDieExist(Majagaba majagaba, DieAction action){
         String startZone = action.getStartZone();
         if(startZone.equals("dice-stocked-zone") || startZone.equals("dice-pool-zone")){
             List<Integer> diceList = startZone.equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
@@ -243,6 +253,18 @@ public class MajagabaService {
             }
         }
         return false;
+    }
+
+    public void useDie(Majagaba majagaba, DieAction action){
+        String startZone = action.getStartZone();
+        List<Integer> diceList = startZone.equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
+        for(int i = 0; i < diceList.size(); i++){
+            if(diceList.get(i).equals(action.getDieValue())){
+                diceList.remove((int) i);
+                break;
+            }
+        }
+        repository.save(majagaba);
     }
 
     /*private Boolean isEndZoneExist(String name){

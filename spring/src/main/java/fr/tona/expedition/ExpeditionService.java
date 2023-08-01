@@ -7,8 +7,11 @@ import fr.tona.pod.Pod;
 import fr.tona.pod_register.PodRegister;
 import fr.tona.room.Room;
 import fr.tona.user.User;
+import fr.tona.util.DieAction;
+import fr.tona.util.DieInteraction;
 import fr.tona.util.JwtService;
 import fr.tona.workshop.Workshop;
+import fr.tona.workshop.WorkshopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,11 @@ public class ExpeditionService {
     private final JwtService jwtService;
 
     private final MajagabaService majagabaService;
+
+    private final WorkshopService workshopService;
+
+    private final DieInteraction dieInteraction;
+
 
     public void launch(PodRegister podRegister, User captain){
 
@@ -91,11 +99,11 @@ public class ExpeditionService {
         Room extractor = new Room();
         extractor.setName("extractor");
         Workshop extractorPW = new Workshop();
-        extractorPW.setName("extractor-mine");
-        extractorPW.setStoredDice(new Integer[]{0,0,0});
+        extractorPW.setName("extractor-auger");
+        extractorPW.setStoredDice(new Integer[]{0});
         extractor.getWorkshops().add(extractorPW);
         Workshop extractorSW = new Workshop();
-        extractorSW.setName("extractor-scan");
+        extractorSW.setName("extractor-probe");
         extractorSW.setStoredDice(new Integer[]{0,0,0});
         extractor.getWorkshops().add(extractorSW);
         pod.getRooms().add(extractor);
@@ -138,6 +146,15 @@ public class ExpeditionService {
         drillSW.setStoredDice(new Integer[]{0,0,0});
         drill.getWorkshops().add(drillSW);
         pod.getRooms().add(drill);
+
+        // Vein
+        int lowValue = 4 + 1 + (int)(Math.random() * 6);
+        int targetValue = lowValue + 1 + (int)(Math.random() * 6);
+        int highValue = targetValue + 1 + (int)(Math.random() * 6);
+        expedition.setVeinReal(new Integer[]{lowValue, targetValue, highValue});
+        int scrapValue = dieInteraction.roll((int)(expedition.getDepth()/10)+"d20");
+        int waterValue = dieInteraction.roll((int)(expedition.getDepth()/10)+"d10");
+        expedition.setVeinScrapAndWater(new Integer[]{scrapValue, waterValue});
 
 
         // Difficulty
@@ -182,6 +199,25 @@ public class ExpeditionService {
         // Steam Blast
         majagabaService.addBlastedDice(expedition.getBlastedDice());
         expedition.setBlastedDice(0);
+        // Extractor
+        Integer depthStep = (int) (expedition.getDepth()/10);
+        Integer scrapGather = 0;
+        Integer waterGather = 0;
+        if(expedition.getAugerPosition().equals(expedition.getVeinReal()[1])){// core
+            scrapGather = dieInteraction.roll(depthStep+"d6");
+            waterGather = dieInteraction.roll(depthStep+"d4");
+        }else if(expedition.getAugerPosition() >= expedition.getVeinReal()[0] && expedition.getAugerPosition() <= expedition.getVeinReal()[2]){
+            scrapGather = dieInteraction.roll(depthStep+"d4");
+            waterGather = dieInteraction.roll(depthStep+"d2");
+        }
+        scrapGather = Math.min(scrapGather, expedition.getVeinScrapAndWater()[0]);
+        waterGather = Math.min(waterGather, expedition.getVeinScrapAndWater()[1]);
+        expedition.getVeinScrapAndWater()[0] -= scrapGather;
+        expedition.getVeinScrapAndWater()[1] -= waterGather;
+        expedition.setScrap(expedition.getScrap()+scrapGather);
+        expedition.setWater(expedition.getWater()+waterGather);
+        expedition.setAugerPosition(0);
+        //
 
         repository.save(expedition);
         return expedition;
@@ -231,5 +267,50 @@ public class ExpeditionService {
         repository.save(expedition);
 
         majagabaService.useSteamBlast();
+    }
+
+    public void augerIncrease(DieAction action){
+        if(action.getDieValue() < 1 || action.getDieValue() > 6) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(!majagaba.getRoom().equals("extractor")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        majagabaService.useDie(majagaba, action);
+
+        expedition.setAugerPosition(expedition.getAugerPosition()+action.getDieValue());
+        repository.save(expedition);
+    }
+
+    public void probeScan(DieAction action){
+        if(action.getDieValue() < 1 || action.getDieValue() > 6) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        Workshop workshop = expedition.getPod().getRooms().get(2).getWorkshops().get(1);
+        if(!majagaba.getRoom().equals("extractor")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        majagabaService.allocate(action);
+
+        if(!workshopService.isFull(workshop)) return;
+
+        workshopService.emptyThis(workshop);
+        expedition.setProbeScanningTimes(expedition.getProbeScanningTimes()+1);
+        if(expedition.getProbeScanningTimes() == 1){
+            expedition.getVeinSurvey()[0][0] = expedition.getVeinReal()[0] - dieInteraction.roll("1d4");
+            expedition.getVeinSurvey()[0][1] = expedition.getVeinReal()[0] + dieInteraction.roll("1d4");
+            expedition.getVeinSurvey()[1][0] = expedition.getVeinReal()[1] - dieInteraction.roll("1d6");
+            expedition.getVeinSurvey()[1][1] = expedition.getVeinReal()[1] + dieInteraction.roll("1d6");
+            expedition.getVeinSurvey()[2][0] = expedition.getVeinReal()[2] - dieInteraction.roll("1d4");
+            expedition.getVeinSurvey()[2][1] = expedition.getVeinReal()[2] + dieInteraction.roll("1d4");
+        }else{
+            expedition.getVeinSurvey()[0][0] = Math.min(expedition.getVeinSurvey()[0][0]+1, expedition.getVeinReal()[0]);
+            expedition.getVeinSurvey()[0][1] = Math.max(expedition.getVeinSurvey()[0][1]-1, expedition.getVeinReal()[0]);
+            expedition.getVeinSurvey()[1][0] = Math.min(expedition.getVeinSurvey()[1][0]+1, expedition.getVeinReal()[1]);
+            expedition.getVeinSurvey()[1][1] = Math.max(expedition.getVeinSurvey()[1][1]-1, expedition.getVeinReal()[1]);
+            expedition.getVeinSurvey()[2][0] = Math.min(expedition.getVeinSurvey()[2][0]+1, expedition.getVeinReal()[2]);
+            expedition.getVeinSurvey()[2][1] = Math.max(expedition.getVeinSurvey()[2][1]-1, expedition.getVeinReal()[2]);
+        }
+        repository.save(expedition);
     }
 }

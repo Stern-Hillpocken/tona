@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expedition } from 'src/app/models/expedition.model';
-import { User } from 'src/app/models/user.model';
 import { AlertService } from 'src/app/shared/alert.service';
 
 @Component({
@@ -12,9 +11,6 @@ export class HoldComponent {
 
   @Input()
   expedition!: Expedition;
-
-  @Input()
-  user!: User;
 
   @Output()
   dragEnterEmitter: EventEmitter<string> = new EventEmitter();

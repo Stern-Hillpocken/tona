@@ -1,6 +1,7 @@
 package fr.tona.expedition;
 
 import fr.tona.chat_message.ChatMessage;
+import fr.tona.util.DieAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +38,15 @@ public class ExpeditionController {
     @GetMapping("/use-object/steam-blast")
     public void useSteamBlast(){
         service.useSteamBlast();
+    }
+
+    @PutMapping("/extractor/auger-increase")
+    public void augerIncrease(@RequestBody DieAction action){
+        service.augerIncrease(action);
+    }
+
+    @PutMapping("/extractor/probe-scan")
+    public void probeScan(@RequestBody DieAction action){
+        service.probeScan(action);
     }
 }
