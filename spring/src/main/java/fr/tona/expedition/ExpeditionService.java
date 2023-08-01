@@ -11,6 +11,7 @@ import fr.tona.util.DieAction;
 import fr.tona.util.DieInteraction;
 import fr.tona.util.JwtService;
 import fr.tona.workshop.Workshop;
+import fr.tona.workshop.WorkshopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,8 @@ public class ExpeditionService {
     private final JwtService jwtService;
 
     private final MajagabaService majagabaService;
+
+    private final WorkshopService workshopService;
 
     private final DieInteraction dieInteraction;
 
@@ -96,11 +99,11 @@ public class ExpeditionService {
         Room extractor = new Room();
         extractor.setName("extractor");
         Workshop extractorPW = new Workshop();
-        extractorPW.setName("extractor-mine");
-        extractorPW.setStoredDice(new Integer[]{0,0,0});
+        extractorPW.setName("extractor-auger");
+        extractorPW.setStoredDice(new Integer[]{0});
         extractor.getWorkshops().add(extractorPW);
         Workshop extractorSW = new Workshop();
-        extractorSW.setName("extractor-scan");
+        extractorSW.setName("extractor-probe");
         extractorSW.setStoredDice(new Integer[]{0,0,0});
         extractor.getWorkshops().add(extractorSW);
         pod.getRooms().add(extractor);
@@ -276,6 +279,38 @@ public class ExpeditionService {
         majagabaService.useDie(majagaba, action);
 
         expedition.setAugerPosition(expedition.getAugerPosition()+action.getDieValue());
+        repository.save(expedition);
+    }
+
+    public void probeScan(DieAction action){
+        if(action.getDieValue() < 1 || action.getDieValue() > 6) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        Workshop workshop = expedition.getPod().getRooms().get(2).getWorkshops().get(1);
+        if(!majagaba.getRoom().equals("extractor")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        majagabaService.allocate(action);
+
+        if(!workshopService.isFull(workshop)) return;
+
+        workshopService.emptyThis(workshop);
+        expedition.setProbeScanningTimes(expedition.getProbeScanningTimes()+1);
+        if(expedition.getProbeScanningTimes() == 1){
+            expedition.getVeinSurvey()[0][0] = expedition.getVeinReal()[0] - dieInteraction.roll("1d4");
+            expedition.getVeinSurvey()[0][1] = expedition.getVeinReal()[0] + dieInteraction.roll("1d4");
+            expedition.getVeinSurvey()[1][0] = expedition.getVeinReal()[1] - dieInteraction.roll("1d6");
+            expedition.getVeinSurvey()[1][1] = expedition.getVeinReal()[1] + dieInteraction.roll("1d6");
+            expedition.getVeinSurvey()[2][0] = expedition.getVeinReal()[2] - dieInteraction.roll("1d4");
+            expedition.getVeinSurvey()[2][1] = expedition.getVeinReal()[2] + dieInteraction.roll("1d4");
+        }else{
+            expedition.getVeinSurvey()[0][0] = Math.min(expedition.getVeinSurvey()[0][0]+1, expedition.getVeinReal()[0]);
+            expedition.getVeinSurvey()[0][1] = Math.max(expedition.getVeinSurvey()[0][1]-1, expedition.getVeinReal()[0]);
+            expedition.getVeinSurvey()[1][0] = Math.min(expedition.getVeinSurvey()[1][0]+1, expedition.getVeinReal()[1]);
+            expedition.getVeinSurvey()[1][1] = Math.max(expedition.getVeinSurvey()[1][1]-1, expedition.getVeinReal()[1]);
+            expedition.getVeinSurvey()[2][0] = Math.min(expedition.getVeinSurvey()[2][0]+1, expedition.getVeinReal()[2]);
+            expedition.getVeinSurvey()[2][1] = Math.max(expedition.getVeinSurvey()[2][1]-1, expedition.getVeinReal()[2]);
+        }
         repository.save(expedition);
     }
 }

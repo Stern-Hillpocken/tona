@@ -44,4 +44,9 @@ public class ExpeditionController {
     public void augerIncrease(@RequestBody DieAction action){
         service.augerIncrease(action);
     }
+
+    @PutMapping("/extractor/probe-scan")
+    public void probeScan(@RequestBody DieAction action){
+        service.probeScan(action);
+    }
 }

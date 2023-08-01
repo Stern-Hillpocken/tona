@@ -21,9 +21,11 @@ export class ExtractorComponent {
 
   constructor(private alertService: AlertService){}
 
-  onDragEnter(zoneName: DragEvent): void {
+  onDragEnter(zoneName: DragEvent, zoneNumber: number): void {
     let realClassName = (zoneName.target as HTMLDivElement).className.substring("single-dice-storage-zone ".length);
-    this.dragEnterEmitter.emit(realClassName);
+    let spot = "";
+    if(zoneNumber >= 0) spot += " " + zoneNumber;
+    this.dragEnterEmitter.emit(realClassName+spot);
   }
 
   slide(direction: string): void {
@@ -42,6 +44,9 @@ export class ExtractorComponent {
     if(workshopName === "auger"){
       title = "Foreuse";
       text = "Somme des valeurs déposées pour faire avancer la foreuse. Dois être entre X et X valeurs pour prosuire. Gain de minerais (dans les limites des stocks dispo) : Xd4 pour la zone exterieure, et Xd6 pour le coeur de la veine. Pour l'eau c'est Xd2 et Xd4. X = palier de profondeur."
+    }else if(workshopName === "probe"){
+      title = "Sonde";
+      text = "Suite de valeur pour savoir où fouiller."
     }
     this.alertService.udpate(title, text);
   }

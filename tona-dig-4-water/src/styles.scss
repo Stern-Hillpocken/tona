@@ -97,6 +97,11 @@ input[type=submit]{
     }
 }
 
+//
+.highlight{
+    color: var(--color-complement);
+}
+
 // overview-pod-map
 img.profile-picture{
     height: 42px;
