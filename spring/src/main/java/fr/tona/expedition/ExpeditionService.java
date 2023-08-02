@@ -8,6 +8,7 @@ import fr.tona.pod_register.PodRegister;
 import fr.tona.room.Room;
 import fr.tona.user.User;
 import fr.tona.util.DieAction;
+import fr.tona.util.DieAllowedCheck;
 import fr.tona.util.DieInteraction;
 import fr.tona.util.JwtService;
 import fr.tona.workshop.Workshop;
@@ -32,6 +33,8 @@ public class ExpeditionService {
     private final WorkshopService workshopService;
 
     private final DieInteraction dieInteraction;
+
+    private final DieAllowedCheck dieAllowedCheck;
 
 
     public void launch(PodRegister podRegister, User captain){
@@ -376,6 +379,7 @@ public class ExpeditionService {
         Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
 
         if(expedition.getAmmo() <= 0) return;
+        if(!majagaba.getRoom().equals("armory")) return;
         if(!majagabaService.isDieExist(majagaba, action)) return;
 
         if(type.equals("basic")){
@@ -391,5 +395,32 @@ public class ExpeditionService {
         expedition.setAmmo(expedition.getAmmo()-1);
         repository.save(expedition);
         majagabaService.useDie(majagaba, action);
+    }
+
+    public void armoryReload(DieAction action){
+        if(action.getDieValue() < 1 || action.getDieValue() > 6) return;
+        int zone = Integer.parseInt(action.getEndZone().substring(action.getEndZone().length()-1));
+        if(zone < 0 || zone > 2) return;
+
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        Workshop workshop = expedition.getPod().getRooms().get(3).getWorkshops().get(1);
+
+        if(!majagaba.getRoom().equals("armory")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+        if(!dieAllowedCheck.isDifferent(workshop.getStoredDice(),action.getDieValue())) return;
+
+        majagabaService.reload(action);
+
+        if(workshopService.isFull(workshop)){
+            workshopService.emptyThis(workshop);
+            int ammoToCreate = 3;
+            while(expedition.getScrap() > 0 && ammoToCreate > 0){
+                expedition.setAmmo(expedition.getAmmo()+1);
+                expedition.setScrap(expedition.getScrap()-1);
+                ammoToCreate --;
+            }
+            repository.save(expedition);
+        }
     }
 }

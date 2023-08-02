@@ -25,7 +25,7 @@ export class ArmoryComponent {
     let realClassName = (zoneName.target as HTMLDivElement).className.substring("single-dice-storage-zone ".length);
     let spot = "";
     if(zoneNumber >= 0) spot += " " + zoneNumber;
-    if(realClassName.startsWith("armory-shoot-enemy-")){
+    if(realClassName.startsWith("armory-")){
       this.dragEnterEmitter.emit(realClassName+spot);
     }
     

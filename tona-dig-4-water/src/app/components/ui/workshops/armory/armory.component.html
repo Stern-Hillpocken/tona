@@ -46,8 +46,20 @@
     </div>
 
     <div *ngIf="slideDisplayed === 1" class="reload">
-        <h3 (click)="alert('reload')">Recharge <app-svg named="sequence"></app-svg></h3>
-        
+        <h3 (click)="alert('reload')">Recharge <app-svg named="different"></app-svg></h3>
+        <p *ngIf="expedition.scrap >= 3">
+            3&nbsp;<app-svg named="scrap"></app-svg> <app-svg named="transform-into"></app-svg> 3&nbsp;<app-svg named="ammo"></app-svg>
+        </p>
+        <p *ngIf="expedition.scrap < 3">
+            <app-svg named="warning"></app-svg> <span class="highlight">{{ expedition.scrap }}</span>&nbsp;<app-svg named="scrap"></app-svg> <app-svg named="transform-into"></app-svg> <span class="highlight">{{ expedition.scrap }}</span>&nbsp;<app-svg named="ammo"></app-svg> <app-svg named="warning"></app-svg>
+        </p>
+        <div
+            *ngFor="let die of expedition.pod.rooms[3].workshops[1].storedDice; let i = index"
+            (dragenter)="onDragEnter($event, i)"
+            class="single-dice-storage-zone armory-reload"
+        >
+            <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
+        </div>
     </div>
 
     <button (click)="slide('right')"><app-svg named="right-arrow"></app-svg></button>

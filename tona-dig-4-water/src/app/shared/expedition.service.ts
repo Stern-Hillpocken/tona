@@ -61,5 +61,9 @@ export class ExpeditionService {
     armoryShoot(dieValue: number, startZone: string, endZone: string): Observable<void> {
       return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/armory/shoot-enemy', {dieValue: dieValue, startZone: startZone, endZone: endZone});
     }
+
+    armoryReload(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/armory/reload', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
     
 }
