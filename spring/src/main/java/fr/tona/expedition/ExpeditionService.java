@@ -8,6 +8,7 @@ import fr.tona.pod_register.PodRegister;
 import fr.tona.room.Room;
 import fr.tona.user.User;
 import fr.tona.util.DieAction;
+import fr.tona.util.DieAllowedCheck;
 import fr.tona.util.DieInteraction;
 import fr.tona.util.JwtService;
 import fr.tona.workshop.Workshop;
@@ -32,6 +33,8 @@ public class ExpeditionService {
     private final WorkshopService workshopService;
 
     private final DieInteraction dieInteraction;
+
+    private final DieAllowedCheck dieAllowedCheck;
 
 
     public void launch(PodRegister podRegister, User captain){
@@ -218,6 +221,45 @@ public class ExpeditionService {
         expedition.setWater(expedition.getWater()+waterGather);
         expedition.setAugerPosition(0);
         //
+        expedition.getVeinScrapAndWaterSurvey()[0][0] -= scrapGather;
+        expedition.getVeinScrapAndWaterSurvey()[0][1] -= scrapGather;
+        expedition.getVeinScrapAndWaterSurvey()[1][0] -= waterGather;
+        expedition.getVeinScrapAndWaterSurvey()[1][1] -= waterGather;
+        if(expedition.getVeinScrapAndWaterSurvey()[0][0] < 0) expedition.getVeinScrapAndWaterSurvey()[0][0] = 0;
+        if(expedition.getVeinScrapAndWaterSurvey()[0][1] < 0) expedition.getVeinScrapAndWaterSurvey()[0][1] = 0;
+        if(expedition.getVeinScrapAndWaterSurvey()[1][0] < 0) expedition.getVeinScrapAndWaterSurvey()[1][0] = 0;
+        if(expedition.getVeinScrapAndWaterSurvey()[1][1] < 0) expedition.getVeinScrapAndWaterSurvey()[1][1] = 0;
+        // Enemies //
+        // Melee
+        int strike = expedition.getEnemiesZoneBasic()[0] + expedition.getEnemiesZoneSpeedy()[0] + expedition.getEnemiesZoneSpeedy()[1];
+        expedition.getPod().setHealth(expedition.getPod().getHealth()-strike);
+        expedition.getEnemiesZoneBasic()[0] = 0;
+        expedition.getEnemiesZoneSpeedy()[0] = 0;
+        expedition.getEnemiesZoneSpeedy()[1] = 0;
+        // Distance
+        int shot = expedition.getEnemiesZoneThrower()[0] + expedition.getEnemiesZoneThrower()[1] + expedition.getEnemiesZoneThrower()[2];
+        expedition.getPod().setHealth(expedition.getPod().getHealth()-shot);
+        // Move
+        for(int zone = 0; zone < 5; zone ++){
+            expedition.getEnemiesZoneBasic()[zone] = expedition.getEnemiesZoneBasic()[zone+1];
+            expedition.getEnemiesZoneBasic()[zone+1] = 0;
+            if(zone < 4){
+                expedition.getEnemiesZoneSpeedy()[zone] = expedition.getEnemiesZoneSpeedy()[zone+2];
+                expedition.getEnemiesZoneSpeedy()[zone+2] = 0;
+            }
+            if(zone >= 2){
+                expedition.getEnemiesZoneThrower()[zone] += expedition.getEnemiesZoneThrower()[zone+1];
+                expedition.getEnemiesZoneThrower()[zone+1] = 0;
+            }
+        }
+        // Spawn
+        for(int zone = 3; zone < 6; zone ++){
+            int d6 = dieInteraction.roll("1d6");
+            if (d6 == 1 || d6 == 2) expedition.getEnemiesZoneBasic()[zone] ++;
+            else if (d6 == 3) expedition.getEnemiesZoneSpeedy()[zone] ++;
+            else if (d6 == 4) expedition.getEnemiesZoneThrower()[zone] ++;
+        }
+        //
 
         repository.save(expedition);
         return expedition;
@@ -303,6 +345,10 @@ public class ExpeditionService {
             expedition.getVeinSurvey()[1][1] = expedition.getVeinReal()[1] + dieInteraction.roll("1d6");
             expedition.getVeinSurvey()[2][0] = expedition.getVeinReal()[2] - dieInteraction.roll("1d4");
             expedition.getVeinSurvey()[2][1] = expedition.getVeinReal()[2] + dieInteraction.roll("1d4");
+            expedition.getVeinScrapAndWaterSurvey()[0][0] = expedition.getVeinScrapAndWater()[0] - dieInteraction.roll("1d6");
+            expedition.getVeinScrapAndWaterSurvey()[0][1] = expedition.getVeinScrapAndWater()[0] + dieInteraction.roll("1d6");
+            expedition.getVeinScrapAndWaterSurvey()[1][0] = expedition.getVeinScrapAndWater()[1] - dieInteraction.roll("1d4");
+            expedition.getVeinScrapAndWaterSurvey()[1][1] = expedition.getVeinScrapAndWater()[1] + dieInteraction.roll("1d4");
         }else{
             expedition.getVeinSurvey()[0][0] = Math.min(expedition.getVeinSurvey()[0][0]+1, expedition.getVeinReal()[0]);
             expedition.getVeinSurvey()[0][1] = Math.max(expedition.getVeinSurvey()[0][1]-1, expedition.getVeinReal()[0]);
@@ -310,7 +356,71 @@ public class ExpeditionService {
             expedition.getVeinSurvey()[1][1] = Math.max(expedition.getVeinSurvey()[1][1]-1, expedition.getVeinReal()[1]);
             expedition.getVeinSurvey()[2][0] = Math.min(expedition.getVeinSurvey()[2][0]+1, expedition.getVeinReal()[2]);
             expedition.getVeinSurvey()[2][1] = Math.max(expedition.getVeinSurvey()[2][1]-1, expedition.getVeinReal()[2]);
+            expedition.getVeinScrapAndWaterSurvey()[0][0] = Math.min(expedition.getVeinScrapAndWaterSurvey()[0][0]+1, expedition.getVeinScrapAndWater()[0]);
+            expedition.getVeinScrapAndWaterSurvey()[0][1] = Math.max(expedition.getVeinScrapAndWaterSurvey()[0][1]-1, expedition.getVeinScrapAndWater()[0]);
+            expedition.getVeinScrapAndWaterSurvey()[1][0] = Math.min(expedition.getVeinScrapAndWaterSurvey()[1][0]+1, expedition.getVeinScrapAndWater()[1]);
+            expedition.getVeinScrapAndWaterSurvey()[1][1] = Math.max(expedition.getVeinScrapAndWaterSurvey()[1][1]-1, expedition.getVeinScrapAndWater()[1]);
         }
         repository.save(expedition);
+    }
+
+    public void armoryShoot(DieAction action){
+        if(action.getDieValue() < 1 || action.getDieValue() > 6) return;
+        int zone = Integer.parseInt(action.getEndZone().substring(action.getEndZone().length()-1));
+        if(zone == 0 || zone == 1){
+            if(action.getDieValue() != 1 && action.getDieValue() != 2) return;
+        }else{
+            if(zone+1 != action.getDieValue()) return;
+        }
+        String type = action.getEndZone().substring("armory-shoot-enemy-".length(),action.getEndZone().length()-2);
+        if(!type.equals("basic") && !type.equals("speedy") && !type.equals("thrower")) return;
+
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+
+        if(expedition.getAmmo() <= 0) return;
+        if(!majagaba.getRoom().equals("armory")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        if(type.equals("basic")){
+            if(expedition.getEnemiesZoneBasic()[zone] > 0) expedition.getEnemiesZoneBasic()[zone] --;
+        }
+        if(type.equals("speedy")){
+            if(expedition.getEnemiesZoneSpeedy()[zone] > 0) expedition.getEnemiesZoneSpeedy()[zone] --;
+        }
+        if(type.equals("thrower")){
+            if(expedition.getEnemiesZoneThrower()[zone] > 0) expedition.getEnemiesZoneThrower()[zone] --;
+        }
+
+        expedition.setAmmo(expedition.getAmmo()-1);
+        repository.save(expedition);
+        majagabaService.useDie(majagaba, action);
+    }
+
+    public void armoryReload(DieAction action){
+        if(action.getDieValue() < 1 || action.getDieValue() > 6) return;
+        int zone = Integer.parseInt(action.getEndZone().substring(action.getEndZone().length()-1));
+        if(zone < 0 || zone > 2) return;
+
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        Workshop workshop = expedition.getPod().getRooms().get(3).getWorkshops().get(1);
+
+        if(!majagaba.getRoom().equals("armory")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+        if(!dieAllowedCheck.isDifferent(workshop.getStoredDice(),action.getDieValue())) return;
+
+        majagabaService.reload(action);
+
+        if(workshopService.isFull(workshop)){
+            workshopService.emptyThis(workshop);
+            int ammoToCreate = 3;
+            while(expedition.getScrap() > 0 && ammoToCreate > 0){
+                expedition.setAmmo(expedition.getAmmo()+1);
+                expedition.setScrap(expedition.getScrap()-1);
+                ammoToCreate --;
+            }
+            repository.save(expedition);
+        }
     }
 }

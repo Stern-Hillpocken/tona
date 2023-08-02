@@ -17,7 +17,7 @@ export class OverviewPodComponent {
 
   requestIsSended$: Subject<boolean> = new Subject();
 
-  expedition: Expedition = new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],0,0,[],"");
+  expedition: Expedition = new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],[],0,0,0,[],[],[],[],"");
 
   user: User = new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0));
 
@@ -90,6 +90,16 @@ export class OverviewPodComponent {
         });
       }else if(this.lastDragedZoneName.startsWith("extractor-probe")){
         this.expeditionService.probeScan(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
+      }else if(this.lastDragedZoneName.startsWith("armory-shoot")){
+        this.expeditionService.armoryShoot(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
+      }else if(this.lastDragedZoneName.startsWith("armory-reload")){
+        this.expeditionService.armoryReload(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
           this.reloadExpedition();
           this.reloadMe();
         });

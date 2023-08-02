@@ -34,6 +34,9 @@
     <div *ngIf="slideDisplayed === 1" class="probe">
         <h3 (click)="alert('probe')">Sonde <app-svg named="sequence"></app-svg></h3>
         <p>Scanné <span class="highlight">{{ expedition.probeScanningTimes }}</span>&nbsp;fois</p>
+        <p *ngIf="expedition.probeScanningTimes > 0">
+            {{ expedition.veinScrapAndWaterSurvey[0][0] }} ~ {{ expedition.veinScrapAndWaterSurvey[0][1] }} <app-svg named="scrap"></app-svg> / {{ expedition.veinScrapAndWaterSurvey[1][0] }} ~ {{ expedition.veinScrapAndWaterSurvey[1][1] }} <app-svg named="water"></app-svg>
+        </p>
         <div
             *ngFor="let die of expedition.pod.rooms[2].workshops[1].storedDice; let zoneNumber = index"
             (dragenter)="onDragEnter($event, zoneNumber)"

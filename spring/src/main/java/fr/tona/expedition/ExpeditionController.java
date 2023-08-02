@@ -49,4 +49,14 @@ public class ExpeditionController {
     public void probeScan(@RequestBody DieAction action){
         service.probeScan(action);
     }
+
+    @PutMapping("/armory/shoot-enemy")
+    public void armoryShoot(@RequestBody DieAction action){
+        service.armoryShoot(action);
+    }
+
+    @PutMapping("/armory/reload")
+    public void armoryReload(@RequestBody DieAction action){
+        service.armoryReload(action);
+    }
 }

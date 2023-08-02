@@ -42,9 +42,15 @@ export class HoldComponent {
   alert(workshopName: string): void {
     let title: string = "";
     let text: string = "";
-    if(workshopName === "steam-regulator"){
-      title = "Steam Regulator";
-      text = "Pour avoir de quoi +1/-1, faire une suite de 3 dés"
+    if(workshopName === "steam-blast"){
+      title = "Soufflerie";
+      text = "Mettre des dés de même valeurs. L'objet obtenu permet de donner 4 dés à l'entièreté du groupe pour le prochain tour."
+    } else if(workshopName === "steam-switcher"){
+      title = "Aiguilleur";
+      text = "Mettre des dés différents. L'objet permet de donner un de ses dés à un autre membre."
+    } else if(workshopName === "steam-regulator"){
+      title = "Régulateur";
+      text = "Pour avoir de quoi +1/-1, faire une suite de 3 dés."
     }
     this.alertService.udpate(title, text);
   }

@@ -1,1 +1,66 @@
-<p>armory works!</p>
+<div class="workshop">
+    <button (click)="slide('left')"><app-svg named="left-arrow"></app-svg></button>
+
+    <div *ngIf="slideDisplayed === 0" class="cannon">
+
+        <h3 (click)="alert('cannon')">Canon <app-svg named="between"></app-svg></h3>
+
+        <table>
+            <tr><td>1-2</td><td>1-2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+            <tr>
+                <td *ngFor="let col of [].constructor(6); let i = index" >
+                    <div
+                        *ngIf="expedition.enemiesZoneBasic[i] !== 0"
+                        (dragenter)="onDragEnter($event, i)"
+                        class="single-dice-storage-zone armory-shoot-enemy-basic"
+                    >
+                        <img src="assets/images/enemies/basic.png">
+                        <p *ngIf="expedition.enemiesZoneBasic[i] > 1" class="enemy-count">
+                            x{{ expedition.enemiesZoneBasic[i] }}
+                        </p>
+                    </div>
+                    <div
+                        *ngIf="expedition.enemiesZoneSpeedy[i] !== 0"
+                        (dragenter)="onDragEnter($event, i)"
+                        class="single-dice-storage-zone armory-shoot-enemy-speedy"
+                    >
+                        <img src="assets/images/enemies/speedy.png">
+                        <p *ngIf="expedition.enemiesZoneSpeedy[i] > 1" class="enemy-count">
+                            x{{ expedition.enemiesZoneSpeedy[i] }}
+                        </p>
+                    </div>
+                    <div
+                        *ngIf="expedition.enemiesZoneThrower[i] !== 0"
+                        (dragenter)="onDragEnter($event, i)"
+                        class="single-dice-storage-zone armory-shoot-enemy-thrower"
+                    >
+                        <img src="assets/images/enemies/thrower.png">
+                        <p *ngIf="expedition.enemiesZoneThrower[i] > 1" class="enemy-count">
+                            x{{ expedition.enemiesZoneThrower[i] }}
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div *ngIf="slideDisplayed === 1" class="reload">
+        <h3 (click)="alert('reload')">Recharge <app-svg named="different"></app-svg></h3>
+        <p *ngIf="expedition.scrap >= 3">
+            3&nbsp;<app-svg named="scrap"></app-svg> <app-svg named="transform-into"></app-svg> 3&nbsp;<app-svg named="ammo"></app-svg>
+        </p>
+        <p *ngIf="expedition.scrap < 3">
+            <app-svg named="warning"></app-svg> <span class="highlight">{{ expedition.scrap }}</span>&nbsp;<app-svg named="scrap"></app-svg> <app-svg named="transform-into"></app-svg> <span class="highlight">{{ expedition.scrap }}</span>&nbsp;<app-svg named="ammo"></app-svg> <app-svg named="warning"></app-svg>
+        </p>
+        <div
+            *ngFor="let die of expedition.pod.rooms[3].workshops[1].storedDice; let i = index"
+            (dragenter)="onDragEnter($event, i)"
+            class="single-dice-storage-zone armory-reload"
+        >
+            <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
+        </div>
+    </div>
+
+    <button (click)="slide('right')"><app-svg named="right-arrow"></app-svg></button>
+</div>

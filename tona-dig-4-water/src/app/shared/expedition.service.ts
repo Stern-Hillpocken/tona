@@ -15,7 +15,7 @@ export class ExpeditionService {
 
     private readonly _sqlTable: string = "expedition";
 
-    private readonly _expedition$: BehaviorSubject<Expedition> = new BehaviorSubject<Expedition>(new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],0,0,[],""));
+    private readonly _expedition$: BehaviorSubject<Expedition> = new BehaviorSubject<Expedition>(new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],[],0,0,0,[],[],[],[],""));
 
     constructor(
       private http: HttpClient,
@@ -56,6 +56,14 @@ export class ExpeditionService {
 
     probeScan(dieValue: number, startZone: string, endZone: string): Observable<void> {
       return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/extractor/probe-scan', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
+
+    armoryShoot(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/armory/shoot-enemy', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
+
+    armoryReload(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/armory/reload', {dieValue: dieValue, startZone: startZone, endZone: endZone});
     }
     
 }

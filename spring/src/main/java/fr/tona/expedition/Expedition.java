@@ -51,7 +51,14 @@ public class Expedition {
     private Integer[] veinReal = new Integer[]{0,0,0};
     private Integer[][] veinSurvey = new Integer[][]{new Integer[]{0,0},new Integer[]{0,0},new Integer[]{0,0}};
     private Integer[] veinScrapAndWater = new Integer[]{0,0};
+    private Integer[][] veinScrapAndWaterSurvey = new Integer[][]{new Integer[]{0,0},new Integer[]{0,0}};
     private Integer probeScanningTimes = 0;
+
+    private Integer ammo = 6;
+    private Integer[] enemiesZoneBasic = new Integer[]{0,0,0,0,0,0};
+    private Integer[] enemiesZoneSpeedy = new Integer[]{0,0,0,0,0,0};
+    private Integer[] enemiesZoneThrower = new Integer[]{0,0,0,0,0,0};
+
     private Long depth = 10L;
 
     private Integer blastedDice = 0;

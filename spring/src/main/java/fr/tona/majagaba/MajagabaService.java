@@ -267,18 +267,13 @@ public class MajagabaService {
         repository.save(majagaba);
     }
 
-    /*private Boolean isEndZoneExist(String name){
-        return switch (name) {
-            case "remove-one-pip", "add-one-pip", "hold-craft 1" -> true;
-            default -> false;
-        };
-    }*/
+    public void reload(DieAction action){
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        Workshop workshop = jwtService.grepUserFromJwt().getExpedition().getPod().getRooms().get(3).getWorkshops().get(1);
+        int zone = Integer.parseInt(action.getEndZone().substring(action.getEndZone().length()-1));
+        workshop.getStoredDice()[zone] = action.getDieValue();
+        workshopRepository.save(workshop);
+        useDie(majagaba, action);
+    }
 
-
-    /*private Integer indexOfDie(Integer valueSearched, List<Integer> diceList){
-        for(int i = 0; i < diceList.size(); i++){
-            if(diceList.get(i).equals(valueSearched)) return i;
-        }
-        return -1;
-    }*/
 }
