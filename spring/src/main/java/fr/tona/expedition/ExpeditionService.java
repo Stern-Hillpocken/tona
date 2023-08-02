@@ -217,6 +217,15 @@ public class ExpeditionService {
         expedition.setScrap(expedition.getScrap()+scrapGather);
         expedition.setWater(expedition.getWater()+waterGather);
         expedition.setAugerPosition(0);
+        //
+        expedition.getVeinScrapAndWaterSurvey()[0][0] -= scrapGather;
+        expedition.getVeinScrapAndWaterSurvey()[0][1] -= scrapGather;
+        expedition.getVeinScrapAndWaterSurvey()[1][0] -= waterGather;
+        expedition.getVeinScrapAndWaterSurvey()[1][1] -= waterGather;
+        if(expedition.getVeinScrapAndWaterSurvey()[0][0] < 0) expedition.getVeinScrapAndWaterSurvey()[0][0] = 0;
+        if(expedition.getVeinScrapAndWaterSurvey()[0][1] < 0) expedition.getVeinScrapAndWaterSurvey()[0][1] = 0;
+        if(expedition.getVeinScrapAndWaterSurvey()[1][0] < 0) expedition.getVeinScrapAndWaterSurvey()[1][0] = 0;
+        if(expedition.getVeinScrapAndWaterSurvey()[1][1] < 0) expedition.getVeinScrapAndWaterSurvey()[1][1] = 0;
         // Enemies //
         // Melee
         int strike = expedition.getEnemiesZoneBasic()[0] + expedition.getEnemiesZoneSpeedy()[0] + expedition.getEnemiesZoneSpeedy()[1];
@@ -333,6 +342,10 @@ public class ExpeditionService {
             expedition.getVeinSurvey()[1][1] = expedition.getVeinReal()[1] + dieInteraction.roll("1d6");
             expedition.getVeinSurvey()[2][0] = expedition.getVeinReal()[2] - dieInteraction.roll("1d4");
             expedition.getVeinSurvey()[2][1] = expedition.getVeinReal()[2] + dieInteraction.roll("1d4");
+            expedition.getVeinScrapAndWaterSurvey()[0][0] = expedition.getVeinScrapAndWater()[0] - dieInteraction.roll("1d6");
+            expedition.getVeinScrapAndWaterSurvey()[0][1] = expedition.getVeinScrapAndWater()[0] + dieInteraction.roll("1d6");
+            expedition.getVeinScrapAndWaterSurvey()[1][0] = expedition.getVeinScrapAndWater()[1] - dieInteraction.roll("1d4");
+            expedition.getVeinScrapAndWaterSurvey()[1][1] = expedition.getVeinScrapAndWater()[1] + dieInteraction.roll("1d4");
         }else{
             expedition.getVeinSurvey()[0][0] = Math.min(expedition.getVeinSurvey()[0][0]+1, expedition.getVeinReal()[0]);
             expedition.getVeinSurvey()[0][1] = Math.max(expedition.getVeinSurvey()[0][1]-1, expedition.getVeinReal()[0]);
@@ -340,6 +353,10 @@ public class ExpeditionService {
             expedition.getVeinSurvey()[1][1] = Math.max(expedition.getVeinSurvey()[1][1]-1, expedition.getVeinReal()[1]);
             expedition.getVeinSurvey()[2][0] = Math.min(expedition.getVeinSurvey()[2][0]+1, expedition.getVeinReal()[2]);
             expedition.getVeinSurvey()[2][1] = Math.max(expedition.getVeinSurvey()[2][1]-1, expedition.getVeinReal()[2]);
+            expedition.getVeinScrapAndWaterSurvey()[0][0] = Math.min(expedition.getVeinScrapAndWaterSurvey()[0][0]+1, expedition.getVeinScrapAndWater()[0]);
+            expedition.getVeinScrapAndWaterSurvey()[0][1] = Math.max(expedition.getVeinScrapAndWaterSurvey()[0][1]-1, expedition.getVeinScrapAndWater()[0]);
+            expedition.getVeinScrapAndWaterSurvey()[1][0] = Math.min(expedition.getVeinScrapAndWaterSurvey()[1][0]+1, expedition.getVeinScrapAndWater()[1]);
+            expedition.getVeinScrapAndWaterSurvey()[1][1] = Math.max(expedition.getVeinScrapAndWaterSurvey()[1][1]-1, expedition.getVeinScrapAndWater()[1]);
         }
         repository.save(expedition);
     }

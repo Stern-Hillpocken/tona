@@ -3,7 +3,7 @@
         <h3>{{ expedition.name }} {{ expedition.pod.health }} / {{ expedition.pod.maxHealth }}</h3>
         <p>
             {{ getDateZero(expedition.hour) }}&nbsp;:&nbsp;{{ getDateZero(expedition.minute) }}<br>
-            {{ expedition.scrap }} matériaux
+            {{ expedition.scrap }} <app-svg named="scrap"></app-svg> / {{ expedition.ammo }} <app-svg named="ammo"></app-svg>
         </p>
     </div>
     <div class="majagaba-infos">

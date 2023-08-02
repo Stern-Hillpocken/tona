@@ -8,3 +8,15 @@ td{
     width: 4200px;
     border: 1px solid black;
 }
+.single-dice-storage-zone{
+    position: relative;
+    .enemy-count{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 0.8em;
+        color: white;
+        background-color: black;
+        border-top-left-radius: 0.5em;
+    }
+}

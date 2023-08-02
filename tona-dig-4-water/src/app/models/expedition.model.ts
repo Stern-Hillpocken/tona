@@ -16,6 +16,7 @@ export class Expedition {
         public scrap: number,
         public depth: number,
         public veinSurvey: number[][],
+        public veinScrapAndWaterSurvey: number[][],
         public augerPosition: number,
         public probeScanningTimes: number,
         public ammo: number,

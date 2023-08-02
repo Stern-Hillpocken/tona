@@ -8,23 +8,15 @@
         <table>
             <tr><td>1-2</td><td>1-2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
             <tr>
-                <td *ngFor="let enemy of expedition.enemiesZoneBasic">
-                    <div *ngIf="enemy !== 0">
-                        {{ enemy }}x basic
+                <td *ngFor="let col of [].constructor(6); let i = index" >
+                    <div *ngIf="expedition.enemiesZoneBasic[i] !== 0" class="single-dice-storage-zone">
+                        <img src="assets/images/enemies/basic.png"><p *ngIf="expedition.enemiesZoneBasic[i] > 1" class="enemy-count">x{{ expedition.enemiesZoneBasic[i] }}</p>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td *ngFor="let enemy of expedition.enemiesZoneSpeedy">
-                    <div *ngIf="enemy !== 0">
-                        {{ enemy }}x speedy
+                    <div *ngIf="expedition.enemiesZoneSpeedy[i] !== 0" class="single-dice-storage-zone">
+                        <img src="assets/images/enemies/speedy.png"><p *ngIf="expedition.enemiesZoneSpeedy[i] > 1" class="enemy-count">x{{ expedition.enemiesZoneSpeedy[i] }}</p>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td *ngFor="let enemy of expedition.enemiesZoneThrower">
-                    <div *ngIf="enemy !== 0">
-                        {{ enemy }}x thrower
+                    <div *ngIf="expedition.enemiesZoneThrower[i] !== 0" class="single-dice-storage-zone">
+                        <img src="assets/images/enemies/thrower.png"><p *ngIf="expedition.enemiesZoneThrower[i] > 1" class="enemy-count">x{{ expedition.enemiesZoneThrower[i] }}</p>
                     </div>
                 </td>
             </tr>
