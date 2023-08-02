@@ -57,5 +57,9 @@ export class ExpeditionService {
     probeScan(dieValue: number, startZone: string, endZone: string): Observable<void> {
       return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/extractor/probe-scan', {dieValue: dieValue, startZone: startZone, endZone: endZone});
     }
+
+    armoryShoot(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/armory/shoot-enemy', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
     
 }

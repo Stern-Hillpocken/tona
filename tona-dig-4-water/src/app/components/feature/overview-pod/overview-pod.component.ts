@@ -93,6 +93,11 @@ export class OverviewPodComponent {
           this.reloadExpedition();
           this.reloadMe();
         });
+      }else if(this.lastDragedZoneName.startsWith("armory-shoot")){
+        this.expeditionService.armoryShoot(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
       }
 
     }

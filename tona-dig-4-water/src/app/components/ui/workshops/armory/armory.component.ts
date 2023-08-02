@@ -25,7 +25,10 @@ export class ArmoryComponent {
     let realClassName = (zoneName.target as HTMLDivElement).className.substring("single-dice-storage-zone ".length);
     let spot = "";
     if(zoneNumber >= 0) spot += " " + zoneNumber;
-    this.dragEnterEmitter.emit(realClassName+spot);
+    if(realClassName.startsWith("armory-shoot-enemy-")){
+      this.dragEnterEmitter.emit(realClassName+spot);
+    }
+    
   }
 
   slide(direction: string): void {

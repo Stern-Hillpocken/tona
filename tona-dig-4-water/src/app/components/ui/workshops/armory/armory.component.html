@@ -9,14 +9,35 @@
             <tr><td>1-2</td><td>1-2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
             <tr>
                 <td *ngFor="let col of [].constructor(6); let i = index" >
-                    <div *ngIf="expedition.enemiesZoneBasic[i] !== 0" class="single-dice-storage-zone">
-                        <img src="assets/images/enemies/basic.png"><p *ngIf="expedition.enemiesZoneBasic[i] > 1" class="enemy-count">x{{ expedition.enemiesZoneBasic[i] }}</p>
+                    <div
+                        *ngIf="expedition.enemiesZoneBasic[i] !== 0"
+                        (dragenter)="onDragEnter($event, i)"
+                        class="single-dice-storage-zone armory-shoot-enemy-basic"
+                    >
+                        <img src="assets/images/enemies/basic.png">
+                        <p *ngIf="expedition.enemiesZoneBasic[i] > 1" class="enemy-count">
+                            x{{ expedition.enemiesZoneBasic[i] }}
+                        </p>
                     </div>
-                    <div *ngIf="expedition.enemiesZoneSpeedy[i] !== 0" class="single-dice-storage-zone">
-                        <img src="assets/images/enemies/speedy.png"><p *ngIf="expedition.enemiesZoneSpeedy[i] > 1" class="enemy-count">x{{ expedition.enemiesZoneSpeedy[i] }}</p>
+                    <div
+                        *ngIf="expedition.enemiesZoneSpeedy[i] !== 0"
+                        (dragenter)="onDragEnter($event, i)"
+                        class="single-dice-storage-zone armory-shoot-enemy-speedy"
+                    >
+                        <img src="assets/images/enemies/speedy.png">
+                        <p *ngIf="expedition.enemiesZoneSpeedy[i] > 1" class="enemy-count">
+                            x{{ expedition.enemiesZoneSpeedy[i] }}
+                        </p>
                     </div>
-                    <div *ngIf="expedition.enemiesZoneThrower[i] !== 0" class="single-dice-storage-zone">
-                        <img src="assets/images/enemies/thrower.png"><p *ngIf="expedition.enemiesZoneThrower[i] > 1" class="enemy-count">x{{ expedition.enemiesZoneThrower[i] }}</p>
+                    <div
+                        *ngIf="expedition.enemiesZoneThrower[i] !== 0"
+                        (dragenter)="onDragEnter($event, i)"
+                        class="single-dice-storage-zone armory-shoot-enemy-thrower"
+                    >
+                        <img src="assets/images/enemies/thrower.png">
+                        <p *ngIf="expedition.enemiesZoneThrower[i] > 1" class="enemy-count">
+                            x{{ expedition.enemiesZoneThrower[i] }}
+                        </p>
                     </div>
                 </td>
             </tr>

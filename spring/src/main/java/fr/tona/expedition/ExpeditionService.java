@@ -360,4 +360,36 @@ public class ExpeditionService {
         }
         repository.save(expedition);
     }
+
+    public void armoryShoot(DieAction action){
+        if(action.getDieValue() < 1 || action.getDieValue() > 6) return;
+        int zone = Integer.parseInt(action.getEndZone().substring(action.getEndZone().length()-1));
+        if(zone == 0 || zone == 1){
+            if(action.getDieValue() != 1 && action.getDieValue() != 2) return;
+        }else{
+            if(zone+1 != action.getDieValue()) return;
+        }
+        String type = action.getEndZone().substring("armory-shoot-enemy-".length(),action.getEndZone().length()-2);
+        if(!type.equals("basic") && !type.equals("speedy") && !type.equals("thrower")) return;
+
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+
+        if(expedition.getAmmo() <= 0) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        if(type.equals("basic")){
+            if(expedition.getEnemiesZoneBasic()[zone] > 0) expedition.getEnemiesZoneBasic()[zone] --;
+        }
+        if(type.equals("speedy")){
+            if(expedition.getEnemiesZoneSpeedy()[zone] > 0) expedition.getEnemiesZoneSpeedy()[zone] --;
+        }
+        if(type.equals("thrower")){
+            if(expedition.getEnemiesZoneThrower()[zone] > 0) expedition.getEnemiesZoneThrower()[zone] --;
+        }
+
+        expedition.setAmmo(expedition.getAmmo()-1);
+        repository.save(expedition);
+        majagabaService.useDie(majagaba, action);
+    }
 }
