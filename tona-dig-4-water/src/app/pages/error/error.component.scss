@@ -1,0 +1,32 @@
+.text{
+    text-align: center;
+}
+.time, .go-down, .points{
+    position: fixed;
+    bottom: 8px;
+}
+.time{
+    left: 16px;
+}
+.go-down{
+    font-size: 2em;
+    left: 40%;
+    svg{
+        height: 48px;
+        width: 48px;
+    }
+}
+.points{
+    right: 16px;
+}
+.bigger{
+    font-size: 3em;
+}
+
+.droplet, .water, .pure-water{
+    position: absolute;
+}
+svg{
+    height: 24px;
+    width: 24px;
+}
