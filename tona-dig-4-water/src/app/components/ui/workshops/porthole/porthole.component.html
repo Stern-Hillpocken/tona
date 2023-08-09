@@ -1,1 +1,99 @@
-<p>porthole works!</p>
+<div class="workshop">
+    <button (click)="slide('left')"><app-svg named="left-arrow"></app-svg></button>
+
+    <div *ngIf="slideDisplayed === 0" class="radar">
+        <h3 (click)="alert('radar')">Radar à vibrations [2/3]</h3>
+        <div class="porthole-choice-section">
+            <div>
+                <h4>Position</h4>
+                <p>{{ expedition.radarCrankLevel[0] }}&nbsp;<app-svg named="crank"></app-svg></p>
+                <div
+                (dragenter)="onDragEnter($event, 'position')"
+                class="single-dice-storage-zone"
+                [ngClass]="expedition.pod.rooms[4].workshops[0].name"
+                ></div>
+            </div>
+            <div>
+                <h4>Type</h4>
+                <p>{{ expedition.radarCrankLevel[1] }}&nbsp;<app-svg named="crank"></app-svg></p>
+                <div
+                (dragenter)="onDragEnter($event, 'type')"
+                class="single-dice-storage-zone"
+                [ngClass]="expedition.pod.rooms[4].workshops[0].name"
+                ></div>
+            </div>
+        </div> 
+    </div>
+
+    <div *ngIf="slideDisplayed === 1" class="spice-dose">
+        <h3 (click)="alert('spice-dose')">Dose d'épice [3/4/5]</h3>
+        <p>
+            (<span [ngClass]="expedition.scrap < 3 ? 'highlight' : ''">3</span>&nbsp;<app-svg named="scrap"></app-svg> + <span [ngClass]="expedition.water < 1 ? 'highlight' : ''">1</span>&nbsp;<app-svg named="water"></app-svg> <app-svg named="right-arrow"></app-svg> 1&nbsp;<app-svg named="spice-dose"></app-svg>)
+        </p>
+        <p class="spice-count">
+            {{ expedition.spiceDoseCrankLevel }}&nbsp;<app-svg named="spice-dose"></app-svg>
+        </p>
+        <div class="porthole-choice-section">
+            <div>
+                <h4>
+                    <app-svg named="right-arrow"></app-svg>
+                    <app-svg named="spice-dose"></app-svg>
+                </h4>
+                <div
+                (dragenter)="onDragEnter($event, 'prepare')"
+                class="single-dice-storage-zone"
+                [ngClass]="expedition.pod.rooms[4].workshops[1].name"
+                ></div>
+            </div>
+            <div>
+                <h4>
+                    <app-svg named="spice-dose"></app-svg>
+                    <app-svg named="right-arrow"></app-svg>
+                    <app-svg named="spice-dose-empty"></app-svg>
+                </h4>
+                <div
+                (dragenter)="onDragEnter($event, 'prepare-and-take')"
+                class="single-dice-storage-zone"
+                [ngClass]="expedition.pod.rooms[4].workshops[1].name"
+                ></div>
+            </div>
+            <div>
+                <h4>
+                    <app-svg named="right-arrow"></app-svg>
+                    <app-svg named="spice-dose-empty"></app-svg>
+                </h4>
+                <div
+                (dragenter)="onDragEnter($event, 'take')"
+                class="single-dice-storage-zone"
+                [ngClass]="expedition.pod.rooms[4].workshops[1].name"
+                ></div>
+            </div>
+        </div> 
+    </div>
+
+    <div *ngIf="slideDisplayed === 2" class="hull-diagnostic-panel">
+        <h3 (click)="alert('hull-diagnostic-panel')">Stéthoscopes [4/5]</h3>
+        <div class="porthole-choice-section">
+            <div>
+                <h4>Lieux</h4>
+                <p>{{ expedition.hullDiagnosticPanelCrankLevel[0] }}&nbsp;<app-svg named="crank"></app-svg></p>
+                <div
+                (dragenter)="onDragEnter($event, 'localisation')"
+                class="single-dice-storage-zone"
+                [ngClass]="expedition.pod.rooms[4].workshops[2].name"
+                ></div>
+            </div>
+            <div>
+                <h4>Effet</h4>
+                <p>{{ expedition.hullDiagnosticPanelCrankLevel[1] }}&nbsp;<app-svg named="crank"></app-svg></p>
+                <div
+                (dragenter)="onDragEnter($event, 'status')"
+                class="single-dice-storage-zone"
+                [ngClass]="expedition.pod.rooms[4].workshops[2].name"
+                ></div>
+            </div>
+        </div> 
+    </div>
+
+    <button (click)="slide('right')"><app-svg named="right-arrow"></app-svg></button>
+</div>

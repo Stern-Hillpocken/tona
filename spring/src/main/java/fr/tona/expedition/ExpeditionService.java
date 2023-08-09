@@ -127,14 +127,15 @@ public class ExpeditionService {
         // Porthole
         Room porthole = new Room();
         porthole.setName("porthole");
-        Workshop portholePW = new Workshop();
-        portholePW.setName("porthole-look");
-        portholePW.setStoredDice(new Integer[]{0,0,0});
-        porthole.getWorkshops().add(portholePW);
-        Workshop portholeSW = new Workshop();
-        portholeSW.setName("porthole-heal");
-        portholeSW.setStoredDice(new Integer[]{0,0,0});
-        porthole.getWorkshops().add(portholeSW);
+        Workshop portholeR = new Workshop();
+        portholeR.setName("porthole-radar");
+        porthole.getWorkshops().add(portholeR);
+        Workshop portholeSD = new Workshop();
+        portholeSD.setName("porthole-spice-dose");
+        porthole.getWorkshops().add(portholeSD);
+        Workshop portholeHDP = new Workshop();
+        portholeHDP.setName("porthole-hull-diagnostic-panel");
+        porthole.getWorkshops().add(portholeHDP);
         pod.getRooms().add(porthole);
 
         // Drill

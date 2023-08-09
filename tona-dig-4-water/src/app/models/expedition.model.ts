@@ -15,14 +15,25 @@ export class Expedition {
         public water: number,
         public scrap: number,
         public depth: number,
+
         public veinSurvey: number[][],
         public veinScrapAndWaterSurvey: number[][],
         public augerPosition: number,
         public probeScanningTimes: number,
+
         public ammo: number,
         public enemiesZoneBasic: number[],
         public enemiesZoneSpeedy: number[],
         public enemiesZoneThrower: number[],
+
+        public radarCrankLevel: number[],
+        public enemiesZoneBasicRadared: number[],
+        public enemiesZoneSpeedyRadared: number[],
+        public enemiesZoneThrowerRadared: number[],
+        public spiceDoseCrankLevel: number,
+        public hullDiagnosticPanelCrankLevel: number[],
+        public nextEffectsOnRooms: string[],
+
         public messages: ChatMessage[],
         public status: string
     ){}

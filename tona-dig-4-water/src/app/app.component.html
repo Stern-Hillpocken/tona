@@ -2,6 +2,6 @@
 <main [ngStyle]="{'height': currentUrl === '/welcome' || currentUrl.endsWith('/error') ? '100vh' : currentUrl.includes('/game') ? '80vh' : '90vh' }">
     <router-outlet></router-outlet>
 </main>
-<app-nav-bar *ngIf="currentUrl !== '/' || !currentUrl.endsWith('/error')"></app-nav-bar>
+<app-nav-bar *ngIf="currentUrl !== '/' && !currentUrl.endsWith('/error')"></app-nav-bar>
 <app-popup></app-popup>
 <app-alert></app-alert>
