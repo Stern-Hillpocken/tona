@@ -260,7 +260,32 @@ public class ExpeditionService {
             else if (d6 == 3) expedition.getEnemiesZoneSpeedy()[zone] ++;
             else if (d6 == 4) expedition.getEnemiesZoneThrower()[zone] ++;
         }
-        //
+        // Status on rooms
+        String[] nextTarget = new String[]{"","","","","",""};
+        String[] nextStatus = new String[]{"","",""};
+        if(expedition.getHullDiagnosticPanelCrankLevel()[0] > 0) nextTarget = expedition.getNextRoomsEventTargeted();
+        else nextTarget = generateNextRoomsEventTargeted(expedition);
+        if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0) nextStatus = expedition.getNextRoomsStatus();
+        else nextStatus = generateNextRoomsStatus();
+        ArrayList<Integer> roomTargetId = new ArrayList<>();
+        for(int roomT = 0; roomT < 6; roomT ++){
+            if(nextTarget[roomT].equals("x")) roomTargetId.add(roomT);
+        }
+        for(int status = 0; status < roomTargetId.size(); status ++){
+            int randomRoom = (int)(Math.random() * roomTargetId.size());
+            expedition.getPod().getRooms().get(roomTargetId.get((int)randomRoom)).setStatus(nextStatus[status]);
+            roomTargetId.remove((int)randomRoom);
+        }
+        // Porthole vision decrease
+        if(expedition.getRadarCrankLevel()[0] > 0) expedition.getRadarCrankLevel()[0] --;
+        if(expedition.getRadarCrankLevel()[1] > 0) expedition.getRadarCrankLevel()[1] --;
+        if(expedition.getHullDiagnosticPanelCrankLevel()[0] > 0) expedition.getHullDiagnosticPanelCrankLevel()[0] --;
+        if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0) expedition.getHullDiagnosticPanelCrankLevel()[1] --;
+        // Porthole vision refresh
+        if(expedition.getHullDiagnosticPanelCrankLevel()[0] > 0) expedition.setNextRoomsEventTargeted(generateNextRoomsEventTargeted(expedition));
+        else expedition.setNextRoomsEventTargeted(new String[]{"","","","","",""});
+        if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0) expedition.setNextRoomsStatus(generateNextRoomsStatus());
+        else expedition.setNextRoomsStatus(new String[]{"","",""});
 
         repository.save(expedition);
         return expedition;
@@ -423,5 +448,142 @@ public class ExpeditionService {
             }
             repository.save(expedition);
         }
+    }
+
+
+    public void radarPosition(DieAction action) {
+        if(action.getDieValue() != 2 && action.getDieValue() != 3) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(!majagaba.getRoom().equals("porthole")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        majagabaService.useDie(majagaba, action);
+        expedition.getRadarCrankLevel()[0] ++;
+        repository.save(expedition);
+    }
+
+    public void radarType(DieAction action) {
+        if(action.getDieValue() != 2 && action.getDieValue() != 3) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(!majagaba.getRoom().equals("porthole")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        majagabaService.useDie(majagaba, action);
+        expedition.getRadarCrankLevel()[1] ++;
+        repository.save(expedition);
+    }
+
+    public void spicePrepare(DieAction action) {
+        if(action.getDieValue() != 3 && action.getDieValue() != 4) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(!majagaba.getRoom().equals("porthole")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        if(expedition.getScrap() < 3 || expedition.getWater() < 1) return;
+        expedition.setScrap(expedition.getScrap()-3);
+        expedition.setWater(expedition.getWater()-1);
+
+        majagabaService.useDie(majagaba, action);
+        expedition.setSpiceDoseCrankLevel(expedition.getSpiceDoseCrankLevel()+1);
+        repository.save(expedition);
+    }
+
+    public void spicePrepareAndTake(DieAction action) {
+        if(action.getDieValue() != 6) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(!majagaba.getRoom().equals("porthole")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        if(expedition.getScrap() < 3 || expedition.getWater() < 1) return;
+        if(majagaba.getLife().equals(majagaba.getMaxLife())) return;
+
+        expedition.setScrap(expedition.getScrap()-3);
+        expedition.setWater(expedition.getWater()-1);
+        majagabaService.useSpice(majagaba);
+        majagabaService.useDie(majagaba, action);
+        repository.save(expedition);
+    }
+
+    public void spiceTake(DieAction action) {
+        if(action.getDieValue() != 3 && action.getDieValue() != 4) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(!majagaba.getRoom().equals("porthole")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        if(expedition.getSpiceDoseCrankLevel() < 1) return;
+        if(majagaba.getLife().equals(majagaba.getMaxLife())) return;
+
+        majagabaService.useSpice(majagaba);
+        majagabaService.useDie(majagaba, action);
+        expedition.setSpiceDoseCrankLevel(expedition.getSpiceDoseCrankLevel()-1);
+        repository.save(expedition);
+    }
+
+    public void hullDiagnosticLocalisation(DieAction action) {
+        if(action.getDieValue() != 4 && action.getDieValue() != 5) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(!majagaba.getRoom().equals("porthole")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        majagabaService.useDie(majagaba, action);
+        expedition.getHullDiagnosticPanelCrankLevel()[0] ++;
+        if(expedition.getHullDiagnosticPanelCrankLevel()[0] == 1) expedition.setNextRoomsEventTargeted(generateNextRoomsEventTargeted(expedition));
+        repository.save(expedition);
+    }
+
+    public void hullDiagnosticStatus(DieAction action) {
+        if(action.getDieValue() != 4 && action.getDieValue() != 5) return;
+        Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if(!majagaba.getRoom().equals("porthole")) return;
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+
+        majagabaService.useDie(majagaba, action);
+        expedition.getHullDiagnosticPanelCrankLevel()[1] ++;
+        if(expedition.getHullDiagnosticPanelCrankLevel()[1] == 1) expedition.setNextRoomsStatus(generateNextRoomsStatus());
+        repository.save(expedition);
+    }
+
+    private String[] generateNextRoomsStatus(){
+        String[] status = new String[]{"","",""};
+        for (int i = 0; i < 3; i ++) {
+            int random = 1 + (int)(Math.random() * 4);
+            if(random == 1) status[i] = "acid";
+            else if(random == 2) status[i] = "fan";
+            else if(random == 3) status[i] = "fire";
+            else status[i] = "glue";
+        }
+        return status;
+    }
+
+    private String[] generateNextRoomsEventTargeted(Expedition expedition){
+        String[] target = new String[]{"","","","","",""};
+        int countBlank = 0;
+        for(int room = 0; room < 6; room ++){
+            if(expedition.getPod().getRooms().get(room).getStatus().equals("")) countBlank ++;
+        }
+        int times = 0;
+        int randomT = 1 + (int)(Math.random() * 6);
+        if(randomT == 3 && countBlank == 6) times = 1;
+        if(randomT == 4 || randomT == 5) times = 1;
+        if(randomT == 6) times = 2;
+
+        if(times > countBlank) times = countBlank;
+
+        while(times > 0){
+            int randomR = (int)(Math.random() * 6);
+            if(expedition.getPod().getRooms().get(randomR).getStatus().equals("")){
+                target[randomR] = "x";
+                times --;
+            }
+        }
+
+        return target;
     }
 }

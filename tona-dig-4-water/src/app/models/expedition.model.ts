@@ -32,7 +32,8 @@ export class Expedition {
         public enemiesZoneThrowerRadared: number[],
         public spiceDoseCrankLevel: number,
         public hullDiagnosticPanelCrankLevel: number[],
-        public nextEffectsOnRooms: string[],
+        public nextRoomsEventTargeted: string[],
+        public nextRoomsStatus: string[],
 
         public messages: ChatMessage[],
         public status: string
