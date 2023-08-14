@@ -6,7 +6,7 @@
         <h3 (click)="alert('cannon')">Canon <app-svg named="between"></app-svg></h3>
 
         <table>
-            <tr><td>1-2</td><td>1-2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+            <tr><td>1/2</td><td>1-2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
             <tr>
                 <td *ngFor="let col of [].constructor(6); let i = index" >
                     <div
@@ -39,9 +39,23 @@
                             x{{ expedition.enemiesZoneThrower[i] }}
                         </p>
                     </div>
+
+                    <img *ngIf="expedition.enemiesZoneBasicRadared[i] > 0" src="assets/images/enemies/basic-shadow.png">
+                    <img *ngIf="expedition.enemiesZoneSpeedyRadared[i] > 0" src="assets/images/enemies/speedy-shadow.png">
+                    <img *ngIf="expedition.enemiesZoneThrowerRadared[i] > 0" src="assets/images/enemies/thrower-shadow.png">
                 </td>
             </tr>
         </table>
+
+        <p *ngIf="expedition.radarCrankLevel[0] > 0 && enemiesSum() == 0">Pas d'ennemies en plus...</p>
+        <p *ngIf="expedition.radarCrankLevel[0] > 0 && expedition.radarCrankLevel[1] === 0">
+            Positions&nbsp;:
+            {{ expedition.enemiesZoneRadared }}
+        </p>
+        <p *ngIf="expedition.radarCrankLevel[1] > 0 && expedition.radarCrankLevel[0] === 0">
+            Suivants&nbsp;:
+            <img *ngFor="let type of expedition.enemiesTypeRadared" [src]="'assets/images/enemies/'+type+'.png'">
+        </p>
 
     </div>
 

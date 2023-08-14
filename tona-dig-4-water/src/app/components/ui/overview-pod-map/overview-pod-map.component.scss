@@ -29,3 +29,12 @@
 .crew-spotted{
     height: 42px;
 }
+
+.room-header{
+    position: relative;
+}
+.status{
+    position: absolute;
+    left: 2px;
+    font-size: 1.5em;
+}

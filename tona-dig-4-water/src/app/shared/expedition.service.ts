@@ -15,7 +15,7 @@ export class ExpeditionService {
 
     private readonly _sqlTable: string = "expedition";
 
-    private readonly _expedition$: BehaviorSubject<Expedition> = new BehaviorSubject<Expedition>(new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],[],0,0,0,[],[],[],[],""));
+    private readonly _expedition$: BehaviorSubject<Expedition> = new BehaviorSubject<Expedition>(new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],[],0,0,0,[],[],[],[],[],[],[],[],[],0,[],[],[],[],""));
 
     constructor(
       private http: HttpClient,
@@ -38,6 +38,7 @@ export class ExpeditionService {
       return this.http.get<Expedition>(this.utils.getBaseUrl() + this._sqlTable + "/end-turn");
     }
 
+
     sendMessage(message: string): Observable<void> {
       return this.http.post<void>(this.utils.getBaseUrl() + this._sqlTable + "/send-message", message);
     }
@@ -45,6 +46,7 @@ export class ExpeditionService {
     getAllChatMessages(): Observable<ChatMessage[]> {
       return this.http.get<ChatMessage[]>(this.utils.getBaseUrl() + this._sqlTable + "/all-chat-messages");
     }
+
 
     useSteamBlast(): Observable<void> {
       return this.http.get<void>(this.utils.getBaseUrl() + this._sqlTable + '/use-object/steam-blast');
@@ -58,12 +60,42 @@ export class ExpeditionService {
       return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/extractor/probe-scan', {dieValue: dieValue, startZone: startZone, endZone: endZone});
     }
 
+
     armoryShoot(dieValue: number, startZone: string, endZone: string): Observable<void> {
       return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/armory/shoot-enemy', {dieValue: dieValue, startZone: startZone, endZone: endZone});
     }
 
     armoryReload(dieValue: number, startZone: string, endZone: string): Observable<void> {
       return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/armory/reload', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
+
+
+    radarPosition(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/porthole/radar-position', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
+
+    radarType(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/porthole/radar-type', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
+
+    spicePrepare(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/porthole/spice-prepare', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
+
+    spicePrepareAndTake(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/porthole/spice-prepare-and-take', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
+
+    spiceTake(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/porthole/spice-take', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
+
+    hullDiagnosticLocalisation(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/porthole/hull-diagnostic-localisation', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
+
+    hullDiagnosticStatus(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/porthole/hull-diagnostic-status', {dieValue: dieValue, startZone: startZone, endZone: endZone});
     }
     
 }

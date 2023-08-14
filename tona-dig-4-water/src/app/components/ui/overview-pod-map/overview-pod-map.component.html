@@ -5,10 +5,20 @@
         [ngClass]="'room '+room.name"
     >
         <div class="room-header">
-            <h3 [ngClass]="user.majagaba.room === room.name ? 'current-room' : ''">{{ translateName(room.name) }}</h3>
+            <div class="status">
+                <app-svg *ngIf="room.status === 'acid'" named="status-acid" style="fill:var(--color-accent)"></app-svg>
+                <app-svg *ngIf="room.status === '' && expedition.hullDiagnosticPanelCrankLevel[0] > 0 && expedition.nextRoomsEventTargeted[i] === ''" named="status-clear" style="fill:gray"></app-svg>
+                <app-svg *ngIf="room.status === 'fan'" named="status-fan" style="fill:var(--color-accent)"></app-svg>
+                <app-svg *ngIf="room.status === 'fire'" named="status-fire" style="fill:var(--color-accent)"></app-svg>
+                <app-svg *ngIf="room.status === 'glue'" named="status-glue" style="fill:var(--color-accent)"></app-svg>
+                <app-svg *ngIf="room.status === '' && expedition.hullDiagnosticPanelCrankLevel[0] > 0 && expedition.nextRoomsEventTargeted[i] === 'x'" named="status-target" style="fill:var(--color-accent)"></app-svg>
+            </div>
+            <h3 [ngClass]="user.majagaba.room === room.name ? 'current-room' : ''">
+                {{ translateName(room.name) }}
+            </h3>
             <div class="health">
-                <div *ngFor="let x of [].constructor(room.health)" [outerHTML]="'X'"></div>
-                <div *ngFor="let x of [].constructor(room.maxHealth-room.health)" outerHTML="'-'"></div>
+                <app-svg *ngFor="let x of [].constructor(room.health)" named="shield-full"></app-svg>
+                <app-svg *ngFor="let x of [].constructor(room.maxHealth-room.health)" named="shield-empty"></app-svg>
             </div>
         </div>
 

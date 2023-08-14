@@ -17,7 +17,7 @@ export class OverviewPodComponent {
 
   requestIsSended$: Subject<boolean> = new Subject();
 
-  expedition: Expedition = new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],[],0,0,0,[],[],[],[],"");
+  expedition: Expedition = new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],[],0,0,0,[],[],[],[],[],[],[],[],[],0,[],[],[],[],"");
 
   user: User = new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0));
 
@@ -100,6 +100,41 @@ export class OverviewPodComponent {
         });
       }else if(this.lastDragedZoneName.startsWith("armory-reload")){
         this.expeditionService.armoryReload(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
+      }else if(this.lastDragedZoneName === "porthole-radar position"){
+        this.expeditionService.radarPosition(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
+      }else if(this.lastDragedZoneName === "porthole-radar type"){
+        this.expeditionService.radarType(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
+      }else if(this.lastDragedZoneName === "porthole-spice-dose prepare"){
+        this.expeditionService.spicePrepare(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
+      }else if(this.lastDragedZoneName === "porthole-spice-dose prepare-and-take"){
+        this.expeditionService.spicePrepareAndTake(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
+      }else if(this.lastDragedZoneName === "porthole-spice-dose take"){
+        this.expeditionService.spiceTake(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
+      }else if(this.lastDragedZoneName === "porthole-hull-diagnostic-panel localisation"){
+        this.expeditionService.hullDiagnosticLocalisation(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
+      }else if(this.lastDragedZoneName === "porthole-hull-diagnostic-panel status"){
+        this.expeditionService.hullDiagnosticStatus(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
           this.reloadExpedition();
           this.reloadMe();
         });

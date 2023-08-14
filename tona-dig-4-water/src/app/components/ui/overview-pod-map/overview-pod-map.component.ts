@@ -28,7 +28,7 @@ export class OverviewPodMapComponent {
       case "armory": return "Armurerie";
       case "drill": return "Foreuse";
       case "extractor": return "Extracteur";
-      case "hoist": return "Treuillage";
+      case "hoist": return "Treuil";
       case "hold": return "Câle";
       case "porthole": return "Hublot";
       default: return "error";

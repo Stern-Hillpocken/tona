@@ -50,6 +50,7 @@ public class ExpeditionController {
         service.probeScan(action);
     }
 
+
     @PutMapping("/armory/shoot-enemy")
     public void armoryShoot(@RequestBody DieAction action){
         service.armoryShoot(action);
@@ -58,5 +59,41 @@ public class ExpeditionController {
     @PutMapping("/armory/reload")
     public void armoryReload(@RequestBody DieAction action){
         service.armoryReload(action);
+    }
+
+
+    @PutMapping("/porthole/radar-position")
+    public void radarPosition(@RequestBody DieAction action){
+        service.radarPosition(action);
+    }
+
+    @PutMapping("/porthole/radar-type")
+    public void radarType(@RequestBody DieAction action){
+        service.radarType(action);
+    }
+
+    @PutMapping("/porthole/spice-prepare")
+    public void spicePrepare(@RequestBody DieAction action){
+        service.spicePrepare(action);
+    }
+
+    @PutMapping("/porthole/spice-prepare-and-take")
+    public void spicePrepareAndTake(@RequestBody DieAction action){
+        service.spicePrepareAndTake(action);
+    }
+
+    @PutMapping("/porthole/spice-take")
+    public void spiceTake(@RequestBody DieAction action){
+        service.spiceTake(action);
+    }
+
+    @PutMapping("/porthole/hull-diagnostic-localisation")
+    public void hullDiagnosticLocalisation(@RequestBody DieAction action){
+        service.hullDiagnosticLocalisation(action);
+    }
+
+    @PutMapping("/porthole/hull-diagnostic-status")
+    public void hullDiagnosticStatus(@RequestBody DieAction action){
+        service.hullDiagnosticStatus(action);
     }
 }

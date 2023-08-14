@@ -20,6 +20,8 @@
     ></app-armory>
     <app-porthole
         *ngIf="user.majagaba.room === 'porthole'"
+        [expedition]="expedition"
+        (dragEnterEmitter)="onDragEnterReceive($event)"
     ></app-porthole>
     <app-drill
         *ngIf="user.majagaba.room === 'drill'"

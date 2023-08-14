@@ -276,4 +276,9 @@ public class MajagabaService {
         useDie(majagaba, action);
     }
 
+    public void useSpice(Majagaba majagaba) {
+        majagaba.setLife(majagaba.getLife()+2);
+        if(majagaba.getLife() > majagaba.getMaxLife()) majagaba.setLife(majagaba.getMaxLife());
+        repository.save(majagaba);
+    }
 }
