@@ -254,11 +254,16 @@ public class ExpeditionService {
             }
         }
         // Spawn
+        if(expedition.getRadarCrankLevel()[0] == 0) expedition = generateEnemiesPosition(expedition);
+        if(expedition.getRadarCrankLevel()[1] == 0) expedition = generateEnemiesTypeAndQuantity(expedition);
+        if(expedition.getRadarCrankLevel()[0] == 0 || expedition.getRadarCrankLevel()[1] == 0) expedition = combineEnemiesPositionTypeQuantity(expedition);
         for(int zone = 3; zone < 6; zone ++){
-            int d6 = dieInteraction.roll("1d6");
-            if (d6 == 1 || d6 == 2) expedition.getEnemiesZoneBasic()[zone] ++;
-            else if (d6 == 3) expedition.getEnemiesZoneSpeedy()[zone] ++;
-            else if (d6 == 4) expedition.getEnemiesZoneThrower()[zone] ++;
+            expedition.getEnemiesZoneBasic()[zone] += expedition.getEnemiesZoneBasicRadared()[zone];
+            expedition.getEnemiesZoneSpeedy()[zone] += expedition.getEnemiesZoneSpeedyRadared()[zone];
+            expedition.getEnemiesZoneThrower()[zone] += expedition.getEnemiesZoneThrowerRadared()[zone];
+            expedition.getEnemiesZoneBasicRadared()[zone] = 0;
+            expedition.getEnemiesZoneSpeedyRadared()[zone] = 0;
+            expedition.getEnemiesZoneThrowerRadared()[zone] = 0;
         }
         // Status on rooms
         String[] nextTarget = new String[]{"","","","","",""};
@@ -276,12 +281,20 @@ public class ExpeditionService {
             expedition.getPod().getRooms().get(roomTargetId.get((int)randomRoom)).setStatus(nextStatus[status]);
             roomTargetId.remove((int)randomRoom);
         }
-        // Porthole vision decrease
+        // PORTHOLE //
+        // Radar decrease
         if(expedition.getRadarCrankLevel()[0] > 0) expedition.getRadarCrankLevel()[0] --;
         if(expedition.getRadarCrankLevel()[1] > 0) expedition.getRadarCrankLevel()[1] --;
+        // Radar refresh
+        expedition.setEnemiesZoneRadared(new Integer[]{0,0,0,0,0,0});
+        expedition.setEnemiesTypeRadared(new String[]{"","",""});
+        if(expedition.getRadarCrankLevel()[0] > 0) expedition = generateEnemiesPosition(expedition);
+        if(expedition.getRadarCrankLevel()[1] > 0) expedition = generateEnemiesTypeAndQuantity(expedition);
+        if(expedition.getRadarCrankLevel()[0] > 0 && expedition.getRadarCrankLevel()[1] > 0) expedition = combineEnemiesPositionTypeQuantity(expedition);
+        // Vision decrease
         if(expedition.getHullDiagnosticPanelCrankLevel()[0] > 0) expedition.getHullDiagnosticPanelCrankLevel()[0] --;
         if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0) expedition.getHullDiagnosticPanelCrankLevel()[1] --;
-        // Porthole vision refresh
+        // Vision refresh
         if(expedition.getHullDiagnosticPanelCrankLevel()[0] > 0) expedition.setNextRoomsEventTargeted(generateNextRoomsEventTargeted(expedition));
         else expedition.setNextRoomsEventTargeted(new String[]{"","","","","",""});
         if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0) expedition.setNextRoomsStatus(generateNextRoomsStatus());
@@ -461,6 +474,8 @@ public class ExpeditionService {
         majagabaService.useDie(majagaba, action);
         expedition.getRadarCrankLevel()[0] ++;
         repository.save(expedition);
+        if(expedition.getRadarCrankLevel()[0] == 1) generateEnemiesPosition(expedition);
+        if(expedition.getRadarCrankLevel()[1] > 0) combineEnemiesPositionTypeQuantity(expedition);
     }
 
     public void radarType(DieAction action) {
@@ -473,6 +488,8 @@ public class ExpeditionService {
         majagabaService.useDie(majagaba, action);
         expedition.getRadarCrankLevel()[1] ++;
         repository.save(expedition);
+        if(expedition.getRadarCrankLevel()[1] == 1) generateEnemiesTypeAndQuantity(expedition);
+        if(expedition.getRadarCrankLevel()[0] > 0) combineEnemiesPositionTypeQuantity(expedition);
     }
 
     public void spicePrepare(DieAction action) {
@@ -586,4 +603,42 @@ public class ExpeditionService {
 
         return target;
     }
+
+    private Expedition generateEnemiesPosition(Expedition expedition){
+        int spawnNumber = (int)(Math.random() * 4);
+        for(int i = 0; i < spawnNumber; i++){
+            int zone = 2 + dieInteraction.roll("1d3");
+            expedition.getEnemiesZoneRadared()[zone] ++;
+        }
+        return expedition;
+    }
+
+    private Expedition generateEnemiesTypeAndQuantity(Expedition expedition){
+        int maxSpawnNumber = 3;
+        for(int i = 0; i < maxSpawnNumber; i++){
+            int random = dieInteraction.roll("1d4");
+            if(random == 1 || random == 2) expedition.getEnemiesTypeRadared()[i] = "basic";
+            else if(random == 3) expedition.getEnemiesTypeRadared()[i] = "speedy";
+            else expedition.getEnemiesTypeRadared()[i] = "thrower";
+        }
+        return expedition;
+    }
+
+    private Expedition combineEnemiesPositionTypeQuantity(Expedition expedition){
+        int spawnNumber = expedition.getEnemiesZoneRadared()[3]+expedition.getEnemiesZoneRadared()[4]+expedition.getEnemiesZoneRadared()[5];
+        int times = 0;
+        while(times < spawnNumber){
+            int randomLocalisation = 3 + (int)(Math.random() * 3);
+            if(expedition.getEnemiesZoneRadared()[randomLocalisation] > 0){
+                expedition.getEnemiesZoneRadared()[randomLocalisation] --;
+                if(expedition.getEnemiesTypeRadared()[times].equals("basic")) expedition.getEnemiesZoneBasicRadared()[randomLocalisation] ++;
+                else if(expedition.getEnemiesTypeRadared()[times].equals("speedy")) expedition.getEnemiesZoneSpeedyRadared()[randomLocalisation] ++;
+                else expedition.getEnemiesZoneThrowerRadared()[randomLocalisation] ++;
+                times ++;
+            }
+        }
+        return expedition;
+    }
+
+
 }

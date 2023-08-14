@@ -27,6 +27,8 @@ export class Expedition {
         public enemiesZoneThrower: number[],
 
         public radarCrankLevel: number[],
+        public enemiesZoneRadared: number[],
+        public enemiesTypeRadared: string[],
         public enemiesZoneBasicRadared: number[],
         public enemiesZoneSpeedyRadared: number[],
         public enemiesZoneThrowerRadared: number[],

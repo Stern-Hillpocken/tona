@@ -54,4 +54,12 @@ export class ArmoryComponent {
     this.alertService.udpate(title, text);
   }
 
+  enemiesSum(): number {
+    let sum = 0;
+    for(let i = 0; i < 6; i++){
+      sum += this.expedition.enemiesZoneBasicRadared[i] + this.expedition.enemiesZoneSpeedyRadared[i] + this.expedition.enemiesZoneThrowerRadared[i];
+    }
+    return sum;
+  }
+
 }

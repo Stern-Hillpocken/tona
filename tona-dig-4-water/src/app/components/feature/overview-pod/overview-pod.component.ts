@@ -17,7 +17,7 @@ export class OverviewPodComponent {
 
   requestIsSended$: Subject<boolean> = new Subject();
 
-  expedition: Expedition = new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],[],0,0,0,[],[],[],[],[],[],[],0,[],[],[],[],"");
+  expedition: Expedition = new Expedition("",0,0,0,0,new Pod(0,0,[]),new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)),[],0,0,0,[],[],0,0,0,[],[],[],[],[],[],[],[],[],0,[],[],[],[],"");
 
   user: User = new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0));
 
