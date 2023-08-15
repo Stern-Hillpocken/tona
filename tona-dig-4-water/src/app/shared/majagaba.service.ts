@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { UtilsService } from './utils.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Majagaba } from '../models/majagaba.model';
 
 @Injectable({
   providedIn: 'root'

@@ -37,6 +37,9 @@ export class OverviewPodComponent {
       this.expedition = expe;
     });
     this.reloadMe();
+    this.userService._getUser$().subscribe((user: User) => {
+      this.user = user;
+    });
   }
 
   reloadExpedition(): void {
@@ -47,7 +50,7 @@ export class OverviewPodComponent {
 
   reloadMe(): void {
     this.userService.getMe().subscribe((me: User) => {
-      this.user = me;
+      this.userService._setUser$(me);
     });
   }
 
