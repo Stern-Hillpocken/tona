@@ -1,5 +1,6 @@
 package fr.tona.expedition;
 
+import ch.qos.logback.core.encoder.EchoEncoder;
 import fr.tona.chat_message.ChatMessage;
 import fr.tona.majagaba.Majagaba;
 import fr.tona.majagaba.MajagabaService;
@@ -198,7 +199,7 @@ public class ExpeditionService {
         // Majagaba
         List<User> userList = new ArrayList<User>(expedition.getCrew());
         for(int c = 0; c < expedition.getCrew().size(); c++){
-            majagabaService.endTurn(userList.get(c).getMajagaba());
+            majagabaService.endTurn(expedition, userList.get(c).getMajagaba());
         }
         // Steam Blast
         majagabaService.addBlastedDice(expedition.getBlastedDice());
@@ -299,6 +300,10 @@ public class ExpeditionService {
         else expedition.setNextRoomsEventTargeted(new String[]{"","","","","",""});
         if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0) expedition.setNextRoomsStatus(generateNextRoomsStatus());
         else expedition.setNextRoomsStatus(new String[]{"","",""});
+        // Room damaged by acid
+        for(int i = 0; i < 6; i++){
+            if(expedition.getPod().getRooms().get((int)i).getStatus().equals("acid")) expedition = roomDamaged(expedition, i, 1);
+        }
 
         repository.save(expedition);
         return expedition;
@@ -636,6 +641,15 @@ public class ExpeditionService {
                 else expedition.getEnemiesZoneThrowerRadared()[randomLocalisation] ++;
                 times ++;
             }
+        }
+        return expedition;
+    }
+
+    private Expedition roomDamaged(Expedition expedition, Integer id, Integer damage) {
+        expedition.getPod().getRooms().get((int)id).setHealth(expedition.getPod().getRooms().get((int)id).getHealth()-damage);
+        if(expedition.getPod().getRooms().get((int)id).getHealth() < 0){
+            expedition.getPod().getRooms().get((int)id).setHealth(0);
+            expedition.getPod().setHealth(expedition.getPod().getHealth()-1);
         }
         return expedition;
     }

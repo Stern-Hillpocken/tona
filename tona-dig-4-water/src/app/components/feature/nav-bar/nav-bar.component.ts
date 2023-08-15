@@ -14,8 +14,7 @@ export class NavBarComponent {
   isConnected: boolean = false;
 
   constructor(
-    private router: Router,
-    private token: TokenService
+    private router: Router
   ){}
 
   ngOnInit(): void {
@@ -24,7 +23,6 @@ export class NavBarComponent {
         this.urlIncludesGame = navInfo.url.includes("/game");
       }
     });
-    //this.token.
   }
 
 }

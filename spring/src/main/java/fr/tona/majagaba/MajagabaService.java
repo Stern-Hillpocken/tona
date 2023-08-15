@@ -68,7 +68,8 @@ public class MajagabaService {
         repository.save(majagaba);
     }
 
-    public void endTurn(Majagaba majagaba){
+    public void endTurn(Expedition expedition, Majagaba majagaba){
+        String currentRoomStatus = expedition.getPod().getRooms().get((int)roomId(majagaba.getRoom())).getStatus();
         // Reroll left
         majagaba.setRerollLeft(2);
         // Reroll dice
@@ -80,15 +81,19 @@ public class MajagabaService {
             majagaba.setDiceStocked(new ArrayList<>());
         }
         majagaba.setDicePool(new ArrayList<>());
-        for(int i = 0; i < 4; i++){
+        int diceNumber = 4;
+        if(currentRoomStatus.equals("fan")) diceNumber --;
+        for(int i = 0; i < diceNumber; i++){
             majagaba.getDicePool().add(1 + (int)(Math.random() * 6));
         }
+        // Fire
+        if(currentRoomStatus.equals("fire")) majagaba = takeDamage(majagaba, 1);
         repository.save(majagaba);
     }
 
     public void addBlastedDice(Integer times){
         Expedition expedition = jwtService.grepUserFromJwt().getExpedition();
-        Integer crewIndex = 0;
+        int crewIndex = 0;
         while(times > 0){
             Majagaba majagaba = expedition.getCrew().get(crewIndex).getMajagaba();
             majagaba.getDicePool().add(1 + (int)(Math.random() * (6 - 1)));
@@ -100,32 +105,35 @@ public class MajagabaService {
     }
 
     public void move(DieAction action){
-        if(action.getEndZone().equals("armory") || action.getEndZone().equals("drill") || action.getEndZone().equals("extractor") || action.getEndZone().equals("hoist") || action.getEndZone().equals("hold") || action.getEndZone().equals("porthole")){
-            User user = jwtService.grepUserFromJwt();
-            Majagaba majagaba = user.getMajagaba();
-            if(!majagaba.getRoom().equals(action.getEndZone()) && this.isZoneAdjacent(action.getEndZone(), majagaba.getRoom())){
+        if(!action.getEndZone().equals("armory") && !action.getEndZone().equals("drill") && !action.getEndZone().equals("extractor") && !action.getEndZone().equals("hoist") && !action.getEndZone().equals("hold") && !action.getEndZone().equals("porthole")) return;
+        User user = jwtService.grepUserFromJwt();
+        Majagaba majagaba = user.getMajagaba();
+        Expedition expedition = user.getExpedition();
+        boolean isRoomWithGlue = expedition.getPod().getRooms().get(roomId(user.getMajagaba().getRoom())).getStatus().equals("glue");
+        if(isRoomWithGlue) return;
 
-                if(action.getStartZone().equals("dice-pool-zone")){
-                    for(int i = 0; i < majagaba.getDicePool().size(); i++){
-                        if(majagaba.getDicePool().get(i).equals(action.getDieValue())){
-                            majagaba.getDicePool().remove(i);
-                            majagaba.setRoom(action.getEndZone());
-                            repository.save(majagaba);
-                            break;
-                        }
-                    }
-                }else if(action.getStartZone().equals("dice-stocked-zone")){
-                    for(int i = 0; i < majagaba.getDiceStocked().size(); i++){
-                        if(majagaba.getDiceStocked().get(i).equals(action.getDieValue())){
-                            majagaba.getDiceStocked().remove(i);
-                            majagaba.setRoom(action.getEndZone());
-                            repository.save(majagaba);
-                            break;
-                        }
+        if(!majagaba.getRoom().equals(action.getEndZone()) && this.isZoneAdjacent(action.getEndZone(), majagaba.getRoom())){
+
+            if(action.getStartZone().equals("dice-pool-zone")){
+                for(int i = 0; i < majagaba.getDicePool().size(); i++){
+                    if(majagaba.getDicePool().get(i).equals(action.getDieValue())){
+                        majagaba.getDicePool().remove(i);
+                        majagaba.setRoom(action.getEndZone());
+                        repository.save(majagaba);
+                        break;
                     }
                 }
-
+            }else if(action.getStartZone().equals("dice-stocked-zone")){
+                for(int i = 0; i < majagaba.getDiceStocked().size(); i++){
+                    if(majagaba.getDiceStocked().get(i).equals(action.getDieValue())){
+                        majagaba.getDiceStocked().remove(i);
+                        majagaba.setRoom(action.getEndZone());
+                        repository.save(majagaba);
+                        break;
+                    }
+                }
             }
+
         }
     }
 
@@ -231,8 +239,8 @@ public class MajagabaService {
     private Workshop getAskedWorkshop(User user, String askedName){
         String roomName = askedName.split("-")[0];
         String workshopName = askedName.split(" ")[0];
-        Integer indexOfRoom = -1;
-        Integer indexOfWorkshop = -1;
+        int indexOfRoom = -1;
+        int indexOfWorkshop = -1;
         for(int i = 0; i < user.getExpedition().getPod().getRooms().size(); i++){
             if(user.getExpedition().getPod().getRooms().get(i).getName().equals(roomName)){
                 indexOfRoom = i;
@@ -280,5 +288,22 @@ public class MajagabaService {
         majagaba.setLife(majagaba.getLife()+2);
         if(majagaba.getLife() > majagaba.getMaxLife()) majagaba.setLife(majagaba.getMaxLife());
         repository.save(majagaba);
+    }
+
+    private Integer roomId(String roomName) {
+        return switch (roomName) {
+            case "hoist" -> 0;
+            case "hold" -> 1;
+            case "extractor" -> 2;
+            case "armory" -> 3;
+            case "porthole" -> 4;
+            case "drill" -> 5;
+            default -> -1;
+        };
+    }
+
+    private Majagaba takeDamage(Majagaba majagaba, Integer value) {
+        majagaba.setLife(majagaba.getLife()-value);
+        return majagaba;
     }
 }
