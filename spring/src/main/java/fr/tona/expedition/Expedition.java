@@ -54,19 +54,19 @@ public class Expedition {
     private Integer[][] veinScrapAndWaterSurvey = new Integer[][]{new Integer[]{0,0},new Integer[]{0,0}};
     private Integer probeScanningTimes = 0;
 
-    private Integer ammo = 6;
+    private Integer ammo = 8;
     private Integer[] enemiesZoneBasic = new Integer[]{0,0,0,0,0,0};
     private Integer[] enemiesZoneSpeedy = new Integer[]{0,0,0,0,0,0};
     private Integer[] enemiesZoneThrower = new Integer[]{0,0,0,0,0,0};
 
-    private Integer[] radarCrankLevel = new Integer[]{4,4}; // position & type
+    private Integer[] radarCrankLevel = new Integer[]{8,8}; // position & type
     private Integer[] enemiesZoneRadared = new Integer[]{0,0,0,0,0,0};
     private String[] enemiesTypeRadared = new String[]{"basic","basic","basic"};
     private Integer[] enemiesZoneBasicRadared = new Integer[]{0,0,0,0,0,0};
     private Integer[] enemiesZoneSpeedyRadared = new Integer[]{0,0,0,0,0,0};
     private Integer[] enemiesZoneThrowerRadared = new Integer[]{0,0,0,0,0,0};
-    private Integer spiceDoseCrankLevel = 2;
-    private Integer[] hullDiagnosticPanelCrankLevel = new Integer[]{0,0}; // localisation & status
+    private Integer spiceDoseCrankLevel = 4;
+    private Integer[] hullDiagnosticPanelCrankLevel = new Integer[]{6,6}; // localisation & status
     private String[] nextRoomsEventTargeted = new String[]{"","","","","",""};
     private String[] nextRoomsStatus = new String[]{"","",""};
 

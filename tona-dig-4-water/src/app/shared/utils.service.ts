@@ -14,11 +14,11 @@ export class UtilsService {
     difficultyToString(value: number): string {
       let contents: string = "?";
       if(value === 1){
-        contents = "Facile";
+        contents = "Normal";
       }else if(value === 2){
-        contents = "Moyen";
-      }else if(value === 3){
         contents = "Difficile";
+      }else if(value === 3){
+        contents = "Infernal";
       }
       return contents;
     }

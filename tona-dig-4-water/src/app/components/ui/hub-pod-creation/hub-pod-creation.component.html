@@ -3,8 +3,31 @@
 
     <input [(ngModel)]="pod.name" type="text" name="name" id="name" placeholder="Nomme ta nacelle" autofocus required><br>
 
-    <button *ngFor="let diff of [1,2,3]" (click)="setDifficultyTo(diff)" [ngClass]="pod.difficulty === diff ? 'difficulty-selected' : ''" class="button">{{ difficultyToString(diff) }}</button>
-
+    <div class="difficulty">
+        <button *ngFor="let diff of [1,2,3]" (click)="setDifficultyTo(diff)" [ngClass]="pod.difficulty === diff ? 'difficulty-selected' : ''" class="button">{{ difficultyToString(diff) }}</button>
+    </div>
+    <details>
+        <summary>[Ce que la difficulté change]</summary>
+        <p>
+            PV nacelle&nbsp;: {{ difficultyInfo("podLife") }}<br>
+            PV par salle&nbsp;: {{ difficultyInfo("roomLife") }}<br>
+            PV perso&nbsp;: {{ difficultyInfo("majagabanLife") }}<br>
+            Pas d'attaque avant le tour&nbsp;: {{ difficultyInfo("attackTurn") }}<br>
+            Pas d'évènement avant le tour&nbsp;: {{ difficultyInfo("statusTurn") }}<br>
+            Vision des prochaines salles endommagées&nbsp;: {{ difficultyInfo("nextStatusVisionTurn") }}<br>
+            Vision des prochains ennemies jusqu'au tour&nbsp;: {{ difficultyInfo("nextAttackVisionTurn") }}<br>
+            Matériel&nbsp;: {{ difficultyInfo("scrap") }}<br>
+            Munitions&nbsp;: {{ difficultyInfo("ammo") }}<br>
+            Dose d'épice&nbsp;: {{ difficultyInfo("spiceDose") }}<br>
+            Blaster par perso&nbsp;: {{ difficultyInfo("blast") }}<br>
+            Régulateur par perso&nbsp;: {{ difficultyInfo("regulator") }}<br>
+            Aiguilleur par perso&nbsp;: {{ difficultyInfo("switcher") }}<br>
+        </p>
+        <hr>
+    </details>
+    
+    <br>
+    <label>Nombre de perso&nbsp;:</label>
     <input [(ngModel)]="pod.characterMax" type="number" name="characterMax" id="characterMax" min=1 max=4 required><br>
 
     <input [(ngModel)]="pod.password" type="text" name="password" id="password" placeholder="Mot de passe si besoin"><br>

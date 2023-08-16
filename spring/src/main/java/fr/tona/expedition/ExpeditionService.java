@@ -166,6 +166,45 @@ public class ExpeditionService {
         if(expedition.getDifficulty() == 2){
             pod.setHealth(8);
             pod.setMaxHealth(8);
+            for(int i = 0; i < 6; i++){
+                pod.getRooms().get((int)i).setHealth(6);
+                pod.getRooms().get((int)i).setMaxHealth(6);
+            }
+            expedition.getRadarCrankLevel()[0] = 5;
+            expedition.getRadarCrankLevel()[1] = 5;
+            expedition.getHullDiagnosticPanelCrankLevel()[0] = 4;
+            expedition.getHullDiagnosticPanelCrankLevel()[1] = 4;
+            expedition.setScrap(20);
+            expedition.setAmmo(6);
+            expedition.setSpiceDoseCrankLevel(2);
+            for(int i = 0; i < expedition.getCrew().size(); i++){
+                expedition.getCrew().get((int)i).getMajagaba().setLife(6);
+                expedition.getCrew().get((int)i).getMajagaba().setMaxLife(6);
+                expedition.getCrew().get((int)i).getMajagaba().setSteamBlast(0);
+                expedition.getCrew().get((int)i).getMajagaba().setSteamRegulator(2);
+                expedition.getCrew().get((int)i).getMajagaba().setSteamSwitcher(2);
+            }
+        }else if(expedition.getDifficulty() == 3){
+            expedition.getPod().setHealth(7);
+            expedition.getPod().setMaxHealth(7);
+            for(int i = 0; i < 6; i++){
+                expedition.getPod().getRooms().get((int)i).setHealth(5);
+                expedition.getPod().getRooms().get((int)i).setMaxHealth(5);
+            }
+            expedition.getRadarCrankLevel()[0] = 3;
+            expedition.getRadarCrankLevel()[1] = 3;
+            expedition.getHullDiagnosticPanelCrankLevel()[0] = 3;
+            expedition.getHullDiagnosticPanelCrankLevel()[1] = 3;
+            expedition.setScrap(20);
+            expedition.setAmmo(4);
+            expedition.setSpiceDoseCrankLevel(2);
+            for(int i = 0; i < expedition.getCrew().size(); i++){
+                expedition.getCrew().get((int)i).getMajagaba().setLife(5);
+                expedition.getCrew().get((int)i).getMajagaba().setMaxLife(5);
+                expedition.getCrew().get((int)i).getMajagaba().setSteamBlast(0);
+                expedition.getCrew().get((int)i).getMajagaba().setSteamRegulator(2);
+                expedition.getCrew().get((int)i).getMajagaba().setSteamSwitcher(1);
+            }
         }
 
         expedition.setPod(pod);
@@ -255,32 +294,47 @@ public class ExpeditionService {
             }
         }
         // Spawn
-        if(expedition.getRadarCrankLevel()[0] == 0) expedition = generateEnemiesPosition(expedition);
-        if(expedition.getRadarCrankLevel()[1] == 0) expedition = generateEnemiesTypeAndQuantity(expedition);
-        if(expedition.getRadarCrankLevel()[0] == 0 || expedition.getRadarCrankLevel()[1] == 0) expedition = combineEnemiesPositionTypeQuantity(expedition);
-        for(int zone = 3; zone < 6; zone ++){
-            expedition.getEnemiesZoneBasic()[zone] += expedition.getEnemiesZoneBasicRadared()[zone];
-            expedition.getEnemiesZoneSpeedy()[zone] += expedition.getEnemiesZoneSpeedyRadared()[zone];
-            expedition.getEnemiesZoneThrower()[zone] += expedition.getEnemiesZoneThrowerRadared()[zone];
-            expedition.getEnemiesZoneBasicRadared()[zone] = 0;
-            expedition.getEnemiesZoneSpeedyRadared()[zone] = 0;
-            expedition.getEnemiesZoneThrowerRadared()[zone] = 0;
+        int turnBeforeAttack = 0;
+        if(expedition.getDifficulty() == 1) turnBeforeAttack = 6;
+        else if(expedition.getDifficulty() == 2) turnBeforeAttack = 4;
+        else turnBeforeAttack = 3;
+        int currentTurn = expedition.getHour()*4 + expedition.getMinute()%15 + 1;// start turn 1
+
+        if(currentTurn >= turnBeforeAttack){
+            if(expedition.getRadarCrankLevel()[0] == 0) expedition = generateEnemiesPosition(expedition);
+            if(expedition.getRadarCrankLevel()[1] == 0) expedition = generateEnemiesTypeAndQuantity(expedition);
+            if(expedition.getRadarCrankLevel()[0] == 0 || expedition.getRadarCrankLevel()[1] == 0) expedition = combineEnemiesPositionTypeQuantity(expedition);
+            for(int zone = 3; zone < 6; zone ++){
+                expedition.getEnemiesZoneBasic()[zone] += expedition.getEnemiesZoneBasicRadared()[zone];
+                expedition.getEnemiesZoneSpeedy()[zone] += expedition.getEnemiesZoneSpeedyRadared()[zone];
+                expedition.getEnemiesZoneThrower()[zone] += expedition.getEnemiesZoneThrowerRadared()[zone];
+                expedition.getEnemiesZoneBasicRadared()[zone] = 0;
+                expedition.getEnemiesZoneSpeedyRadared()[zone] = 0;
+                expedition.getEnemiesZoneThrowerRadared()[zone] = 0;
+            }
         }
         // Status on rooms
         String[] nextTarget = new String[]{"","","","","",""};
         String[] nextStatus = new String[]{"","",""};
-        if(expedition.getHullDiagnosticPanelCrankLevel()[0] > 0) nextTarget = expedition.getNextRoomsEventTargeted();
-        else nextTarget = generateNextRoomsEventTargeted(expedition);
-        if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0) nextStatus = expedition.getNextRoomsStatus();
-        else nextStatus = generateNextRoomsStatus();
-        ArrayList<Integer> roomTargetId = new ArrayList<>();
-        for(int roomT = 0; roomT < 6; roomT ++){
-            if(nextTarget[roomT].equals("x")) roomTargetId.add(roomT);
-        }
-        for(int status = 0; status < roomTargetId.size(); status ++){
-            int randomRoom = (int)(Math.random() * roomTargetId.size());
-            expedition.getPod().getRooms().get(roomTargetId.get((int)randomRoom)).setStatus(nextStatus[status]);
-            roomTargetId.remove((int)randomRoom);
+        int turnBeforeStatus = 0;
+        if(expedition.getDifficulty() == 1) turnBeforeStatus = 4;
+        else if(expedition.getDifficulty() == 2) turnBeforeStatus = 3;
+        else turnBeforeStatus = 2;
+
+        if(currentTurn > turnBeforeStatus){
+            if(expedition.getHullDiagnosticPanelCrankLevel()[0] > 0) nextTarget = expedition.getNextRoomsEventTargeted();
+            else nextTarget = generateNextRoomsEventTargeted(expedition);
+            if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0) nextStatus = expedition.getNextRoomsStatus();
+            else nextStatus = generateNextRoomsStatus();
+            ArrayList<Integer> roomTargetId = new ArrayList<>();
+            for(int roomT = 0; roomT < 6; roomT ++){
+                if(nextTarget[roomT].equals("x")) roomTargetId.add(roomT);
+            }
+            for(int status = 0; status < roomTargetId.size(); status ++){
+                int randomRoom = (int)(Math.random() * roomTargetId.size());
+                expedition.getPod().getRooms().get(roomTargetId.get((int)randomRoom)).setStatus(nextStatus[status]);
+                roomTargetId.remove((int)randomRoom);
+            }
         }
         // PORTHOLE //
         // Radar decrease
@@ -289,16 +343,18 @@ public class ExpeditionService {
         // Radar refresh
         expedition.setEnemiesZoneRadared(new Integer[]{0,0,0,0,0,0});
         expedition.setEnemiesTypeRadared(new String[]{"","",""});
-        if(expedition.getRadarCrankLevel()[0] > 0) expedition = generateEnemiesPosition(expedition);
-        if(expedition.getRadarCrankLevel()[1] > 0) expedition = generateEnemiesTypeAndQuantity(expedition);
-        if(expedition.getRadarCrankLevel()[0] > 0 && expedition.getRadarCrankLevel()[1] > 0) expedition = combineEnemiesPositionTypeQuantity(expedition);
+        if(currentTurn >= turnBeforeAttack+1){
+            if(expedition.getRadarCrankLevel()[0] > 0) expedition = generateEnemiesPosition(expedition);
+            if(expedition.getRadarCrankLevel()[1] > 0) expedition = generateEnemiesTypeAndQuantity(expedition);
+            if(expedition.getRadarCrankLevel()[0] > 0 && expedition.getRadarCrankLevel()[1] > 0) expedition = combineEnemiesPositionTypeQuantity(expedition);
+        }
         // Vision decrease
         if(expedition.getHullDiagnosticPanelCrankLevel()[0] > 0) expedition.getHullDiagnosticPanelCrankLevel()[0] --;
         if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0) expedition.getHullDiagnosticPanelCrankLevel()[1] --;
         // Vision refresh
-        if(expedition.getHullDiagnosticPanelCrankLevel()[0] > 0) expedition.setNextRoomsEventTargeted(generateNextRoomsEventTargeted(expedition));
+        if(expedition.getHullDiagnosticPanelCrankLevel()[0] > 0 && currentTurn >= turnBeforeStatus) expedition.setNextRoomsEventTargeted(generateNextRoomsEventTargeted(expedition));
         else expedition.setNextRoomsEventTargeted(new String[]{"","","","","",""});
-        if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0) expedition.setNextRoomsStatus(generateNextRoomsStatus());
+        if(expedition.getHullDiagnosticPanelCrankLevel()[1] > 0 && currentTurn >= turnBeforeStatus) expedition.setNextRoomsStatus(generateNextRoomsStatus());
         else expedition.setNextRoomsStatus(new String[]{"","",""});
         // Room damaged by acid
         for(int i = 0; i < 6; i++){

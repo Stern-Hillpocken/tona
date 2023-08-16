@@ -1,3 +1,7 @@
+.difficulty{
+    display: flex;
+    justify-content: space-between;
+}
 .difficulty-selected{
-    background-color: red;
+    background-color: var(--color-complement);
 }
