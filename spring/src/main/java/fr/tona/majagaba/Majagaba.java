@@ -31,17 +31,17 @@ public class Majagaba {
     @JsonIgnore
     private User user;
 
-    private Integer life = 5;
-    private Integer maxLife = 5;
+    private Integer life = 6;
+    private Integer maxLife = 6;
     private String job;
     private List<Integer> dicePool = new ArrayList<>();
     private List<Integer> diceStocked = new ArrayList<>();
     private Integer rerollLeft = 2;
     private String room;
     // craftable objects
-    private Integer steamBlast = 0;
-    private Integer steamRegulator = 2;
-    private Integer steamSwitcher = 1;
+    private Integer steamBlast = 1;
+    private Integer steamRegulator = 3;
+    private Integer steamSwitcher = 2;
 
 
     @ManyToOne
