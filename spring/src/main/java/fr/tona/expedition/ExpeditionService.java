@@ -711,4 +711,23 @@ public class ExpeditionService {
     }
 
 
+    public void roomReparation(DieAction action) {
+        if(action.getDieValue() != 5 && action.getDieValue() != 6) return;
+        User user = jwtService.grepUserFromJwt();
+        Expedition expedition = user.getExpedition();
+        Majagaba majagaba = user.getMajagaba();
+        if(!majagabaService.isDieExist(majagaba, action)) return;
+        String room = action.getEndZone().split("-")[0];
+        if(!workshopService.nameIsCorrect(room)) return;
+
+        for(int i = 0; i < 6; i++){
+            if(expedition.getPod().getRooms().get((int)i).getName().equals(room)){
+                if(!expedition.getPod().getRooms().get((int)i).getStatus().equals("")) expedition.getPod().getRooms().get((int)i).setStatus("");
+                else if(expedition.getPod().getRooms().get((int)i).getHealth() < expedition.getPod().getRooms().get((int)i).getMaxHealth()) expedition.getPod().getRooms().get((int)i).setHealth(expedition.getPod().getRooms().get((int)i).getHealth()+1);
+                majagabaService.useDie(majagaba, action);
+            }
+        }
+
+        repository.save(expedition);
+    }
 }

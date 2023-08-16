@@ -21,6 +21,12 @@ export class ArmoryComponent {
 
   constructor(private alertService: AlertService){}
 
+  ngOnInit(): void {
+    if(this.expedition.pod.rooms[3].health < this.expedition.pod.rooms[3].health || this.expedition.pod.rooms[3].status !== ""){
+      this._slideNumber ++;
+    }
+  }
+
   onDragEnter(zoneName: DragEvent, zoneNumber: number): void {
     let realClassName = (zoneName.target as HTMLDivElement).className.substring("single-dice-storage-zone ".length);
     let spot = "";
@@ -60,6 +66,10 @@ export class ArmoryComponent {
       sum += this.expedition.enemiesZoneBasicRadared[i] + this.expedition.enemiesZoneSpeedyRadared[i] + this.expedition.enemiesZoneThrowerRadared[i];
     }
     return sum;
+  }
+
+  reparationReceive(): void {
+    this.dragEnterEmitter.emit("armory-reparation");
   }
 
 }

@@ -43,5 +43,9 @@
         <button (click)="takeObject('steam-regulator')" [disabled]="isWorkshopUnfinished(2)">Récupérer</button>
     </div>
 
+    <div *ngIf="slideDisplayed === 3">
+        <app-room-reparation (reparationEmitter)="reparationReceive()"></app-room-reparation>
+    </div>
+
     <button (click)="slide('right')"><app-svg named="right-arrow"></app-svg></button>
 </div>

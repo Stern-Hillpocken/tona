@@ -22,4 +22,9 @@ public class WorkshopService {
         }
         repository.save(workshop);
     }
+
+    public boolean nameIsCorrect(String room) {
+        if(room.equals("hoist") || room.equals("hold") || room.equals("extractor") || room.equals("armory") || room.equals("porthole") || room.equals("drill")) return true;
+        return false;
+    }
 }

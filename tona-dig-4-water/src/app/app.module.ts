@@ -50,6 +50,7 @@ import { ExtractorComponent } from './components/ui/workshops/extractor/extracto
 import { PortholeComponent } from './components/ui/workshops/porthole/porthole.component';
 import { SvgComponent } from './components/ui/svg/svg.component';
 import { AlertComponent } from './components/ui/alert/alert.component';
+import { RoomReparationComponent } from './components/ui/room-reparation/room-reparation.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { AlertComponent } from './components/ui/alert/alert.component';
     ExtractorComponent,
     PortholeComponent,
     SvgComponent,
-    AlertComponent
+    AlertComponent,
+    RoomReparationComponent
   ],
   imports: [
     BrowserModule,

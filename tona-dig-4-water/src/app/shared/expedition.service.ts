@@ -97,5 +97,9 @@ export class ExpeditionService {
     hullDiagnosticStatus(dieValue: number, startZone: string, endZone: string): Observable<void> {
       return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/porthole/hull-diagnostic-status', {dieValue: dieValue, startZone: startZone, endZone: endZone});
     }
+
+    roomReparation(dieValue: number, startZone: string, endZone: string): Observable<void> {
+      return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/reparation', {dieValue: dieValue, startZone: startZone, endZone: endZone});
+    }
     
 }

@@ -24,6 +24,12 @@ export class PortholeComponent {
 
   constructor(private alertService: AlertService){}
 
+  ngOnInit(): void {
+    if(this.expedition.pod.rooms[4].health < this.expedition.pod.rooms[4].health || this.expedition.pod.rooms[4].status !== ""){
+      this._slideNumber ++;
+    }
+  }
+
   onDragEnter(zoneName: DragEvent, subName: string): void {
     let realClassName = (zoneName.target as HTMLDivElement).className.substring("single-dice-storage-zone ".length);
     this.dragEnterEmitter.emit(realClassName + " " + subName);
@@ -66,6 +72,10 @@ export class PortholeComponent {
     }
     if(zeroCount === 0) return false;
     return true;
+  }
+
+  reparationReceive(): void {
+    this.dragEnterEmitter.emit("porthole-reparation");
   }
 
 }

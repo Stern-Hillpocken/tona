@@ -96,4 +96,9 @@ public class ExpeditionController {
     public void hullDiagnosticStatus(@RequestBody DieAction action){
         service.hullDiagnosticStatus(action);
     }
+
+    @PutMapping("/reparation")
+    public void roomReparation(@RequestBody DieAction action){
+        service.roomReparation(action);
+    }
 }
