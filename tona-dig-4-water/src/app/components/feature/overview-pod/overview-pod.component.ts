@@ -81,6 +81,11 @@ export class OverviewPodComponent {
           this.reloadExpedition();
           this.reloadMe();
         });
+      }else if(this.lastDragedZoneName.endsWith("-reparation")){
+        this.expeditionService.roomReparation(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
+          this.reloadExpedition();
+          this.reloadMe();
+        });
       }else if(this.lastDragedZoneName === "remove-one-pip" || this.lastDragedZoneName === "add-one-pip" || this.lastDragedZoneName.startsWith("hold-")){
         this.majagabanService.allocate(this.valueDraged, this.startDragedZoneName, this.lastDragedZoneName).subscribe(() => {
           this.reloadExpedition();

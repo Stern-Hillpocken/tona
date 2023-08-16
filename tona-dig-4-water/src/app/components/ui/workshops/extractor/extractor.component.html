@@ -46,5 +46,9 @@
         </div>
     </div>
 
+    <div *ngIf="slideDisplayed === 2">
+        <app-room-reparation (reparationEmitter)="reparationReceive()"></app-room-reparation>
+    </div>
+
     <button (click)="slide('right')"><app-svg named="right-arrow"></app-svg></button>
 </div>

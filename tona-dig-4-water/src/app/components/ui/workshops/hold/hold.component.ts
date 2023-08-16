@@ -24,6 +24,12 @@ export class HoldComponent {
 
   constructor(private alertService: AlertService){}
 
+  ngOnInit(): void {
+    if(this.expedition.pod.rooms[1].health < this.expedition.pod.rooms[1].health || this.expedition.pod.rooms[1].status !== ""){
+      this._slideNumber ++;
+    }
+  }
+
   onDragEnter(zoneName: DragEvent, zoneNumber: number): void {
     let realClassName = (zoneName.target as HTMLDivElement).className.substring("single-dice-storage-zone ".length);
     this.dragEnterEmitter.emit(realClassName+" "+zoneNumber);
@@ -66,6 +72,10 @@ export class HoldComponent {
     }
     if(zeroCount === 0) return false;
     return true;
+  }
+
+  reparationReceive(): void {
+    this.dragEnterEmitter.emit("hold-reparation");
   }
 
 }

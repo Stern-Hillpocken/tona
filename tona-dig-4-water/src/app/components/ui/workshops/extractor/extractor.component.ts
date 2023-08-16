@@ -21,6 +21,12 @@ export class ExtractorComponent {
 
   constructor(private alertService: AlertService){}
 
+  ngOnInit(): void {
+    if(this.expedition.pod.rooms[2].health < this.expedition.pod.rooms[2].health || this.expedition.pod.rooms[2].status !== ""){
+      this._slideNumber ++;
+    }
+  }
+
   onDragEnter(zoneName: DragEvent, zoneNumber: number): void {
     let realClassName = (zoneName.target as HTMLDivElement).className.substring("single-dice-storage-zone ".length);
     let spot = "";
@@ -49,6 +55,10 @@ export class ExtractorComponent {
       text = "Suite de valeur pour savoir où fouiller."
     }
     this.alertService.udpate(title, text);
+  }
+
+  reparationReceive(): void {
+    this.dragEnterEmitter.emit("extractor-reparation");
   }
 
 }
