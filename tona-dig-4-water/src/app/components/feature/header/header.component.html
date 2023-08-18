@@ -11,7 +11,9 @@
         <div>
             <p>
                 {{ user.pseudo }}<br>
-                {{ user.majagaba.life }} / {{ user.majagaba.maxLife }}
+                {{ user.majagaba.life }} / {{ user.majagaba.maxLife }}<br>
+                <app-svg named="powercharge-up" *ngFor="let count of [].constructor(user.majagaba.powerCharge)"></app-svg>
+                <app-svg named="powercharge-empty" *ngFor="let count of [].constructor(user.majagaba.powerChargeMax-user.majagaba.powerCharge)"></app-svg>
             </p>
         </div>
     </div>

@@ -53,6 +53,7 @@ public class ExpeditionService {
                 add(1 + (int)(Math.random() * 6));
             }});
             majagaba.setRoom("hold");
+            majagaba.setJob("miner");
 
             user.setMajagaba(majagaba);
 

@@ -88,6 +88,9 @@ public class MajagabaService {
         }
         // Fire
         if(currentRoomStatus.equals("fire")) majagaba = takeDamage(majagaba, 1);
+        // Powercharge
+        if(majagaba.getPowerCharge() < majagaba.getPowerChargeMax()) majagaba.setPowerCharge(majagaba.getPowerCharge()+1);
+
         repository.save(majagaba);
     }
 

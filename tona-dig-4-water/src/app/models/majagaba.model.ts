@@ -10,6 +10,8 @@ export class Majagaba {
         public room: string,
         public steamBlast: number,
         public steamRegulator: number,
-        public steamSwitcher: number
+        public steamSwitcher: number,
+        public powerCharge: number,
+        public powerChargeMax: number
     ){}
 }

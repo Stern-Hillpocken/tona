@@ -33,7 +33,7 @@ public class Majagaba {
 
     private Integer life = 6;
     private Integer maxLife = 6;
-    private String job;
+    private String job = "miner";
     private List<Integer> dicePool = new ArrayList<>();
     private List<Integer> diceStocked = new ArrayList<>();
     private Integer rerollLeft = 2;
@@ -42,6 +42,9 @@ public class Majagaba {
     private Integer steamBlast = 1;
     private Integer steamRegulator = 3;
     private Integer steamSwitcher = 2;
+
+    private Integer powerCharge = 3;
+    private Integer powerChargeMax = 3;
 
 
     @ManyToOne
