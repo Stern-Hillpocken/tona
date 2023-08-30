@@ -2,7 +2,7 @@
     <button (click)="slide('left')"><app-svg named="left-arrow"></app-svg></button>
 
     <div *ngIf="slideDisplayed === 0" class="steam-blast">
-        <h3 (click)="alert('steam-blast')">Soufflerie <app-svg named="same"></app-svg></h3>
+        <h3 (click)="alert('steam-blast')"><app-svg named="steam-blast"></app-svg> Soufflerie <app-svg named="same"></app-svg></h3>
         <div
             *ngFor="let die of expedition.pod.rooms[1].workshops[0].storedDice; let zoneNumber = index"
             (dragenter)="onDragEnter($event, zoneNumber)"
@@ -15,8 +15,8 @@
         <button (click)="takeObject('steam-blast')" [disabled]="isWorkshopUnfinished(0)">Récupérer</button>
     </div>
 
-    <div *ngIf="slideDisplayed === 1" class="steam-switcher">
-        <h3 (click)="alert('steam-switcher')">Aiguilleur <app-svg named="different"></app-svg></h3>
+    <div *ngIf="slideDisplayed === 1" class="steam-regulator">
+        <h3 (click)="alert('steam-regulator')"><app-svg named="steam-regulator"></app-svg> Régulateur <app-svg named="sequence"></app-svg></h3>
         <div
             *ngFor="let die of expedition.pod.rooms[1].workshops[1].storedDice; let zoneNumber = index"
             (dragenter)="onDragEnter($event, zoneNumber)"
@@ -26,11 +26,11 @@
             <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
         </div>
         <br>
-        <button (click)="takeObject('steam-switcher')" [disabled]="isWorkshopUnfinished(1)">Récupérer</button>
+        <button (click)="takeObject('steam-regulator')" [disabled]="isWorkshopUnfinished(1)">Récupérer</button>
     </div>
 
-    <div *ngIf="slideDisplayed === 2" class="steam-regulator">
-        <h3 (click)="alert('steam-regulator')">Régulateur <app-svg named="sequence"></app-svg></h3>
+    <div *ngIf="slideDisplayed === 2" class="steam-switcher">
+        <h3 (click)="alert('steam-switcher')"><app-svg named="steam-switcher"></app-svg> Aiguilleur <app-svg named="different"></app-svg></h3>
         <div
             *ngFor="let die of expedition.pod.rooms[1].workshops[2].storedDice; let zoneNumber = index"
             (dragenter)="onDragEnter($event, zoneNumber)"
@@ -40,7 +40,7 @@
             <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
         </div>
         <br>
-        <button (click)="takeObject('steam-regulator')" [disabled]="isWorkshopUnfinished(2)">Récupérer</button>
+        <button (click)="takeObject('steam-switcher')" [disabled]="isWorkshopUnfinished(2)">Récupérer</button>
     </div>
 
     <div *ngIf="slideDisplayed === 3">

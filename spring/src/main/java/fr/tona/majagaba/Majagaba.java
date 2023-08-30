@@ -34,6 +34,7 @@ public class Majagaba {
     private Integer life = 6;
     private Integer maxLife = 6;
     private String job = "miner";
+    private Boolean isJobActivated = false;
     private List<Integer> dicePool = new ArrayList<>();
     private List<Integer> diceStocked = new ArrayList<>();
     private List<Integer> diceNextTurn = new ArrayList<>();

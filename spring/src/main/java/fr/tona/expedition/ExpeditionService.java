@@ -111,14 +111,14 @@ public class ExpeditionService {
         holdSB.setName("hold-craft-steam-blast");
         holdSB.setStoredDice(new Integer[]{0,0,0});
         hold.getWorkshops().add(holdSB);
-        Workshop holdSS = new Workshop();
-        holdSS.setName("hold-craft-steam-switcher");
-        holdSS.setStoredDice(new Integer[]{0,0,0});
-        hold.getWorkshops().add(holdSS);
         Workshop holdSR = new Workshop();
         holdSR.setName("hold-craft-steam-regulator");
         holdSR.setStoredDice(new Integer[]{0,0,0});
         hold.getWorkshops().add(holdSR);
+        Workshop holdSS = new Workshop();
+        holdSS.setName("hold-craft-steam-switcher");
+        holdSS.setStoredDice(new Integer[]{0,0,0});
+        hold.getWorkshops().add(holdSS);
         Workshop holdSW = new Workshop();
         holdSW.setName("hold-repair");
         holdSW.setStoredDice(new Integer[]{0,0,0});
@@ -738,10 +738,10 @@ public class ExpeditionService {
 
 
     public void roomReparation(DieAction action) {
-        if(action.getDieValue() != 5 && action.getDieValue() != 6) return;
         User user = jwtService.grepUserFromJwt();
         Expedition expedition = user.getExpedition();
         Majagaba majagaba = user.getMajagaba();
+        if(action.getDieValue() != 5 && action.getDieValue() != 6 && !(majagaba.getJob().equals("repairer") && majagaba.getIsJobActivated())) return;
         if(!majagabaService.isDieExist(majagaba, action)) return;
         String room = action.getEndZone().split("-")[0];
         if(!workshopService.nameIsCorrect(room)) return;
