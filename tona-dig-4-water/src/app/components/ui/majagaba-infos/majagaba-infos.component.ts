@@ -13,7 +13,7 @@ export class MajagabaInfosComponent {
   user!: User;
 
   @Output()
-  jobTriggerEmitter: EventEmitter<string> = new EventEmitter();
+  jobTriggerEmitter: EventEmitter<number> = new EventEmitter();
 
   isJobPanelOpen: boolean = false;
 
@@ -29,7 +29,7 @@ export class MajagabaInfosComponent {
   }
 
   jobTrigger(dieValue: number): void {
-    this.jobTriggerEmitter.emit('job '+dieValue);
+    this.jobTriggerEmitter.emit(dieValue);
   }
 
 }

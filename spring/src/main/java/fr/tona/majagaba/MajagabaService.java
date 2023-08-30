@@ -309,4 +309,29 @@ public class MajagabaService {
         majagaba.setLife(majagaba.getLife()-value);
         return majagaba;
     }
+
+    public void jobActivation(Integer dieValue) {
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if (majagaba.getPowerCharge() < majagaba.getPowerChargeMax()) return;
+        if (majagaba.getJob().equals("gunner") && dieValue == 1) return;
+        if (majagaba.getJob().equals("miner") && dieValue == 6) return;
+        boolean isDieValueExist = false;
+        for (int i = 0; i < majagaba.getDicePool().size(); i++){
+            if (majagaba.getDicePool().get(i).equals(dieValue)) { isDieValueExist = true; break;}
+        }
+        if ((majagaba.getJob().equals("gunner") || majagaba.getJob().equals("miner") || majagaba.getJob().equals("leader")) && !isDieValueExist) return;
+
+        if (majagaba.getJob().equals("gunner")){
+            for (int i = 0; i < majagaba.getDicePool().size(); i++) {
+                if (majagaba.getDicePool().get(i).equals(dieValue)) { majagaba.getDicePool().set(i, majagaba.getDicePool().get(i)-1); break;}
+            }
+        } else if (majagaba.getJob().equals("miner")) {
+            for (int i = 0; i < majagaba.getDicePool().size(); i++) {
+                if (majagaba.getDicePool().get(i).equals(dieValue)) { majagaba.getDicePool().set(i, majagaba.getDicePool().get(i)+1); break;}
+            }
+        }
+
+        majagaba.setPowerCharge(0);
+        repository.save(majagaba);
+    }
 }

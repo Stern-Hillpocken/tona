@@ -41,4 +41,10 @@ public class MajabagaController {
         service.takeObject(objectName);
     }
 
+    @PutMapping("/job-activation")
+    public void jobActivation(@RequestBody Integer dieValue){
+        service.jobActivation(dieValue);
+    }
+
+
 }

@@ -20,7 +20,8 @@ export class HeaderComponent {
 
   constructor(
     private expeditionService: ExpeditionService,
-    private userService: UserService
+    private userService: UserService,
+    private majagabaService: MajagabaService
   ){}
 
   ngOnInit(): void {
@@ -52,7 +53,11 @@ export class HeaderComponent {
     });
   }
 
-  jobReceive(event: string): void {
-    console.log(event)
+  jobReceive(dieValue: number): void {
+    this.majagabaService.jobActivation(dieValue).subscribe(() => {
+      this.userService.getMe().subscribe((user: User) => {
+        this.userService._setUser$(user);
+      });
+    });
   }
 }

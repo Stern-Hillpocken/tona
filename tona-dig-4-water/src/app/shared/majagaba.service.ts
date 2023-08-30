@@ -40,4 +40,8 @@ export class MajagabaService {
         return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/take-object', objectName);
     }
 
+    jobActivation(dieValue: number): Observable<void> {
+        return this.http.put<void>(this.utils.getBaseUrl() + this._sqlTable + '/job-activation', dieValue);
+    }
+
 }
