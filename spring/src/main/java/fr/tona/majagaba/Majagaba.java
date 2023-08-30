@@ -36,6 +36,7 @@ public class Majagaba {
     private String job = "miner";
     private List<Integer> dicePool = new ArrayList<>();
     private List<Integer> diceStocked = new ArrayList<>();
+    private List<Integer> diceNextTurn = new ArrayList<>();
     private Integer rerollLeft = 2;
     private String room;
     // craftable objects

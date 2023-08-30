@@ -54,6 +54,31 @@ public class ExpeditionService {
             }});
             majagaba.setRoom("hold");
             majagaba.setJob("miner");
+            if (majagaba.getJob().equals("gunner")){
+                majagaba.setPowerCharge(4);
+                majagaba.setPowerChargeMax(4);
+            } else if (majagaba.getJob().equals("miner")){
+                majagaba.setPowerCharge(4);
+                majagaba.setPowerChargeMax(4);
+            } else if (majagaba.getJob().equals("leader")){
+                majagaba.setPowerCharge(3);
+                majagaba.setPowerChargeMax(3);
+            } else if (majagaba.getJob().equals("runner")){
+                majagaba.setPowerCharge(4);
+                majagaba.setPowerChargeMax(4);
+            } else if (majagaba.getJob().equals("visionary")){
+                majagaba.setPowerCharge(2);
+                majagaba.setPowerChargeMax(2);
+            } else if (majagaba.getJob().equals("strong")){
+                majagaba.setPowerCharge(3);
+                majagaba.setPowerChargeMax(3);
+            } else if (majagaba.getJob().equals("repairer")){
+                majagaba.setPowerCharge(3);
+                majagaba.setPowerChargeMax(3);
+            } else if (majagaba.getJob().equals("wind-sensor")){
+                majagaba.setPowerCharge(4);
+                majagaba.setPowerChargeMax(4);
+            }
 
             user.setMajagaba(majagaba);
 

@@ -84,8 +84,10 @@ public class MajagabaService {
         int diceNumber = 4;
         if(currentRoomStatus.equals("fan")) diceNumber --;
         for(int i = 0; i < diceNumber; i++){
-            majagaba.getDicePool().add(1 + (int)(Math.random() * 6));
+            if(majagaba.getDiceNextTurn().size() == 0) majagaba.getDicePool().add(1 + (int)(Math.random() * 6));
+            else majagaba.getDicePool().add(majagaba.getDiceNextTurn().get((int) i));
         }
+        majagaba.setDiceNextTurn(new ArrayList<>());
         // Fire
         if(currentRoomStatus.equals("fire")) majagaba = takeDamage(majagaba, 1);
         // Powercharge
@@ -328,6 +330,14 @@ public class MajagabaService {
         } else if (majagaba.getJob().equals("miner")) {
             for (int i = 0; i < majagaba.getDicePool().size(); i++) {
                 if (majagaba.getDicePool().get(i).equals(dieValue)) { majagaba.getDicePool().set(i, majagaba.getDicePool().get(i)+1); break;}
+            }
+        } else if (majagaba.getJob().equals("runner")){
+            majagaba.getDicePool().add(0);
+        } else if (majagaba.getJob().equals("visionary")){
+            majagaba.setDiceNextTurn(new ArrayList<>());
+            for(int i = 0; i < 4; i++){
+                int newDie = 1 + (int)(Math.random() * 6);
+                majagaba.getDiceNextTurn().add(newDie);
             }
         }
 
