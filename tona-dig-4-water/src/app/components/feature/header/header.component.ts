@@ -51,4 +51,8 @@ export class HeaderComponent {
       });
     });
   }
+
+  jobReceive(event: string): void {
+    console.log(event)
+  }
 }

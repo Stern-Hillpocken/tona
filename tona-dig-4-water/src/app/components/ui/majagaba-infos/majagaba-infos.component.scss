@@ -1,0 +1,24 @@
+.majagaba-infos{
+    display: flex;
+}
+.job-panel{
+    background-color: rgba(0,0,0,0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 83vh;
+
+    .inner-job{
+        background-color: white;
+        width: 90vw;
+        border-radius: 1em;
+        padding: 1em 0.5em;
+        position: absolute;
+        left: 50%;
+        top: 30%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+}

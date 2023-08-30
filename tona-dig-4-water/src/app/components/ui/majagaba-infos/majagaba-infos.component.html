@@ -1,0 +1,33 @@
+<div class="majagaba-infos">
+    <img [src]="user.profilePicture" [alt]="user.pseudo" class="profile-picture">
+    <div>
+        <p>
+            {{ user.pseudo }}<br>
+            {{ user.majagaba.life }} / {{ user.majagaba.maxLife }}<br>
+            <button (click)="switchJobPanel()">
+                <app-svg named="powercharge-up" *ngFor="let count of [].constructor(user.majagaba.powerCharge)"></app-svg>
+                <app-svg named="powercharge-empty" *ngFor="let count of [].constructor(user.majagaba.powerChargeMax-user.majagaba.powerCharge)"></app-svg>
+            </button>
+        </p>
+    </div>
+</div>
+<div *ngIf="isJobPanelOpen" (click)="switchJobPanel()" class="job-panel">
+    <div class="inner-job">
+        <h3>{{ jobTitle }}</h3>
+        <div>
+            <p style="display: inline-block;">{{ user.majagaba.powerCharge === user.majagaba.powerChargeMax ? "Prêt" : "Pas prêt"}}&nbsp;:</p>
+            <app-svg named="powercharge-up" *ngFor="let count of [].constructor(user.majagaba.powerCharge)"></app-svg>
+            <app-svg named="powercharge-empty" *ngFor="let count of [].constructor(user.majagaba.powerChargeMax-user.majagaba.powerCharge)"></app-svg>
+        </div>
+        <p>{{ jobDescription }}</p>
+        <div
+            *ngIf="user.majagaba.job === 'gunner' || user.majagaba.job === 'miner' || user.majagaba.job === 'leader'"
+            class="dice-zone"
+        >
+            <button *ngFor="let die of user.majagaba.dicePool" (click)="jobTrigger(die)">
+                <img *ngIf="die" [src]="'assets/images/dice/'+die+'.png'" class="die">
+            </button>
+        </div>
+        <button *ngIf="user.majagaba.job === 'runner' || user.majagaba.job === 'visionary' || user.majagaba.job === 'strong' || user.majagaba.job === 'repairer' || user.majagaba.job === 'wind-sensor'" (click)="jobTrigger(0)">Activer</button>
+    </div>
+</div>

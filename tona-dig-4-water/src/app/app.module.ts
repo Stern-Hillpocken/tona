@@ -51,6 +51,7 @@ import { PortholeComponent } from './components/ui/workshops/porthole/porthole.c
 import { SvgComponent } from './components/ui/svg/svg.component';
 import { AlertComponent } from './components/ui/alert/alert.component';
 import { RoomReparationComponent } from './components/ui/room-reparation/room-reparation.component';
+import { MajagabaInfosComponent } from './components/ui/majagaba-infos/majagaba-infos.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { RoomReparationComponent } from './components/ui/room-reparation/room-re
     PortholeComponent,
     SvgComponent,
     AlertComponent,
-    RoomReparationComponent
+    RoomReparationComponent,
+    MajagabaInfosComponent
   ],
   imports: [
     BrowserModule,

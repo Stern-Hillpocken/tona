@@ -6,17 +6,7 @@
             <span [ngClass]="expedition.scrap <= 10 ? 'highlight' : ''">{{ expedition.scrap }}</span> <app-svg named="scrap"></app-svg> / <span [ngClass]="expedition.ammo <= 5 ? 'highlight' : ''">{{ expedition.ammo }}</span> <app-svg named="ammo"></app-svg>
         </p>
     </div>
-    <div class="majagaba-infos">
-        <img [src]="user.profilePicture" [alt]="user.pseudo" class="profile-picture">
-        <div>
-            <p>
-                {{ user.pseudo }}<br>
-                {{ user.majagaba.life }} / {{ user.majagaba.maxLife }}<br>
-                <app-svg named="powercharge-up" *ngFor="let count of [].constructor(user.majagaba.powerCharge)"></app-svg>
-                <app-svg named="powercharge-empty" *ngFor="let count of [].constructor(user.majagaba.powerChargeMax-user.majagaba.powerCharge)"></app-svg>
-            </p>
-        </div>
-    </div>
+    <app-majagaba-infos [user]="user" (jobTriggerEmitter)="jobReceive($event)"></app-majagaba-infos>
     <div>
         <button (click)="endTurn()">Fin de tour</button>
     </div>
