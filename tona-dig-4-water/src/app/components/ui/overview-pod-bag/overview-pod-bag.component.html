@@ -1,13 +1,13 @@
 <div class="overview-pod-bag">
     <div *ngIf="!objectClicked" class="buttons">
-        <button (click)="onObjectClick('steam-blast')" *ngIf="user.majagaba.steamBlast > 0">Nouveau souffle x{{ user.majagaba.steamBlast }}</button>
-        <button (click)="onObjectClick('steam-regulator')" *ngIf="user.majagaba.steamRegulator > 0">Régulateur x{{ user.majagaba.steamRegulator }}</button>
-        <button (click)="onObjectClick('steam-switcher')" *ngIf="user.majagaba.steamSwitcher > 0">Aiguilleur x{{ user.majagaba.steamSwitcher }}</button>
+        <button (click)="onObjectClick('steam-blast')" *ngIf="user.majagaba.steamBlast > 0"><app-svg named="steam-blast"></app-svg> x{{ user.majagaba.steamBlast }}</button>
+        <button (click)="onObjectClick('steam-regulator')" *ngIf="user.majagaba.steamRegulator > 0"><app-svg named="steam-regulator"></app-svg> x{{ user.majagaba.steamRegulator }}</button>
+        <button (click)="onObjectClick('steam-switcher')" *ngIf="user.majagaba.steamSwitcher > 0"><app-svg named="steam-switcher"></app-svg> x{{ user.majagaba.steamSwitcher }}</button>
     </div>
     <div *ngIf="objectClicked" class="target">
 
         <div *ngIf="objectClicked === 'steam-blast'">
-            <h3>Nouveau souffle</h3>
+            <h3><app-svg named="steam-blast"></app-svg> Nouveau souffle</h3>
             <p>Répartir quatre dés en plus pour le prochain tour.</p>
             <button (click)="onObjectUse('steam-blast')">Activer</button>
         </div>
@@ -17,7 +17,7 @@
         </div>
 
         <div *ngIf="objectClicked === 'steam-regulator'">
-            <p>Régulateur de vapeur</p>
+            <p><app-svg named="steam-regulator"></app-svg> Régulateur de vapeur</p>
             <div
                 (dragenter)="onDragEnter('remove-one-pip')"
                 class="remove-one-pip"

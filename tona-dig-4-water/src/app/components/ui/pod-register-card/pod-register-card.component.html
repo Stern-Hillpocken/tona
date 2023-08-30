@@ -7,6 +7,18 @@
         Place&nbsp;: X / {{ pod.characterMax }}<br>
         Status&nbsp;: {{ pod.status }}
     </p>
+    <div class="jobs">
+        <div class="job-infos">
+            <p [style]="{color:jobsColor[jobsId(job)]}">{{ jobsFr[jobsId(job)] }}</p>
+            <p [style]="{fill:jobsColor[jobsId(job)]}"><app-svg *ngFor="let count of [].constructor(jobsCharge[jobsId(job)])" named="powercharge-up"></app-svg></p>
+            <p>{{ jobsPower[jobsId(job)] }}</p>
+        </div>
+        <div class="job-selection">
+            <button *ngFor="let name of jobsName; let i = index" (click)="jobSelected(name)">
+                {{ jobsFr[i] }}
+            </button>
+        </div>
+    </div>
     <div style="display: flex; justify-content: space-between;">
         <button (click)="onDestroyPod()" class="button">Démonter</button>
         <button (click)="onLaunchPod()" class="button">Lancer</button>

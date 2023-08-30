@@ -53,6 +53,32 @@ public class ExpeditionService {
                 add(1 + (int)(Math.random() * 6));
             }});
             majagaba.setRoom("hold");
+            majagaba.setJob("miner");
+            if (majagaba.getJob().equals("gunner")){
+                majagaba.setPowerCharge(4);
+                majagaba.setPowerChargeMax(4);
+            } else if (majagaba.getJob().equals("miner")){
+                majagaba.setPowerCharge(4);
+                majagaba.setPowerChargeMax(4);
+            } else if (majagaba.getJob().equals("leader")){
+                majagaba.setPowerCharge(3);
+                majagaba.setPowerChargeMax(3);
+            } else if (majagaba.getJob().equals("runner")){
+                majagaba.setPowerCharge(4);
+                majagaba.setPowerChargeMax(4);
+            } else if (majagaba.getJob().equals("visionary")){
+                majagaba.setPowerCharge(2);
+                majagaba.setPowerChargeMax(2);
+            } else if (majagaba.getJob().equals("strong")){
+                majagaba.setPowerCharge(3);
+                majagaba.setPowerChargeMax(3);
+            } else if (majagaba.getJob().equals("repairer")){
+                majagaba.setPowerCharge(3);
+                majagaba.setPowerChargeMax(3);
+            } else if (majagaba.getJob().equals("wind-sensor")){
+                majagaba.setPowerCharge(4);
+                majagaba.setPowerChargeMax(4);
+            }
 
             user.setMajagaba(majagaba);
 
@@ -85,14 +111,14 @@ public class ExpeditionService {
         holdSB.setName("hold-craft-steam-blast");
         holdSB.setStoredDice(new Integer[]{0,0,0});
         hold.getWorkshops().add(holdSB);
-        Workshop holdSS = new Workshop();
-        holdSS.setName("hold-craft-steam-switcher");
-        holdSS.setStoredDice(new Integer[]{0,0,0});
-        hold.getWorkshops().add(holdSS);
         Workshop holdSR = new Workshop();
         holdSR.setName("hold-craft-steam-regulator");
         holdSR.setStoredDice(new Integer[]{0,0,0});
         hold.getWorkshops().add(holdSR);
+        Workshop holdSS = new Workshop();
+        holdSS.setName("hold-craft-steam-switcher");
+        holdSS.setStoredDice(new Integer[]{0,0,0});
+        hold.getWorkshops().add(holdSS);
         Workshop holdSW = new Workshop();
         holdSW.setName("hold-repair");
         holdSW.setStoredDice(new Integer[]{0,0,0});
@@ -712,10 +738,10 @@ public class ExpeditionService {
 
 
     public void roomReparation(DieAction action) {
-        if(action.getDieValue() != 5 && action.getDieValue() != 6) return;
         User user = jwtService.grepUserFromJwt();
         Expedition expedition = user.getExpedition();
         Majagaba majagaba = user.getMajagaba();
+        if(action.getDieValue() != 5 && action.getDieValue() != 6 && !(majagaba.getJob().equals("repairer") && majagaba.getIsJobActivated())) return;
         if(!majagabaService.isDieExist(majagaba, action)) return;
         String room = action.getEndZone().split("-")[0];
         if(!workshopService.nameIsCorrect(room)) return;

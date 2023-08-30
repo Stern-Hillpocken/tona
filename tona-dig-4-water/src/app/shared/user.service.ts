@@ -12,7 +12,7 @@ export class UserService {
 
     private readonly _sqlTable: string = 'users';
 
-    private readonly _user$: BehaviorSubject<User> = new BehaviorSubject<User>(new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0)));
+    private readonly _user$: BehaviorSubject<User> = new BehaviorSubject<User>(new User("","","",new Majagaba(0,0,0,"",[],[],[],0,"",0,0,0,0,0)));
 
     constructor(
         private http: HttpClient,

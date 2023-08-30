@@ -20,7 +20,8 @@ export class HeaderComponent {
 
   constructor(
     private expeditionService: ExpeditionService,
-    private userService: UserService
+    private userService: UserService,
+    private majagabaService: MajagabaService
   ){}
 
   ngOnInit(): void {
@@ -46,6 +47,14 @@ export class HeaderComponent {
     this.expeditionService.endTurn().subscribe((expe: Expedition) => {
       console.log(expe)
       this.expeditionService._setExpedition$(expe);
+      this.userService.getMe().subscribe((user: User) => {
+        this.userService._setUser$(user);
+      });
+    });
+  }
+
+  jobReceive(dieValue: number): void {
+    this.majagabaService.jobActivation(dieValue).subscribe(() => {
       this.userService.getMe().subscribe((user: User) => {
         this.userService._setUser$(user);
       });

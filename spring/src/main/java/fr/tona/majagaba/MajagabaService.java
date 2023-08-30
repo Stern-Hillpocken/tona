@@ -33,9 +33,8 @@ public class MajagabaService {
         Majagaba majagaba = user.getMajagaba();
         if(majagaba.getRerollLeft() > 0){
             int numberOfDice = majagaba.getDicePool().size();
-            majagaba.setDicePool(new ArrayList<>());
             for(int i = 0; i < numberOfDice; i++){
-                majagaba.getDicePool().add(1 + (int)(Math.random() * (6 - 1)));
+                if(majagaba.getDicePool().get((int) i) != 0) majagaba.getDicePool().set((int) i, 1 + (int)(Math.random() * 6));
             }
             majagaba.setRerollLeft(majagaba.getRerollLeft()-1);
             repository.save(majagaba);
@@ -82,12 +81,20 @@ public class MajagabaService {
         }
         majagaba.setDicePool(new ArrayList<>());
         int diceNumber = 4;
+        if(majagaba.getJob().equals("wind-sensor") && majagaba.getIsJobActivated()) diceNumber ++;
         if(currentRoomStatus.equals("fan")) diceNumber --;
         for(int i = 0; i < diceNumber; i++){
-            majagaba.getDicePool().add(1 + (int)(Math.random() * 6));
+            if(majagaba.getDiceNextTurn().size() == 0) majagaba.getDicePool().add(1 + (int)(Math.random() * 6));
+            else majagaba.getDicePool().add(majagaba.getDiceNextTurn().get((int) i));
         }
+        majagaba.setDiceNextTurn(new ArrayList<>());
         // Fire
-        if(currentRoomStatus.equals("fire")) majagaba = takeDamage(majagaba, 1);
+        if(currentRoomStatus.equals("fire") && !(majagaba.getJob().equals("strong") && majagaba.getIsJobActivated())) majagaba = takeDamage(majagaba, 1);
+        // Powercharge
+        if(majagaba.getPowerCharge() < majagaba.getPowerChargeMax()) majagaba.setPowerCharge(majagaba.getPowerCharge()+1);
+        // End job effects
+        majagaba.setIsJobActivated(false);
+
         repository.save(majagaba);
     }
 
@@ -96,7 +103,7 @@ public class MajagabaService {
         int crewIndex = 0;
         while(times > 0){
             Majagaba majagaba = expedition.getCrew().get(crewIndex).getMajagaba();
-            majagaba.getDicePool().add(1 + (int)(Math.random() * (6 - 1)));
+            majagaba.getDicePool().add(1 + (int)(Math.random() * 6));
             repository.save(majagaba);
             crewIndex ++;
             if(crewIndex >= expedition.getCrew().size()) crewIndex = 0;
@@ -110,7 +117,7 @@ public class MajagabaService {
         Majagaba majagaba = user.getMajagaba();
         Expedition expedition = user.getExpedition();
         boolean isRoomWithGlue = expedition.getPod().getRooms().get(roomId(user.getMajagaba().getRoom())).getStatus().equals("glue");
-        if(isRoomWithGlue) return;
+        if(isRoomWithGlue && !(majagaba.getJob().equals("strong") && majagaba.getIsJobActivated())) return;
 
         if(!majagaba.getRoom().equals(action.getEndZone()) && this.isZoneAdjacent(action.getEndZone(), majagaba.getRoom())){
 
@@ -162,7 +169,7 @@ public class MajagabaService {
         if(!isDieExist(majagaba, action)) return;
 
         if(action.getEndZone().contains("one-pip") && majagaba.getSteamRegulator() > 0){
-            if((action.getEndZone().equals("remove-one-pip") && action.getDieValue().equals(1)) || (action.getEndZone().equals("add-one-pip") && action.getDieValue().equals(6))) return;
+            if((action.getEndZone().equals("remove-one-pip") && action.getDieValue().equals(1)) || (action.getEndZone().equals("add-one-pip") && action.getDieValue().equals(6)) || action.getDieValue().equals(0)) return;
             List<Integer> diceList = action.getEndZone().equals("dice-stocked-zone") ? majagaba.getDiceStocked() : majagaba.getDicePool();
             int index = diceList.indexOf(action.getDieValue());
             if(action.getEndZone().equals("remove-one-pip")){
@@ -305,5 +312,46 @@ public class MajagabaService {
     private Majagaba takeDamage(Majagaba majagaba, Integer value) {
         majagaba.setLife(majagaba.getLife()-value);
         return majagaba;
+    }
+
+    public void jobActivation(Integer dieValue) {
+        Majagaba majagaba = jwtService.grepUserFromJwt().getMajagaba();
+        if (majagaba.getPowerCharge() < majagaba.getPowerChargeMax()) return;
+        if (majagaba.getJob().equals("gunner") && dieValue == 1) return;
+        if (majagaba.getJob().equals("miner") && dieValue == 6) return;
+        boolean isDieValueExist = false;
+        for (int i = 0; i < majagaba.getDicePool().size(); i++){
+            if (majagaba.getDicePool().get(i).equals(dieValue)) { isDieValueExist = true; break;}
+        }
+        if ((majagaba.getJob().equals("gunner") || majagaba.getJob().equals("miner") || majagaba.getJob().equals("leader")) && !isDieValueExist) return;
+
+        if (majagaba.getJob().equals("gunner")){
+            for (int i = 0; i < majagaba.getDicePool().size(); i++) {
+                if (majagaba.getDicePool().get(i).equals(dieValue)) { majagaba.getDicePool().set(i, majagaba.getDicePool().get(i)-1); break;}
+            }
+        } else if (majagaba.getJob().equals("miner")) {
+            for (int i = 0; i < majagaba.getDicePool().size(); i++) {
+                if (majagaba.getDicePool().get(i).equals(dieValue)) { majagaba.getDicePool().set(i, majagaba.getDicePool().get(i)+1); break;}
+            }
+        } else if (majagaba.getJob().equals("leader")) {
+            // TODO
+        } else if (majagaba.getJob().equals("runner")){
+            majagaba.getDicePool().add(0);
+        } else if (majagaba.getJob().equals("visionary")){
+            majagaba.setDiceNextTurn(new ArrayList<>());
+            for(int i = 0; i < 4; i++){
+                int newDie = 1 + (int)(Math.random() * 6);
+                majagaba.getDiceNextTurn().add(newDie);
+            }
+        } else if (majagaba.getJob().equals("strong")) {
+            majagaba.setIsJobActivated(true);
+        } else if (majagaba.getJob().equals("repairer")) {
+            majagaba.setIsJobActivated(true);
+        } else if (majagaba.getJob().equals("wind-sensor")) {
+            majagaba.setIsJobActivated(true);
+        }
+
+        majagaba.setPowerCharge(0);
+        repository.save(majagaba);
     }
 }

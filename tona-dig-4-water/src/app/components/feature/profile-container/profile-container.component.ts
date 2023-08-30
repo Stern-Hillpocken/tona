@@ -11,7 +11,7 @@ import { UserService } from 'src/app/shared/user.service';
 })
 export class ProfileContainerComponent {
 
-  user: User = new User("","","",new Majagaba(0,0,0,"",[],[],0,"",0,0,0));
+  user: User = new User("","","",new Majagaba(0,0,0,"",[],[],[],0,"",0,0,0,0,0));
 
   constructor(
     private userService: UserService,

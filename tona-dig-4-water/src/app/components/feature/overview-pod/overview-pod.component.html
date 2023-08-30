@@ -20,6 +20,11 @@
         [requestIsSended]="requestIsSended$"
     ></app-overview-pod-bag>
 
+    <div *ngIf="user.majagaba.diceNextTurn.length > 0">
+        <p style="display: inline-block;">Prochains dés&nbsp;:</p>
+        <img *ngFor="let die of user.majagaba.diceNextTurn" [src]="'assets/images/dice/'+die+'.png'" class="die">
+    </div>
+
     <app-overview-pod-dice
         [expedition]="expedition"
         [user]="user"
