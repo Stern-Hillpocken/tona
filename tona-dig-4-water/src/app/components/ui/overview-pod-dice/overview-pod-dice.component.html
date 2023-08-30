@@ -6,7 +6,7 @@
             (dragstart)="onDragStart($event)"
             (dragend)="onDragEnd($event)"
             [ngClass]="i === 0 ? 'locked-die' : ''"
-            [src]="'assets/images/dice/'+die+'.png'"
+            [src]="die > 0 ? 'assets/images/dice/'+die+'.png' : 'assets/images/dice/paw.png'"
             [alt]="die"
         >
     </div>
@@ -16,7 +16,7 @@
             draggable="true"
             (dragstart)="onDragStart($event)"
             (dragend)="onDragEnd($event)"
-            [src]="'assets/images/dice/'+die+'.png'"
+            [src]="die > 0 ? 'assets/images/dice/'+die+'.png' : 'assets/images/dice/paw.png'"
             [alt]="die"
         >
     </div>
